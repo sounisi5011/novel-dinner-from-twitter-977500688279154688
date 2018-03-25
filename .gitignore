@@ -1,0 +1,10 @@
+.env
+.node-version
+.yarn-integrity
+
+*.log
+yarn-debug.log
+yarn-error.log
+
+/dist/
+node_modules/
