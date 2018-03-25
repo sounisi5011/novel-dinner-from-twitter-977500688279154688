@@ -8,7 +8,7 @@
     "create-dest": "mkdirp dest",
     "remove-dest": "del dest/*",
     "prebuild": "npm run clean-dest",
-    "build:html": "pug < src/main.pug > dest/index.html",
+    "build:html": "pug -p src/main.pug < src/main.pug > dest/index.html",
     "build": "npm run build:html"
   },
   "dependencies": {
