@@ -2,5 +2,10 @@
   "name": "novel-dinner-from-twitter-977500688279154688",
   "version": "1.0.0",
   "author": "sounisi5011",
-  "license": "CC-BY-SA-4.0"
+  "license": "CC-BY-SA-4.0",
+  "dependencies": {
+    "jstransformer-markdown-it": "^2.0.0",
+    "pug": "^2.0.3",
+    "pug-cli": "^1.0.0-alpha6"
+  }
 }
