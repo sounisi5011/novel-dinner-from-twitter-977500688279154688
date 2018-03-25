@@ -3,8 +3,18 @@
   "version": "1.0.0",
   "author": "sounisi5011",
   "license": "CC-BY-SA-4.0",
+  "scripts": {
+    "clean-dest": "npm run create-dest && npm run remove-dest",
+    "create-dest": "mkdirp dest",
+    "remove-dest": "del dest/*",
+    "prebuild": "npm run clean-dest",
+    "build:html": "pug < src/main.pug > dest/index.html",
+    "build": "npm run build:html"
+  },
   "dependencies": {
+    "del-cli": "^1.1.0",
     "jstransformer-markdown-it": "^2.0.0",
+    "mkdirp": "^0.5.1",
     "pug": "^2.0.3",
     "pug-cli": "^1.0.0-alpha6"
   }
