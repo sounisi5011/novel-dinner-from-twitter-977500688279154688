@@ -17,32 +17,25 @@ if ccLicense
   if ccLicense.url
     a(
       href=ccLicense.url
-      property="cc:attributionName"
-      rel="cc:attributionURL"
+      property="cc:attributionName" rel="cc:attributionURL"
     ) #{ccLicense.name || ccLicense.url}
   else
     if ccLicense.name
-      span(
-        property="cc:attributionName"
-      ) #{ccLicense.name}
+      span(property="cc:attributionName") #{ccLicense.name}
 if ccLicense && ccLicense.title
   if ccLicense.name || ccLicense.url
     | 作
   | 『
   span(
     href="http://purl.org/dc/dcmitype/Text"
-    property="dcterms:title"
-    rel="dcterms:type"
+    property="dcterms:title" rel="dcterms:type"
   ) #{ccLicense.title}
   | 』
 else
   if ccLicense && (ccLicense.name || ccLicense.url)
     | を著作者とする
   | この
-  span(
-    href="http://purl.org/dc/dcmitype/Text"
-    rel="dcterms:type"
-  ) 作品
+  span(href="http://purl.org/dc/dcmitype/Text" rel="dcterms:type") 作品
 | は
 a(rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/")
   | クリエイティブ・コモンズの 表示 - 継承 4.0 国際ライセンス
@@ -50,15 +43,9 @@ a(rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/")
 if ccLicense
   if ccLicense.sourceUrl
     br
-    a(
-      href=ccLicense.sourceUrl
-      rel="dcterms:source"
-    ) #{ccLicense.sourceUrl}
+    a(href=ccLicense.sourceUrl rel="dcterms:source") #{ccLicense.sourceUrl}
     | の作品に基づいています。
   if ccLicense.contactUrl
     br
     | このライセンスで許諾される範囲を超えた利用の可能性については以下のアドレスもご覧下さい。
-    a(
-      href=ccLicense.contactUrl
-      rel="cc:morePermissions"
-    ) #{ccLicense.contactUrl}
+    a(href=ccLicense.contactUrl rel="cc:morePermissions") #{ccLicense.contactUrl}
