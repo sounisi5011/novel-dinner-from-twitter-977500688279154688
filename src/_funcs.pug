@@ -186,3 +186,8 @@
       match => (replaceDict[match] || match)
     );
   };
+
+  const fullUrl = (path, baseUrl) => (
+    baseUrl.replace(/\/*$/, '/') +
+    path.replace(/^\/+/, '')
+  );
