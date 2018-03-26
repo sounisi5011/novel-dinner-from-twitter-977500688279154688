@@ -1,10 +1,15 @@
 footer
   if copyright
-    p
-      small Copyright #{copyright.replace(/^\s*Copyright\s*|\s*All Rights Reserved.\s*$/g, '')} All Rights Reserved.
+    if author
+      p
+        small
+          | Copyright ©#{s}
+          time(datetime=formatDate(generateTime, '%Y-%m-%dT%H:%M:%SZ', 0))
+            | #{formatDate(generateTime, '%Y')}
+          | #{s}#{author} #{copyright}
 
-  p
-    include _license/cc_by_sa_4.0.pug
+    p
+      include _license/cc_by_sa_4.0.pug
 
   p
     | 最終更新日：

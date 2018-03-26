@@ -24,8 +24,8 @@ head(prefix=(prefixValueList.join(' ') || false))
   if description
     meta(name="description" content=description)
 
-  if copyright
-    meta(name="copyright" content=copyright)
+  if copyright && author
+    meta(name="copyright" content=`© ${formatDate(generateTime, '%Y')} ${author}`)
 
   if generateTime
     meta(
