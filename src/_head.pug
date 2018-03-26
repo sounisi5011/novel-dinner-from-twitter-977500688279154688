@@ -1,0 +1,200 @@
+//- http://ogp.me/
+
+- const prefixValueList = [];
+if ogp && ogp.type && ogp.title && ogp.url && ogp.imageUrl
+  -
+    const useOgp = true
+
+    prefixValueList.push('og: http://ogp.me/ns#')
+
+    if (/^(?:music|video|article|book|profile|website)$/.test(ogp.type)) {
+      prefixValueList.push(`${ogp.type}: http://ogp.me/ns/${ogp.type}#`)
+    }
+else
+  - const useOgp = false
+
+head(prefix=(prefixValueList.join(' ') || false))
+  meta(charset="utf-8")
+  meta(name="viewport" content="width=device-width,initial-scale=1")
+  meta(name="format-detection" content="telephone=no,email=no,address=no")
+
+  if author
+    meta(name="author" content=author)
+
+  if description
+    meta(name="description" content=description)
+
+  if copyright
+    meta(name="copyright" content=copyright)
+
+  if generateTime
+    meta(
+      name="date"
+      content=formatDate(generateTime, '%Y-%m-%dT%H:%M:%SZ', 0)
+    )
+
+  if creationDate
+    meta(
+      name="creation_date"
+      content=formatDate(creationDate, '%Y-%m-%dT%H:%M:%SZ', 0)
+    )
+
+  //- https://www.metatags.org/meta_name_rating
+  //- http://wa3.i-3-i.info/word11817.html
+  //- http://webmarketingnow.com/tips/web/meta-tags/#rating
+  //- if /^(?:general|child|adult|safe for kids|mature|restricted|14 years)$/.test(rating)
+  //-   meta(name='rating' content=rating)
+
+  if themeColor
+    meta(name="theme-color" content=themeColor)
+
+  title
+    | #{title}
+    if author
+      | #{s}by #{author}
+
+  if baseUrl
+    base(href=baseUrl)
+    link(rel="canonical" href=baseUrl)
+
+  if authorUrl
+    link(rel="author" href=authorUrl)
+
+  if publisherUrl
+    link(rel="publisher" href=publisherUrl)
+
+  if licenseUrl
+    link(rel="license" href=licenseUrl)
+
+  if shortlink
+    link(rel="shortlink" href=shortlink)
+
+  if dnsPrefetch
+    -
+      const dnsPrefetchList = (
+        Array.isArray(dnsPrefetch) ?
+        dnsPrefetch :
+        [dnsPrefetch]
+      );
+    each prefetchUrl in dnsPrefetchList
+      link(rel="dns-prefetch" href=prefetchUrl)
+
+  //- http://ogp.me/
+
+  if useOgp
+    meta(property="og:title" content=ogp.title)
+    meta(property="og:type" content=ogp.type)
+    meta(property="og:url" content=ogp.url)
+    meta(property="og:image" content=ogp.imageUrl)
+
+    if ogp.imageSecureUrl
+      meta(property="og:image:secure_url" content=ogp.imageSecureUrl)
+
+    if ogp.imageType
+      meta(property="og:image:type" content=ogp.imageType)
+
+    if ogp.imageWidth
+      meta(property="og:image:width" content=ogp.imageWidth)
+
+    if ogp.imageHeight
+      meta(property="og:image:height" content=ogp.imageHeight)
+
+    if ogp.imageAlt
+      meta(property="og:image:alt" content=ogp.imageAlt)
+
+    if ogp.locale
+      -
+        const localeList = (
+          Array.isArray(ogp.locale) ?
+          ogp.locale :
+          [ogp.locale]
+        );
+      each localeValue in localeList
+        if index === 0
+          meta(property="og:locale" content=localeValue)
+        else
+          meta(property="og:locale:alternate" content=localeValue)
+
+    if ogp.siteName
+      meta(property="og:site_name" content=ogp.siteName)
+
+    if ogp.determiner
+      meta(property="og:determiner" content=ogp.determiner)
+
+    if ogp.description
+      meta(property="og:description" content=ogp.description)
+
+    if ogp.type === 'article'
+      if ogp.publishedTime || creationDate
+        meta(
+          property="article:published_time"
+          content=formatDate(ogp.publishedTime || creationDate, '%Y-%m-%dT%H:%M:%SZ', 0)
+        )
+
+      if ogp.modifiedTime || generateTime
+        meta(
+          property="article:modified_time"
+          content=formatDate(ogp.modifiedTime || generateTime, '%Y-%m-%dT%H:%M:%SZ', 0)
+        )
+
+      if ogp.expirationTime
+        meta(
+          property="article:expiration_time"
+          content=formatDate(ogp.expirationTime, '%Y-%m-%dT%H:%M:%SZ', 0)
+        )
+
+      if ogp.articleAuthor
+        -
+          const articleAuthorList = (
+            Array.isArray(ogp.articleAuthor) ?
+            ogp.articleAuthor :
+            [ogp.articleAuthor]
+          );
+        each authorValue in articleAuthorList
+          meta(property="article:author" content=authorValue)
+
+    if ogp.fb
+      if ogp.fb.appId
+        meta(
+          prefix="fb: http://ogp.me/ns/fb#"
+          property="fb:app_id" content=ogp.fb.appId
+        )
+
+    //- https://developer.twitter.com/en/docs/tweets/optimize-with-cards/guides/getting-started
+
+    if ogp.twitter && ogp.twitter.card
+      meta(name="twitter:card" content=ogp.twitter.card)
+
+      if ogp.twitter.site
+        - assertTwitterId('ogp.twitter.site', ogp.twitter.site)
+        meta(name="twitter:site" content=ogp.twitter.site)
+
+      if ogp.twitter.id
+        - assertTwitterId('ogp.twitter.id', ogp.twitter.id)
+        meta(name="twitter:site:id" content=ogp.twitter.id)
+
+      if ogp.twitter.creator
+        - assertTwitterId('ogp.twitter.creator', ogp.twitter.creator)
+        meta(name="twitter:creator" content=ogp.twitter.creator)
+
+      if ogp.twitter.creatorId
+        meta(name="twitter:creator:id" content=ogp.twitter.creatorId)
+
+      if ogp.twitter.title
+        - assertStringLength('ogp.twitter.title', ogp.twitter.title, 70)
+      else
+        - assertStringLength('ogp.title', ogp.title, 70)
+        - ogp.twitter.title = ogp.title
+
+      meta(name="twitter:title" content=ogp.twitter.title)
+
+      if ogp.twitter.description
+        - assertStringLength('ogp.twitter.description', ogp.twitter.description, 200)
+        meta(name="twitter:description" content=ogp.twitter.description)
+
+      if ogp.twitter.imageUrl
+        meta(name="twitter:image" content=ogp.twitter.imageUrl)
+
+      if ogp.twitter.imageAlt
+        - assertStringLength('ogp.twitter.imageAlt', ogp.twitter.imageAlt, 420)
+        meta(name="twitter:image:alt" content=ogp.twitter.imageAlt)

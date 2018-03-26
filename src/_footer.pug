@@ -1,0 +1,27 @@
+if copyright
+  p
+    small Copyright #{copyright.replace(/^\s*Copyright\s*|\s*All Rights Reserved.\s*$/g, '')} All Rights Reserved.
+
+p
+  | 最終更新日：
+  time(datetime=formatDate(generateTime, '%Y-%m-%dT%H:%M:%SZ', 0))
+    | #{formatDate(generateTime, '%Y年%-m月%-d日 %H:%M:%S JST', 9 * 60 * 60)}
+
+if twitterAccountList && 1 <= twitterAccountList.length
+  address
+    | Twitter:#{s}
+    each account, index in twitterAccountList
+      -
+        const href = (
+          account.id ?
+          `https://twitter.com/intent/user?user_id=${account.id}` :
+          `https://twitter.com/${account.name}`
+        );
+      if 0 < index
+        | #{s}/#{s}
+      a(href=href rel="me") @#{account.name}
+
+if repositoryUrl
+  p
+    a(href=repositoryUrl)
+      | View on GitHub

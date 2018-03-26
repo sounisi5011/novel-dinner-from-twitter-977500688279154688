@@ -1,0 +1,55 @@
+-
+  const s = ' ';
+
+include _env_load.pug
+include _funcs.pug
+
+-
+  const baseUrl = envRootUrl;
+  const title = '創作小説【夜食】';
+  const description = '';
+  const author = 'sounisi5011';
+  const copyright = `\u00A9 2018 ${author}`;
+  const repositoryUrl = (envRepositoryUrl || '')
+    .replace(
+      /^git@github\.com:([^\/]+\/[^\/]+)$/,
+      (_, path) => `https://github.com/${path}`
+    )
+    .replace(
+      /^https?:(\/\/github\.com\/[^\/]+\/[^\/]+)$/,
+      (_, non_scheme_url) => `https:${non_scheme_url.replace(/\.git$/, '')}`
+    );
+  const twitterAccountList = [
+    {name: 'sounisi5011Vore', id: '4676885804'},
+  ];
+  const ogp = {
+    /*
+     * required.
+     */
+    title: title,
+    type: 'article',
+    url: baseUrl,
+    imageUrl: '',
+
+    /*
+     * optional.
+     */
+    locale: 'ja_JP',
+    siteName: '',
+    description: '',
+    twitter: {
+      /*
+       * required.
+       */
+      card: 'summary', // required. summary or summary_large_image
+      title: title, // required.
+
+      /*
+       * optional.
+       */
+      site: '@sounisi5011Vore', // @username
+      creator: '@sounisi5011Vore', // @username
+      description: '',
+      imageAlt: '',
+    },
+  };
