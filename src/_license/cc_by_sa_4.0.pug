@@ -26,16 +26,12 @@ if ccLicense && ccLicense.title
   if ccLicense.name || ccLicense.url
     | 作
   | 『
-  span(
-    href="http://purl.org/dc/dcmitype/Text"
-    property="dcterms:title" rel="dcterms:type"
-  ) #{ccLicense.title}
+  span(property="dcterms:title") #{ccLicense.title}
   | 』
 else
   if ccLicense && (ccLicense.name || ccLicense.url)
     | を著作者とする
-  | この
-  span(href="http://purl.org/dc/dcmitype/Text" rel="dcterms:type") 作品
+  | この作品
 | は
 a(rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/")
   | クリエイティブ・コモンズの 表示 - 継承 4.0 国際ライセンス
