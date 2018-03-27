@@ -18,8 +18,7 @@ footer
   -
     const showTwitter = (
       Array.isArray(twitterAccountList) &&
-      0 < twitterAccountList.length &&
-      twitterAccountList.every(account => account.name)
+      twitterAccountList.some(account => account && account.name)
     );
 
   if showTwitter
