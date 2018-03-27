@@ -21,23 +21,21 @@ footer
       twitterAccountList.some(account => account && account.name)
     );
 
-  if showTwitter
-    address
+  +address
+    +dl
       if showTwitter
-        dl
-          if showTwitter
-            div
-              dt Twitter
-              each account in twitterAccountList
-                if account.name
-                  -
-                    const href = (
-                      account.id ?
-                      `https://twitter.com/intent/user?user_id=${account.id}` :
-                      `https://twitter.com/${account.name}`
-                    );
-                  dd
-                    a(href=href) @#{account.name}
+        div
+          dt Twitter
+          each account in twitterAccountList
+            if account.name
+              -
+                const href = (
+                  account.id ?
+                  `https://twitter.com/intent/user?user_id=${account.id}` :
+                  `https://twitter.com/${account.name}`
+                );
+              dd
+                a(href=href) @#{account.name}
 
   if repositoryUrl
     p
