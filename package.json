@@ -11,15 +11,16 @@
     "build:html": "pug -p src/main.pug < src/main.pug > dest/index.html",
     "build": "npm run build:html"
   },
-  "engines" : {
-    "node" : ">=8.10.0"
+  "engines": {
+    "node": ">=8.10.0"
   },
   "dependencies": {
     "del-cli": "^1.1.0",
     "jstransformer-markdown-it": "^2.0.0",
     "mkdirp": "^0.5.1",
     "pug": "^2.0.3",
-    "pug-cli": "^1.0.0-alpha6"
+    "pug-cli": "^1.0.0-alpha6",
+    "sanitize.css": "^5.0.0"
   },
   "private": true
 }
