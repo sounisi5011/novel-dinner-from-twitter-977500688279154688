@@ -1,0 +1,21 @@
+//- 子要素が空の場合は、address要素自体を生成しないmixin
+mixin address
+  - const prevHtml = pug_html;
+  - pug_html = '';
+  block
+  - const blockHtml = pug_html;
+  - pug_html = prevHtml;
+  if blockHtml !== ''
+    address&attributes(attributes)
+      - pug_html += blockHtml;
+
+//- 子要素が空の場合は、dl要素自体を生成しないmixin
+mixin dl
+  - const prevHtml = pug_html;
+  - pug_html = '';
+  block
+  - const blockHtml = pug_html;
+  - pug_html = prevHtml;
+  if blockHtml !== ''
+    dl&attributes(attributes)
+      - pug_html += blockHtml;
