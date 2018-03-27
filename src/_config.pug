@@ -1,5 +1,6 @@
 -
   const s = ' ';
+  const creationDate = null;
   const generateTime = new Date;
 
 include _env_load.pug
@@ -24,9 +25,9 @@ include _funcs.pug
     {name: 'sounisi5011Vore', id: '4676885804'},
   ];
   const ccLicense = {
-    title: '夕食',
-    name: 'sounisi5011',
-    url: '',
+    contentsTitle: '夕食',
+    creatorName: 'sounisi5011',
+    creatorSiteUrl: '',
     sourceUrl: 'https://twitter.com/wodnuyRnaiR/status/977500688279154688',
     contactUrl: '',
   };
@@ -45,12 +46,17 @@ include _funcs.pug
     locale: 'ja_JP',
     siteName: '',
     description: '',
+
+    fb: {
+      appId: '',
+    },
+
     twitter: {
       /*
        * required.
        */
-      card: 'summary', // required. summary or summary_large_image
-      title: title, // required.
+      card: 'summary', // summary or summary_large_image
+      title: title,
 
       /*
        * optional.

@@ -15,21 +15,21 @@ footer
     time(datetime=formatDate(generateTime, '%Y-%m-%dT%H:%M:%SZ', 0))
       | #{formatDate(generateTime, '%Y年%-m月%-d日 %H:%M:%S JST', 9 * 60 * 60)}
 
-  if twitterAccountList && 1 <= twitterAccountList.length
+  if (twitterAccountList && 1 <= twitterAccountList.length)
     address
-      | Twitter:#{s}
-      each account, index in twitterAccountList
-        -
-          const href = (
-            account.id ?
-            `https://twitter.com/intent/user?user_id=${account.id}` :
-            `https://twitter.com/${account.name}`
-          );
-        if 0 < index
-          | #{s}/#{s}
-        a(href=href) @#{account.name}
+      if twitterAccountList && 1 <= twitterAccountList.length
+        | Twitter:#{s}
+        each account, index in twitterAccountList
+          -
+            const href = (
+              account.id ?
+              `https://twitter.com/intent/user?user_id=${account.id}` :
+              `https://twitter.com/${account.name}`
+            );
+          if 0 < index
+            | #{s}/#{s}
+          a(href=href) @#{account.name}
 
   if repositoryUrl
     p
-      a(href=repositoryUrl)
-        | View on GitHub
+      a(href=repositoryUrl) View on GitHub

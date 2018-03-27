@@ -1,19 +1,19 @@
 //- http://ogp.me/
 
-- const prefixValueList = [];
-if ogp && ogp.type && ogp.title && ogp.url && ogp.imageUrl
-  -
-    const useOgp = true
+-
+  const prefixValueList = [];
 
-    prefixValueList.push('og: http://ogp.me/ns#')
+  if (ogp && ogp.type && ogp.title && ogp.url && ogp.imageUrl) {
+    prefixValueList.push('og: http://ogp.me/ns#');
 
     if (/^(?:music|video|article|book|profile|website)$/.test(ogp.type)) {
-      prefixValueList.push(`${ogp.type}: http://ogp.me/ns/${ogp.type}#`)
+      prefixValueList.push(`${ogp.type}: http://ogp.me/ns/${ogp.type}#`);
     }
-else
-  - const useOgp = false
+  }
 
-head(prefix=(prefixValueList.join(' ') || false))
+  const useOgp = 0 < prefixValueList.length;
+
+head(prefix=(useOgp ? prefixValueList.join(' ') : false))
   meta(charset="utf-8")
   meta(name="viewport" content="width=device-width,initial-scale=1")
   meta(name="format-detection" content="telephone=no,email=no,address=no")
