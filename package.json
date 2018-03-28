@@ -5,14 +5,10 @@
   "license": "CC-BY-SA-4.0",
   "scripts": {
     "clean": "del dest",
-
     "mkdir": "mkdirp dest",
-
     "prebuild:html": "npm run mkdir",
     "build:html": "pug -p src/main.pug < src/main.pug > dest/index.html",
-
     "build:css": "cpy 'src/*.css' 'node_modules/sanitize.css/sanitize.css' dest",
-
     "prebuild": "npm run clean",
     "build": "npm run build:css && npm run build:html"
   },
@@ -22,11 +18,13 @@
   "dependencies": {
     "cpy-cli": "^1.0.1",
     "del-cli": "^1.1.0",
+    "glob-exec": "^0.1.1",
     "jstransformer-markdown-it": "^2.0.0",
     "mkdirp": "^0.5.1",
     "pug": "^2.0.3",
     "pug-cli": "^1.0.0-alpha6",
-    "sanitize.css": "^5.0.0"
+    "sanitize.css": "^5.0.0",
+    "uglifycss": "^0.0.29"
   },
   "private": true
 }
