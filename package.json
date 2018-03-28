@@ -5,11 +5,15 @@
   "license": "CC-BY-SA-4.0",
   "scripts": {
     "clean": "del dest",
+
     "mkdir": "mkdirp dest",
-    "prebuild": "npm run clean",
+
     "prebuild:html": "npm run mkdir",
     "build:html": "pug -p src/main.pug < src/main.pug > dest/index.html",
+
     "build:css": "cpy 'src/*.css' 'node_modules/sanitize.css/sanitize.css' dest",
+
+    "prebuild": "npm run clean",
     "build": "npm run build:css && npm run build:html"
   },
   "engines": {
