@@ -16,7 +16,6 @@
     "node": ">=8.10.0"
   },
   "dependencies": {
-    "cpx": "^1.5.0",
     "del-cli": "^1.1.0",
     "jstransformer-markdown-it": "^2.0.0",
     "mkdirp": "^0.5.1",
