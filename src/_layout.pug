@@ -6,3 +6,8 @@ html(lang="ja")
     include _header.pug
     block contents
     include _footer.pug
+
+    if includeResources && Array.isArray(includeResources)
+      each path in includeResources
+        if /\.js$/.test(path)
+          script(src=path)

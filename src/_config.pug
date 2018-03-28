@@ -21,6 +21,9 @@ include _funcs.pug
       /^https?:(\/\/github\.com\/[^\/]+\/[^\/]+)$/,
       (_, non_scheme_url) => `https:${non_scheme_url.replace(/\.git$/, '')}`
     );
+  const includeResources = [
+    'sanitize.css',
+  ];
   const twitterAccountList = [
     {name: 'sounisi5011Vore', id: '4676885804'},
   ];

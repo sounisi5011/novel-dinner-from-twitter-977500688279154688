@@ -79,6 +79,11 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
     each prefetchUrl in dnsPrefetchList
       link(rel="dns-prefetch" href=prefetchUrl)
 
+  if includeResources && Array.isArray(includeResources)
+    each path in includeResources
+      if /\.css$/.test(path)
+        link(href=path rel="stylesheet")
+
   //- http://ogp.me/
 
   if useOgp
