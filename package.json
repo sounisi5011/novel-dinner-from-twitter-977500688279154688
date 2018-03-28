@@ -8,7 +8,9 @@
     "mkdir": "mkdirp dest",
     "prebuild:html": "npm run mkdir",
     "build:html": "pug -p src/main.pug < src/main.pug > dest/index.html",
-    "build:css": "cpy 'src/*.css' 'node_modules/sanitize.css/sanitize.css' dest",
+    "build:css:copy": "cpy 'src/*.css' 'node_modules/sanitize.css/sanitize.css' dest",
+    "build:css:minify": "glob-exec --foreach --parallel 'dest/*.css' \"uglifycss '{{file}}' --output '{{file}}'\"",
+    "build:css": "npm run build:css:copy && npm run build:css:minify",
     "prebuild": "npm run clean",
     "build": "npm run build:css && npm run build:html"
   },
