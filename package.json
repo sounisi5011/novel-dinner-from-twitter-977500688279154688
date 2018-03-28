@@ -9,7 +9,7 @@
     "remove-dest": "del dest/*",
     "prebuild": "npm run clean-dest",
     "build:html": "pug -p src/main.pug < src/main.pug > dest/index.html",
-    "build:css": "cp node_modules/sanitize.css/sanitize.css dest/",
+    "build:css": "cp src/*.css node_modules/sanitize.css/sanitize.css dest/",
     "build": "npm run build:css && npm run build:html"
   },
   "engines": {
