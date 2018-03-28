@@ -1,0 +1,65 @@
+html {
+  background-color: #111;
+  color: #eee;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+}
+
+body {
+  width: 90%;
+  max-width: 35em;
+  margin: 0 auto;
+  height: 100%;
+}
+
+header {
+  min-height: 200%;
+}
+
+header h2 {
+  color: #f00;
+  text-align: center;
+}
+
+header a {
+  display: block;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+main > * {
+  margin-left:  auto;
+  margin-right:  auto;
+}
+
+main h1 {
+  text-align: center;
+}
+
+footer {
+  text-align: center;
+  border-top: solid;
+  font-size: smaller;
+}
+
+footer small {
+  font-size: 100%;
+}
+
+address dt,
+address dd {
+  display:  inline;
+  margin: 0;
+}
+
+address dt:after {
+  content:  ": ";
+}
+
+address dd:before {
+  content: " / ";
+}
+
+address dt+dd:before {
+  content: none;
+}
