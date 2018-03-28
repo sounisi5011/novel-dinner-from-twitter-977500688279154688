@@ -39,7 +39,6 @@ html(lang="ja")
           if /\.js$/.test(scriptUrl)
             script(src=scriptUrl
               type=(srcData.type || false)
-              charset=(srcData.charset || false)
               async=Boolean(srcData.async)
               defer=Boolean(srcData.defer)
               crossorigin=(srcData.crossorigin || false)
