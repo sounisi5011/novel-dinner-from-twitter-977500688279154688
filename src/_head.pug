@@ -63,6 +63,16 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
   if publisherUrl
     link(rel="publisher" href=publisherUrl)
 
+  if linkMeUrl
+    -
+      const linkMeUrlList = (
+        Array.isArray(linkMeUrl) ?
+        linkMeUrl :
+        [linkMeUrl]
+      );
+    each url in linkMeUrlList
+      link(rel="me" href=url)
+
   if licenseUrl
     link(rel="license" href=licenseUrl)
 
