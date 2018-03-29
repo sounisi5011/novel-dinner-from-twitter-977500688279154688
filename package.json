@@ -24,8 +24,7 @@
     "mkdirp": "^0.5.1",
     "pug": "^2.0.3",
     "pug-cli": "^1.0.0-alpha6",
-    "sanitize.css": "^5.0.0",
-    "uglifycss": "^0.0.29"
+    "sanitize.css": "^5.0.0"
   },
   "private": true
 }
