@@ -3,7 +3,7 @@ footer
     include _license/cc_by_sa_4.0.pug
 
     if author
-      p
+      p.copyright
         small
           | Copyright ©#{s}
           time(datetime=formatDate(generateTime, '%Y-%m-%dT%H:%M:%SZ', 0))
