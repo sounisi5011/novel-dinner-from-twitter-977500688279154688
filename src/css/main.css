@@ -12,6 +12,14 @@ body {
   height: 100%;
 }
 
+@supports (text-emphasis-style: dot filled) or (-webkit-text-emphasis-style: dot filled) {
+  em:lang(ja) {
+    -webkit-text-emphasis-style: dot filled;
+    text-emphasis-style: dot filled;
+    font-style: normal;
+  }
+}
+
 header {
   min-height: 200%;
 }

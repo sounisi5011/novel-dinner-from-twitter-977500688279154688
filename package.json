@@ -9,7 +9,7 @@
     "prebuild:html": "npm run mkdir",
     "build:html": "pug -p src/main.pug < src/main.pug > dest/index.html",
     "build:css:copy": "cpy 'src/css/**/*.css' 'node_modules/sanitize.css/sanitize.css' dest",
-    "build:css:minify": "glob-exec --foreach --parallel 'dest/*.css' \"uglifycss '{{file}}' --output '{{file}}'\"",
+    "build:css:minify": "glob-exec --foreach --parallel 'dest/*.css' \"cleancss -O1 'optimizeFontWeight:off' '{{file}}' -o '{{file}}' --source-map\"",
     "build:css": "npm run build:css:copy && npm run build:css:minify",
     "prebuild": "npm run clean",
     "build": "npm run build:css && npm run build:html"
@@ -18,6 +18,7 @@
     "node": ">=8.10.0"
   },
   "dependencies": {
+    "clean-css-cli": "^4.1.11",
     "cpy-cli": "^1.0.1",
     "del-cli": "^1.1.0",
     "glob-exec": "^0.1.1",
@@ -25,8 +26,7 @@
     "mkdirp": "^0.5.1",
     "pug": "^2.0.3",
     "pug-cli": "^1.0.0-alpha6",
-    "sanitize.css": "^5.0.0",
-    "uglifycss": "^0.0.29"
+    "sanitize.css": "^5.0.0"
   },
   "private": true
 }
