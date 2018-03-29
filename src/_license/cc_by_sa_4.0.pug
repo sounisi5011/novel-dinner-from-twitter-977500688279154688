@@ -1,13 +1,14 @@
 //- ccLicense.contentsTitle
 //- ccLicense.creatorName
 //- ccLicense.creatorSiteUrl
+//- ccLicense.sourceTitle
 //- ccLicense.sourceUrl
 //- ccLicense.contactUrl
 
 //- https://creativecommons.org/choose/?lang=ja
 
-p(prefix="cc: http://creativecommons.org/ns# dct: http://purl.org/dc/terms/")
-  a(rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/")
+p.license(prefix="cc: http://creativecommons.org/ns# dct: http://purl.org/dc/terms/")
+  a.cc-logo(rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/")
     img(
       alt="クリエイティブ・コモンズ・ライセンス"
       style="border-width:0"
@@ -31,16 +32,22 @@ p(prefix="cc: http://creativecommons.org/ns# dct: http://purl.org/dc/terms/")
     if ccLicense && (ccLicense.creatorName || ccLicense.creatorSiteUrl)
       | を著作者とする
     | この作品
-  | は
+  | は、
   a(rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/")
     | クリエイティブ・コモンズ 表示 - 継承 4.0 国際ライセンス
   | で提供されています。
   if ccLicense
     if ccLicense.sourceUrl
-      br
-      a(href=ccLicense.sourceUrl rel="dct:source")= ccLicense.sourceUrl
-      | の作品に基づいています。
+      if ccLicense.sourceTitle
+        | この作品は
+      a(href=ccLicense.sourceUrl rel="dct:source")
+        if ccLicense.sourceTitle
+          | #{ccLicense.sourceTitle}
+        else
+          | #{ccLicense.sourceUrl}
+      if !ccLicense.sourceTitle
+        | の作品
+      | に基づいています。
     if ccLicense.contactUrl
-      br
       | このライセンスで許諾される範囲を超えた利用の可能性については以下のアドレスもご覧下さい。
       a(href=ccLicense.contactUrl rel="cc:morePermissions")= ccLicense.contactUrl
