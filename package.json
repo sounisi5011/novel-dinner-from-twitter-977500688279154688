@@ -9,7 +9,8 @@
     "prebuild:html": "npm run mkdir",
     "build:html": "pug -p src/main.pug < src/main.pug > dest/index.html",
     "build:css:copy": "cpy 'src/css/**/*.css' 'node_modules/sanitize.css/sanitize.css' dest",
-    "build:css": "npm run build:css:copy",
+    "build:css:minify": "glob-exec --foreach --parallel 'dest/*.css' \"cleancss -O1 'optimizeFontWeight:off' '{{file}}' -o '{{file}}' --source-map\"",
+    "build:css": "npm run build:css:copy && npm run build:css:minify",
     "prebuild": "npm run clean",
     "build": "npm run build:css && npm run build:html"
   },
