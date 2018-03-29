@@ -17,6 +17,7 @@
     "node": ">=8.10.0"
   },
   "dependencies": {
+    "clean-css-cli": "^4.1.11",
     "cpy-cli": "^1.0.1",
     "del-cli": "^1.1.0",
     "glob-exec": "^0.1.1",
