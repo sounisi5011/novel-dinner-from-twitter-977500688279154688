@@ -1,6 +1,7 @@
 //- ccLicense.contentsTitle
 //- ccLicense.creatorName
 //- ccLicense.creatorSiteUrl
+//- ccLicense.sourceTitle
 //- ccLicense.sourceUrl
 //- ccLicense.contactUrl
 
@@ -38,8 +39,16 @@ p.license(prefix="cc: http://creativecommons.org/ns# dct: http://purl.org/dc/ter
   if ccLicense
     if ccLicense.sourceUrl
       br
-      a(href=ccLicense.sourceUrl rel="dct:source")= ccLicense.sourceUrl
-      | の作品に基づいています。
+      if ccLicense.sourceTitle
+        | この作品は
+      a(href=ccLicense.sourceUrl rel="dct:source")
+        if ccLicense.sourceTitle
+          | #{ccLicense.sourceTitle}
+        else
+          | #{ccLicense.sourceUrl}
+      if !ccLicense.sourceTitle
+        | の作品
+      | に基づいています。
     if ccLicense.contactUrl
       br
       | このライセンスで許諾される範囲を超えた利用の可能性については以下のアドレスもご覧下さい。
