@@ -64,6 +64,10 @@ address dt+dd:before {
   content: none;
 }
 
+.copyright {
+  text-align: center;
+}
+
 .license {
   margin-left:  1em;
   margin-right: 1em;
