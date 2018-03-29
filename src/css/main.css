@@ -37,7 +37,7 @@ main h1 {
 }
 
 footer {
-  text-align: center;
+  text-align: right;
   border-top: solid;
   font-size: smaller;
 }
@@ -69,6 +69,7 @@ address dt+dd:before {
   margin-right: 1em;
   border: 1px solid #ddd;
   padding: 1em;
+  text-align: center;
 }
 
 .license .cc-logo {
