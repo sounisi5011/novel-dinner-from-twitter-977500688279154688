@@ -1,7 +1,5 @@
 footer
   if copyright
-    include _license/cc_by_sa_4.0.pug
-
     if author
       p.copyright
         small
@@ -9,6 +7,8 @@ footer
           time(datetime=formatDate(generateTime, '%Y-%m-%dT%H:%M:%SZ', 0))
             | #{formatDate(generateTime, '%Y')}
           | #{s}#{author} #{copyright}
+
+    include _license/cc_by_sa_4.0.pug
 
   -
     const showTwitter = (
