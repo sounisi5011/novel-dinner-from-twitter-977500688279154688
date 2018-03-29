@@ -32,13 +32,12 @@ p.license(prefix="cc: http://creativecommons.org/ns# dct: http://purl.org/dc/ter
     if ccLicense && (ccLicense.creatorName || ccLicense.creatorSiteUrl)
       | を著作者とする
     | この作品
-  | は
+  | は、
   a(rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/")
     | クリエイティブ・コモンズ 表示 - 継承 4.0 国際ライセンス
   | で提供されています。
   if ccLicense
     if ccLicense.sourceUrl
-      br
       if ccLicense.sourceTitle
         | この作品は
       a(href=ccLicense.sourceUrl rel="dct:source")
@@ -50,6 +49,5 @@ p.license(prefix="cc: http://creativecommons.org/ns# dct: http://purl.org/dc/ter
         | の作品
       | に基づいています。
     if ccLicense.contactUrl
-      br
       | このライセンスで許諾される範囲を超えた利用の可能性については以下のアドレスもご覧下さい。
       a(href=ccLicense.contactUrl rel="cc:morePermissions")= ccLicense.contactUrl
