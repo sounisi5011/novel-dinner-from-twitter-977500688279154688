@@ -12,6 +12,14 @@ body {
   height: 100%;
 }
 
+@supports (text-emphasis-style: dot filled) or (-webkit-text-emphasis-style: dot filled) {
+  em:lang(ja) {
+    -webkit-text-emphasis-style: dot filled;
+    text-emphasis-style: dot filled;
+    font-style: normal;
+  }
+}
+
 header {
   min-height: 200%;
 }
@@ -37,7 +45,7 @@ main h1 {
 }
 
 footer {
-  text-align: center;
+  text-align: right;
   border-top: solid;
   font-size: smaller;
 }
@@ -62,4 +70,25 @@ address dd:before {
 
 address dt+dd:before {
   content: none;
+}
+
+.copyright {
+  text-align: center;
+}
+
+.license {
+  margin-left:  1em;
+  margin-right: 1em;
+  border: 1px solid #ddd;
+  padding: 1em;
+  text-align: center;
+}
+
+.license .cc-logo {
+  display: block;
+  margin-bottom: 1em;
+}
+
+.license .cc-logo+br {
+  display: none;
 }
