@@ -10,7 +10,7 @@
     "build:html": "run-s mkdir build:html:generate",
     "build:html:generate": "pug -p src/pug/main.pug < src/pug/main.pug > dest/index.html",
     "build:css": "run-s mkdir build:css:generate",
-    "build:css:generate": "glob-exec --foreach --parallel 'src/css/**/*.css' -- cleancss -O1 'optimizeFontWeight:off' '{{file}}' -o 'dest/{{file.name}}.min{{file.ext}}' --source-map",
+    "build:css:generate": "glob-exec --foreach --parallel 'src/css/**/*.css' -- cleancss -O1 'optimizeFontWeight:off' '{{file}}' -o 'dest/{{file.base}}' --source-map",
     "build:js": "run-s mkdir build:js:generate",
     "build:js:generate": "glob-exec --foreach --parallel 'src/js/*.js' -- uglifyjs '{{file}}' -cm -o 'dest/{{file.base}}' --source-map 'url=\\\"{{file.base}}.map\\\"'"
   },
