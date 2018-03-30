@@ -24,6 +24,7 @@
     "glob-exec": "^0.1.1",
     "jstransformer-markdown-it": "^2.0.0",
     "mkdirp": "^0.5.1",
+    "npm-run-all": "^4.1.2",
     "pug": "^2.0.3",
     "pug-cli": "^1.0.0-alpha6",
     "sanitize.css": "^5.0.0"
