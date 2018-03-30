@@ -72,7 +72,7 @@
     }
   }
 
-  function clickListener(e) {
+  function clickListener(event) {
     /**
      * 特殊なクリックは無視する
      * @see https://teratail.com/questions/13147
@@ -82,11 +82,11 @@
      *       ただし、仕様書にある修飾キーに対応するだけでも、これだけのキーの種類を網羅しなくてはならなくなる：
      *       https://gist.github.com/sounisi5011/6d0be09d2f2a2853974bfe9a20d229bc
      */
-    if (e.button !== 0 || e.altKey || e.ctrlKey || e.shiftKey || e.metaKey) {
+    if (event.button !== 0 || event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) {
       return;
     }
 
-    var anchorElem = lookupNode(e.target, function(node) {
+    var anchorElem = lookupNode(event.target, function(node) {
       return String(node.nodeName).toLowerCase() === 'a';
     });
     if (!anchorElem) return;
@@ -114,10 +114,10 @@
     );
 
     if (targetElem) {
-      e.preventDefault();
+      event.preventDefault();
       scrollIntoView(targetElem)
     } else if (targetId === 'top' || targetId === '') {
-      e.preventDefault();
+      event.preventDefault();
       win.scrollTo(0, 0);
     }
   }
