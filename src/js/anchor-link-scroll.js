@@ -73,6 +73,19 @@
   }
 
   document.addEventListener('click', function(e) {
+    /**
+     * 特殊なクリックは無視する
+     * @see https://teratail.com/questions/13147
+     *
+     * Note: getModifierStateメソッドが使用可能な場合、
+     *       他の修飾キーが押下されているかどうかも判定に含めるべきかもしれない。
+     *       ただし、仕様書にある修飾キーに対応するだけでも、これだけのキーの種類を網羅しなくてはならなくなる：
+     *       https://gist.github.com/sounisi5011/6d0be09d2f2a2853974bfe9a20d229bc
+     */
+    if (e.button !== 0 || e.altKey || e.ctrlKey || e.shiftKey || e.metaKey) {
+      return;
+    }
+
     var anchorElem = lookupNode(e.target, function(node) {
       return String(node.nodeName).toLowerCase() === 'a';
     });
