@@ -254,7 +254,7 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
           link(
             rel="preload"
             href=srcPath
-            as=(resourceData.preload || resourceData.as)
+            as=(resourceData.as || resourceData.preload)
             type=(resourceData.type || false)
           )
 
