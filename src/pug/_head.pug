@@ -78,16 +78,6 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
   if shortlink
     link(rel="shortlink" href=shortlink)
 
-  if dnsPrefetch
-    -
-      const dnsPrefetchList = (
-        Array.isArray(dnsPrefetch) ?
-        dnsPrefetch :
-        [dnsPrefetch]
-      );
-    each prefetchUrl in dnsPrefetchList
-      link(rel="dns-prefetch" href=prefetchUrl)
-
   //- http://ogp.me/
 
   if useOgp
@@ -249,6 +239,12 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
             resourceData.integrity :
             false
           );
+
+        if resourceData.dnsPrefetch
+          link(
+            rel="dns-prefetch"
+            href=srcPath
+          )
 
         if resourceData.preload
           link(
