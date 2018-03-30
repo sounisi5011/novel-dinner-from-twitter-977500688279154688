@@ -240,10 +240,53 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
             false
           );
 
+        //- https://hail2u.net/blog/webdesign/dns-prefetch-preconnect-prefetch-prerender-preload.html
+
         if resourceData.dnsPrefetch
           link(
             rel="dns-prefetch"
             href=srcPath
+          )
+
+        if resourceData.preconnect
+          link(
+            rel="preconnect"
+            href=srcPath
+            crossorigin=(resourceData.crossorigin || false)
+          )
+
+        if resourceData.prefetch
+          link(
+            rel="prefetch"
+            href=srcPath
+            as=(resourceData.as || resourceData.preload || false)
+            type=(resourceData.type || false)
+            crossorigin=(resourceData.crossorigin || false)
+          )
+          link(
+            rel="preload"
+            href=srcPath
+            as=(resourceData.as || resourceData.preload || false)
+            type=(resourceData.type || false)
+            loadpolicy="inert"
+            crossorigin=(resourceData.crossorigin || false)
+          )
+
+        if resourceData.prerender
+          link(
+            rel="prerender"
+            href=srcPath
+            as=(resourceData.as || resourceData.preload || false)
+            type=(resourceData.type || false)
+            crossorigin=(resourceData.crossorigin || false)
+          )
+          link(
+            rel="preload"
+            href=srcPath
+            as=(resourceData.as || resourceData.preload || false)
+            type=(resourceData.type || false)
+            loadpolicy="next"
+            crossorigin=(resourceData.crossorigin || false)
           )
 
         if resourceData.preload
@@ -252,6 +295,7 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
             href=srcPath
             as=(resourceData.as || resourceData.preload)
             type=(resourceData.type || false)
+            loadpolicy=(resourceData.loadpolicy || false)
           )
 
         if srcExtension === 'css'
