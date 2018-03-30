@@ -11,7 +11,9 @@
     "build:html:generate": "pug -p src/pug/main.pug < src/pug/main.pug > dest/index.html",
     "build:css": "run-s build:css:copy build:css:minify",
     "build:css:copy": "cpy 'src/css/**/*.css' 'node_modules/sanitize.css/sanitize.css' dest",
-    "build:css:minify": "glob-exec --foreach --parallel 'dest/*.css' \"cleancss -O1 'optimizeFontWeight:off' '{{file}}' -o '{{file}}' --source-map\""
+    "build:css:minify": "glob-exec --foreach --parallel 'dest/*.css' \"cleancss -O1 'optimizeFontWeight:off' '{{file}}' -o '{{file}}' --source-map\"",
+    "build:js": "run-s build:js:copy",
+    "build:js:copy": "cpy 'src/js/**/*.js' dest"
   },
   "engines": {
     "node": ">=8.10.0"
