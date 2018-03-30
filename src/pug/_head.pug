@@ -260,7 +260,7 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
 
         if srcExtension === 'css'
           link(
-            rel=(resourceData.alternate ? 'alternate stylesheet' : 'stylesheet')
+            rel=((resourceData.alternate && resourceData.title) ? 'alternate stylesheet' : 'stylesheet')
             href=srcPath
             type=(resourceData.type || false)
             media=(resourceData.media || false)
