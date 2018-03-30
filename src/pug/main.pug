@@ -1,0 +1,22 @@
+extends _layout.pug
+
+block vars
+  include _config.pug
+  include _mixins.pug
+
+block contents
+  main#main
+    - const prevHtml = pug_html;
+    - pug_html = '';
+    
+    include:markdown-it(breaks html) ../md/novel.md
+
+    - const mainHtml = pug_html;
+    - pug_html = prevHtml;
+
+    //- novel.mdで生成した内容にh1要素が含まれていなければ、
+    //- h1要素を出力する。
+    if title && !/<\/h1>/.test(mainHtml)
+      h1= title
+
+    - pug_html += mainHtml;

@@ -1,7 +1,7 @@
 footer
   if copyright
     if author
-      p
+      p.copyright
         small
           | Copyright ©#{s}
           time(datetime=formatDate(generateTime, '%Y-%m-%dT%H:%M:%SZ', 0))
@@ -9,11 +9,6 @@ footer
           | #{s}#{author} #{copyright}
 
     include _license/cc_by_sa_4.0.pug
-
-  p
-    | 最終更新日：
-    time(datetime=formatDate(generateTime, '%Y-%m-%dT%H:%M:%SZ', 0))
-      | #{formatDate(generateTime, '%Y年%-m月%-d日 %H:%M:%S JST', 9 * 60 * 60)}
 
   -
     const showTwitter = (
@@ -40,3 +35,8 @@ footer
   if repositoryUrl
     p
       a(href=repositoryUrl) View on GitHub
+
+  p
+    | 最終更新日：
+    time(datetime=formatDate(generateTime, '%Y-%m-%dT%H:%M:%SZ', 0))
+      | #{formatDate(generateTime, '%Y年%-m月%-d日 %H:%M:%S JST', 9 * 60 * 60)}
