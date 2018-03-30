@@ -28,7 +28,7 @@ include _funcs.pug
     'sanitize.css',
     'font.css',
     'main.css',
-    'url-fragment-delete.js',
+    {src: 'url-fragment-delete.js', include: 'head'},
     'anchor-link-scroll.js',
     {src: 'https://platform.twitter.com/widgets.js', charset: 'utf-8', async: true},
   ];
