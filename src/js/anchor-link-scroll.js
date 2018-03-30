@@ -52,6 +52,26 @@
     }
   }
 
+  /**
+   * URLからハッシュフラグメントを取り出す
+   * @param {string} url 対象のURLの文字列。文字列ではない値の場合、文字列に変換される。
+   * @return {Array<string>} 文字列を要素に持つ配列。
+   *     0番目にハッシュを除いたURL、1番目に"#"から始まるハッシュフラグメントの値を含む。
+   *     ハッシュフラグメントが存在しない場合、1番目の値は空文字列になる。
+   */
+  function splitUrlHash(url) {
+    url = String(url)
+    var hashPos = url.indexOf('#');
+    if (0 <= hashPos) {
+      return [
+        url.substr(0, hashPos),
+        url.substr(hashPos)
+      ];
+    } else {
+      return [url, ''];
+    }
+  }
+
   document.addEventListener('click', function(e) {
     var anchorElem = lookupNode(e.target, function(node) {
       return String(node.nodeName).toLowerCase() === 'a';
@@ -61,10 +81,16 @@
     var doc = anchorElem.ownerDocument || document;
     var win = doc.defaultView || doc.parentWindow || window;
 
-    var hash = anchorElem.hash;
-    if (typeof hash !== 'string') return;
+    var pageUrl = splitUrlHash(win.location.href)[0];
+    var targetUrlList = splitUrlHash(anchorElem.href);
+    var targetUrl = targetUrlList[0];
 
-    var targetId = hash.replace(/^#/, '');
+    /*
+     * リンク先のURLと現在のページのURLが異なる場合は、何もしない。
+     */
+    if (pageUrl !== targetUrl) return;
+
+    var targetId = targetUrlList[1].substr(1);
     var decodedTargetId = decodeURIComponent(targetId);
 
     var targetElem = (
