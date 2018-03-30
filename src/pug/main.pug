@@ -6,8 +6,17 @@ block vars
 
 block contents
   main#main
+    - const prevHtml = pug_html;
+    - pug_html = '';
+    
+    include:markdown-it(breaks html) ../md/novel.md
 
-    if title
+    - const mainHtml = pug_html;
+    - pug_html = prevHtml;
+
+    //- novel.mdで生成した内容にh1要素が含まれていなければ、
+    //- h1要素を出力する。
+    if title && !/<\/h1>/.test(mainHtml)
       h1= title
 
-    include:markdown-it(breaks html) ../novel.md
+    - pug_html += mainHtml;
