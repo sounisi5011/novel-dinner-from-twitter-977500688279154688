@@ -78,16 +78,6 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
   if shortlink
     link(rel="shortlink" href=shortlink)
 
-  if dnsPrefetch
-    -
-      const dnsPrefetchList = (
-        Array.isArray(dnsPrefetch) ?
-        dnsPrefetch :
-        [dnsPrefetch]
-      );
-    each prefetchUrl in dnsPrefetchList
-      link(rel="dns-prefetch" href=prefetchUrl)
-
   //- http://ogp.me/
 
   if useOgp
@@ -249,14 +239,6 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
             resourceData.integrity :
             false
           );
-
-        if resourceData.preload
-          link(
-            rel="preload"
-            href=srcPath
-            as=(resourceData.preload || resourceData.as)
-            type=(resourceData.type || false)
-          )
 
         if srcExtension === 'css'
           link(
