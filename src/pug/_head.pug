@@ -241,6 +241,7 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
           );
 
         //- https://hail2u.net/blog/webdesign/dns-prefetch-preconnect-prefetch-prerender-preload.html
+        //- https://webtan.impress.co.jp/e/2017/02/20/24816
 
         if resourceData.dnsPrefetch
           link(
@@ -296,6 +297,14 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
             as=(resourceData.as || resourceData.preload)
             type=(resourceData.type || false)
             loadpolicy=(resourceData.loadpolicy || false)
+          )
+
+        if resourceData.subresource
+          link(
+            rel="subresource"
+            href=srcPath
+            as=(resourceData.as || false)
+            type=(resourceData.type || false)
           )
 
         if srcExtension === 'css'
