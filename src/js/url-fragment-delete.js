@@ -8,6 +8,7 @@
   var window = global.window;
   var document = window.document;
   var location = window.location;
+  var history = window.history || {};
 
   var pageUrl = String(location.href);
   var hashPos = pageUrl.indexOf('#');
@@ -26,8 +27,36 @@
      */
     var hashValue = pageUrl.substring(hashPos);
 
-    if (hashValue !== '#') {
+    if (typeof history.replaceState === 'function') {
       /*
+       * history.replaceStateメソッドに対応している場合は、
+       * フラグメントを削除したURLに変更する。
+       */
+
+      /*
+       * フラグメントを削除したURLを生成する。
+       *
+       * Note: substringメソッドの代わりにsubstrメソッドを使用しても、挙動は変化しない。
+       *       ここでsubstringメソッドを使用したのは、hashPosが相対的な位置ではなく
+       *       絶対的な文字の位置であるため。
+       *       仮に、第１引数の"0"を変更した場合は、挙動が変化する。
+       */
+      var pageUrlWithoutHash = pageUrl.substring(0, hashPos);
+
+      /*
+       * history.replaceStateメソッドで、ページのURLを、
+       * フラグメントを削除したURLに置き換える。
+       */
+      history.replaceState(history.state, document.title, pageUrlWithoutHash);
+
+      /*
+       * ページの１番上にスクロールする。
+       */
+      window.scrollTo(0, 0);
+
+    } else if (hashValue !== '#') {
+      /*
+       * history.replaceStateメソッドに対応していない場合は、
        * location.hashを上書きしてURLを変更する。
        *
        * Note: location.hashプロパティを上書きする方法では、
