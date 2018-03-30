@@ -72,7 +72,7 @@
     }
   }
 
-  document.addEventListener('click', function(e) {
+  function clickListener(e) {
     /**
      * 特殊なクリックは無視する
      * @see https://teratail.com/questions/13147
@@ -120,5 +120,31 @@
       e.preventDefault();
       win.scrollTo(0, 0);
     }
+  }
+
+  function initEvent() {
+    document.addEventListener('click', clickListener, false);
+  }
+
+  /**
+   * bfcache（Back Forward Cache）対策コード
+   * ページバックした時、キャッシュから復元された時も動作するよう、イベントを再登録する。
+   *
+   * Note: 空のunloadイベントを追加してbfcacheを無効化する方法は、
+   *       iOSのSafariで動作しない。また、bfcacheを無効化するとページの再読込が
+   *       必要になり、表示が遅くなる。
+   *
+   * @see http://oogatta.hatenadiary.jp/entry/20121228/1356696182
+   * @see https://qiita.com/edo_m18/items/f8f5952f0d45b4b81d4c
+   * @see http://nmi.jp/archives/273
+   * @see https://qiita.com/smitho/items/60b496785216b1aefe49
+   * @see https://gist.github.com/kyaido/65d61f887abb8104791f
+   */
+  window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+      initEvent();
+    }
   }, false);
+
+  initEvent();
 })(Function('return this')());
