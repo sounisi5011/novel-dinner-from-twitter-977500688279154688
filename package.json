@@ -6,13 +6,12 @@
   "scripts": {
     "clean": "del dest",
     "mkdir": "mkdirp dest",
-    "prebuild:html": "run-s mkdir",
-    "build:html": "pug -p src/pug/main.pug < src/pug/main.pug > dest/index.html",
+    "build:html:generate": "pug -p src/pug/main.pug < src/pug/main.pug > dest/index.html",
+    "build:html": "run-s mkdir build:html:generate",
     "build:css:copy": "cpy 'src/css/**/*.css' 'node_modules/sanitize.css/sanitize.css' dest",
     "build:css:minify": "glob-exec --foreach --parallel 'dest/*.css' \"cleancss -O1 'optimizeFontWeight:off' '{{file}}' -o '{{file}}' --source-map\"",
     "build:css": "run-s build:css:copy build:css:minify",
-    "prebuild": "run-s clean",
-    "build": "run-p build:*"
+    "build": "npm-run-all clean -p build:*"
   },
   "engines": {
     "node": ">=8.10.0"
