@@ -1,6 +1,6 @@
 const fs = require('fs');
 const cheerio = require('cheerio');
-const request = require('sync-request');
+const rp = require('request-promise');
 
 const inputHtml = fs.readFileSync('/dev/stdin', 'utf8');
 
@@ -8,9 +8,13 @@ const $ = cheerio.load(inputHtml, {
   decodeEntities: false,
 });
 
+const requestList = [];
+
 $('object[type="application/x.oembed"]').each((_, elemNode) => {
   const elem = $(elemNode);
   const url = elem.attr('data');
+  const width = elem.attr('width');
+  const height = elem.attr('height');
 
   /**
    * @see https://oembed.com/
@@ -22,53 +26,113 @@ $('object[type="application/x.oembed"]').each((_, elemNode) => {
   }
 
   if (endpointUrl !== '') {
-    const qs = {url};
+    const queryParameters = {url};
+
+    if (width) {
+      queryParameters.maxwidth = width;
+    }
+    if (height) {
+      queryParameters.maxheight = height;
+    }
 
     elem.find('param').each((_, elemNode) => {
       const elem = $(elemNode);
       const name = elem.attr('name');
       const value = elem.attr('value');
 
-      qs[name] = value;
+      if (name && value) {
+        queryParameters[name] = value;
+      }
     });
 
-    const res = request('GET', endpointUrl, {qs});
-    const contentType = (() => {
-      const data = (
-        Object.entries(res.headers)
-          .filter(([key]) => /^content-type$/i.test(key))
-          .pop()
-      );
-      return data ? data[1] : '';
-    })();
-
     let replaceElem = $('<a>');
+    replaceElem.attr('href', url);
+    replaceElem.text(url);
 
-    if (200 <= res.statusCode && res.statusCode < 300 && contentType) {
-      let data = {};
+    requestList.push(new Promise(resolve => {
+      rp({
+        uri: endpointUrl,
+        qs: queryParameters,
+        resolveWithFullResponse: true,
+      })
+        .then(response => {
+          const {statusCode, headers, body} = response;
 
-      if (/^text\/xml(?:;|$)/.test(contentType)) {
-        /*
-         * XML
-         */
-      } else if (/^application\/json(?:;|$)/.test(contentType)) {
-        /*
-         * JSON
-         */
-        data = JSON.parse(res.body);
-      }
+          if (200 <= statusCode && statusCode < 300) {
+            const contentType = (
+              Object.entries(headers)
+                .filter(([key]) => /^content-type$/i.test(key))
+                .map(([, value]) => value)
+                .pop()
+            );
+            let data = {};
 
-      if (data.type === 'rich') {
-        replaceElem = $(data.html);
-      }
-    } else {
-      // got error!
-      replaceElem.attr('href', url);
-      replaceElem.text(url);
-    }
+            if (/^text\/xml(?:;|$)/.test(contentType)) {
+              /*
+               * XML
+               */
+            } else if (/^application\/json(?:;|$)/.test(contentType)) {
+              /*
+               * JSON
+               */
+              data = JSON.parse(body);
+            } else {
+              /*
+               * Unknown Content Type
+               */
+            }
 
-    elem.replaceWith(replaceElem);
+            if (data.type === 'photo') {
+              /*
+               * The photo type
+               */
+              const {url, width, height} = data;
+            } else if (data.type === 'video') {
+              /*
+               * The video type
+               */
+              const {html, width, height} = data;
+            } else if (data.type === 'link') {
+              /*
+               * The link type
+               */
+            } else if (data.type === 'rich') {
+              /*
+               * The rich type
+               */
+              const {html, width, height} = data;
+              replaceElem = $(html);
+            } else {
+              /*
+               * Unknown type
+               */
+            }
+          } else {
+            /*
+             * HTTP Status Code Error
+             */
+          }
+
+          resolve({elem, replaceElem});
+        })
+        .catch(error => {
+          /*
+           * API call failed
+           */
+          resolve({elem, replaceElem});
+        });
+    }));
+  } else {
+    /*
+     * API endpoint is Unknown
+     */
   }
 });
 
-process.stdout.write($.html());
+Promise.all(requestList).then(values => {
+  for (const {elem, replaceElem} of values) {
+    elem.replaceWith(replaceElem);
+  }
+
+  process.stdout.write($.html());
+});
