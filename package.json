@@ -28,6 +28,8 @@
     "npm-run-all": "^4.1.2",
     "pug": "^2.0.3",
     "pug-cli": "^1.0.0-alpha6",
+    "request": "^2.85.0",
+    "request-promise": "^4.2.2",
     "sanitize.css": "^5.0.0",
     "uglify-js": "^3.3.16"
   },
