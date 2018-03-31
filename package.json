@@ -29,6 +29,7 @@
     "pug": "^2.0.3",
     "pug-cli": "^1.0.0-alpha6",
     "sanitize.css": "^5.0.0",
+    "sync-request": "^6.0.0",
     "uglify-js": "^3.3.16"
   },
   "private": true
