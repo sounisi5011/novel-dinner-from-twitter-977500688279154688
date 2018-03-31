@@ -20,14 +20,16 @@ $('object[type="application/x.oembed"]').each((_, elemNode) => {
    * @see https://oembed.com/
    */
 
+  const queryParameters = {url};
   let endpointUrl = '';
+  let appendScriptHtml = '';
   if (/^https:\/\/twitter\.com\/[^/]*\/status\/[^/]*$/.test(url)) {
     endpointUrl = 'https://publish.twitter.com/oembed';
+    appendScriptHtml = '<script async src="https://platform.twitter.com/widgets.js"></script>';
+    queryParameters.omit_script = 'true';
   }
 
   if (endpointUrl !== '') {
-    const queryParameters = {url};
-
     if (width) {
       queryParameters.maxwidth = width;
     }
@@ -113,7 +115,7 @@ $('object[type="application/x.oembed"]').each((_, elemNode) => {
              */
           }
 
-          resolve({elem, replaceElem});
+          resolve({elem, replaceElem, appendScriptHtml});
         })
         .catch(error => {
           /*
@@ -130,8 +132,20 @@ $('object[type="application/x.oembed"]').each((_, elemNode) => {
 });
 
 Promise.all(requestList).then(values => {
-  for (const {elem, replaceElem} of values) {
+  const appendScriptSet = new Set;
+
+  for (const {elem, replaceElem, appendScriptHtml} of values) {
     elem.replaceWith(replaceElem);
+    if (appendScriptHtml !== '') {
+      appendScriptSet.add(appendScriptHtml);
+    }
+  }
+
+  const bodyElem = $('body');
+  for (const scriptHtml of appendScriptSet) {
+    if (scriptHtml !== '') {
+      bodyElem.append(scriptHtml);
+    }
   }
 
   process.stdout.write($.html());
