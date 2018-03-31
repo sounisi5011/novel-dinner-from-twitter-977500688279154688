@@ -31,7 +31,6 @@
     "request": "^2.85.0",
     "request-promise": "^4.2.2",
     "sanitize.css": "^5.0.0",
-    "sync-request": "^6.0.0",
     "uglify-js": "^3.3.16"
   },
   "private": true
