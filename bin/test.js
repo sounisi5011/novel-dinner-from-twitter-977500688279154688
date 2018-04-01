@@ -187,7 +187,7 @@ $('object[type="application/x.oembed"]').each((_, objectElemNode) => {
                * The rich type
                */
               const {html, width, height} = data;
-              replaceElem = $(html);
+              replaceElem = $(html.trim());
             } else {
               /*
                * Unknown type
