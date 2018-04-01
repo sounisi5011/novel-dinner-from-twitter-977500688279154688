@@ -77,8 +77,9 @@ address dt+dd:before {
 }
 
 .license {
-  margin-left:  1em;
-  margin-right: 1em;
+  margin-left:  auto;
+  margin-right: auto;
+  max-width: 35em;
   border: 1px solid #ddd;
   padding: 1em;
   text-align: center;
