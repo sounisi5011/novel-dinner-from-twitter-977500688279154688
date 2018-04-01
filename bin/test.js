@@ -6,6 +6,7 @@ const mkdirp = require('mkdirp');
 
 const cachedRp = (() => {
   const cacheSec = 10 * 60;
+  const cacheMSec = cacheSec * 1000;
 
   const cacheDir = `${__dirname}/../cache`;
   const cacheFilepath = `${cacheDir}/http-cache.json`;
@@ -37,10 +38,10 @@ const cachedRp = (() => {
     const cacheKey = JSON.stringify(options);
 
     return new Promise((resolve, reject) => {
-      const nowSec = Date.now();
+      const nowMSec = Date.now();
       const cacheData = httpCache[cacheKey];
 
-      if (cacheData && cacheData.expires < nowSec) {
+      if (cacheData && nowMSec <= cacheData.expires) {
         resolve(cacheData.value);
       } else {
         rp(options)
@@ -61,8 +62,8 @@ const cachedRp = (() => {
              * Set cache data
              */
             httpCache[cacheKey] = {
-              cached: nowSec,
-              expires: nowSec + cacheSec,
+              cached: nowMSec,
+              expires: nowMSec + cacheMSec,
               value: value,
             };
 
