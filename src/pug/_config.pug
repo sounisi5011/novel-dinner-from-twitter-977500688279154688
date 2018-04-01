@@ -21,11 +21,15 @@ include _funcs.pug
       /^https?:(\/\/github\.com\/[^\/]+\/[^\/]+)$/,
       (_, non_scheme_url) => `https:${non_scheme_url.replace(/\.git$/, '')}`
     );
+  const linkMeUrl = [
+    'https://twitter.com/sounisi5011Vore',
+  ];
   const includeResources = [
     'sanitize.css',
     'font.css',
     'main.css',
-    {src: 'https://platform.twitter.com/widgets.js', charset: 'utf-8', async: true},
+    {src: 'url-fragment-delete.js', include: 'head'},
+    'anchor-link-scroll.js',
   ];
   const twitterAccountList = [
     {name: 'sounisi5011Vore', id: '4676885804'},
