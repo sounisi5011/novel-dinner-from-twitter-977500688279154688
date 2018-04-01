@@ -18,6 +18,7 @@ const cachedRp = (() => {
     'statusCode', 'statusMessage', 'trailers', 'url',
     'METHODS', 'STATUS_CODES', 'request', 'upgrade', 'complete',
     'httpVersionMajor', 'httpVersionMinor', 'readable',
+    'body',
   ]);
 
   const httpCache = {};
