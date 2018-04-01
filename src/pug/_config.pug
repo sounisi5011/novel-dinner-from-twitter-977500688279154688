@@ -12,7 +12,7 @@ include _funcs.pug
   const description = '';
   const author = 'sounisi5011';
   const copyright = 'Some rights reserved.';
-  const repositoryUrl = (envRepositoryUrl || '')
+  const repositoryUrl = (envRepositoryUrl || 'https://example.com')
     .replace(
       /^git@github\.com:([^\/]+\/[^\/]+)$/,
       (_, path) => `https://github.com/${path}`
