@@ -32,11 +32,11 @@ footer
               dd
                 a(href=href) @#{account.name}
 
-  if repositoryUrl
-    p
-      a(href=repositoryUrl) View on GitHub
-
   p
     | 最終更新日：
     time(datetime=formatDate(generateTime, '%Y-%m-%dT%H:%M:%SZ', 0))
       | #{formatDate(generateTime, '%Y年%-m月%-d日 %H:%M:%S JST', 9 * 60 * 60)}
+
+  if repositoryUrl
+    p.view-repository
+      a(href=repositoryUrl) View on GitHub
