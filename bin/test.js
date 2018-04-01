@@ -136,7 +136,7 @@ $('object[type="application/x.oembed"]').each((_, objectElemNode) => {
     replaceElem.text(embeddedTargetUrl);
 
     requestList.push(new Promise(resolve => {
-      rp({
+      cachedRp({
         uri: endpointUrl,
         qs: queryParameters,
         resolveWithFullResponse: true,
