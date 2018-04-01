@@ -1,6 +1,89 @@
 const fs = require('fs');
+const http = require('http');
 const cheerio = require('cheerio');
 const rp = require('request-promise');
+const mkdirp = require('mkdirp');
+
+const cachedRp = (() => {
+  const cacheSec = 10 * 60;
+
+  const cacheDir = `${__dirname}/../cache`;
+  const cacheFilepath = `${cacheDir}/http-cache.json`;
+  /**
+   * @see https://nodejs.org/api/http.html#http_class_http_incomingmessage
+   * @see https://github.com/nodejs/node/blob/29be1e5f8426b8f58a390847aa94c1f9a6d103f4/lib/_http_incoming.js#L38-L69
+   */
+  const copyPropSet = new Set([
+    'headers', 'httpVersion', 'method', 'rawHeaders', 'rawTrailers',
+    'statusCode', 'statusMessage', 'trailers', 'url',
+    'METHODS', 'STATUS_CODES', 'request', 'upgrade', 'complete',
+    'httpVersionMajor', 'httpVersionMinor', 'readable',
+  ]);
+
+  const httpCache = {};
+  try {
+    const stat = fs.statSync(cacheFilepath);
+    if (stat.isFile()) {
+      const fileData = fs.readFileSync(cacheFilepath, 'utf8');
+      const cacheData = JSON.parse(fileData);
+      if (cacheData && typeof cacheData === 'object') {
+        Object.assign(httpCache, cacheData);
+      }
+    }
+  } catch(e) {}
+
+  return function cachedRp(options) {
+    const cacheKey = JSON.stringify(options);
+
+    return new Promise((resolve, reject) => {
+      const nowSec = Date.now();
+      const cacheData = httpCache[cacheKey];
+
+      if (cacheData && cacheData.expires < nowSec) {
+        resolve(cacheData.value);
+      } else {
+        rp(options)
+          .then(value => {
+            if (value instanceof http.IncomingMessage) {
+              const newValue = {};
+              for (const propName in value) {
+                if (copyPropSet.has(propName)) {
+                  newValue[propName] = value[propName];
+                }
+              }
+              value = newValue;
+            }
+
+            resolve(value);
+
+            /*
+             * Set cache data
+             */
+            httpCache[cacheKey] = {
+              cached: nowSec,
+              expires: nowSec + cacheSec,
+              value: value,
+            };
+
+            /*
+             * Save cache data
+             */
+            mkdirp(cacheDir, error => {
+              if (!error) {
+                try {
+                  const fileData = JSON.stringify(httpCache);
+                  fs.writeFile(cacheFilepath, fileData, error => {});
+                } catch(e) {}
+              }
+            });
+          })
+          .catch(value => {
+            reject(value);
+          });
+      }
+    });
+  };
+})();
 
 const inputHtml = fs.readFileSync('/dev/stdin', 'utf8');
 
