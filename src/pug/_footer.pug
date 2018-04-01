@@ -4,6 +4,10 @@ footer
       p.copyright
         small(lang="en")
           | Copyright ©#{s}
+          if creationDate
+            time(datetime=formatDate(creationDate, '%Y-%m-%dT%H:%M:%SZ', 0))
+              | #{formatDate(creationDate, '%Y')}
+            | -
           time(datetime=formatDate(generateTime, '%Y-%m-%dT%H:%M:%SZ', 0))
             | #{formatDate(generateTime, '%Y')}
           | #{s}#{author} #{copyright}

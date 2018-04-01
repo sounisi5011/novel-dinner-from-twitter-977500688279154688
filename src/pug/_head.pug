@@ -25,7 +25,11 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
     meta(name="description" content=description)
 
   if copyright && author
-    meta(name="copyright" content=`© ${formatDate(generateTime, '%Y')} ${author}`)
+    meta(name="copyright" content=(
+      creationDate ?
+      `© ${formatDate(creationDate, '%Y')}-${formatDate(generateTime, '%Y')} ${author}` :
+      `© ${formatDate(generateTime, '%Y')} ${author}`
+    ))
 
   if generateTime
     meta(
