@@ -92,3 +92,17 @@ address dt+dd:before {
 .license .cc-logo+br {
   display: none;
 }
+
+.view-repository {
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+.view-repository > a {
+  display: inline-block;
+  text-decoration: none;
+  border-radius: .25em;
+  padding: .6em 1em;
+  color: #fff;
+  background-color: #333;
+}
