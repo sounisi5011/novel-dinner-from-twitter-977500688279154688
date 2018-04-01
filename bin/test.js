@@ -1,7 +1,7 @@
 const fs = require('fs');
 const http = require('http');
 const cheerio = require('cheerio');
-const rp = require('request-promise');
+const rp = require('request-promise-native');
 const mkdirp = require('mkdirp');
 
 const cachedRp = (() => {
