@@ -37,7 +37,7 @@ $('object[type="application/x.oembed"]').each((_, objectElemNode) => {
       queryParameters.maxheight = embeddedResourceHeight;
     }
 
-    objectElem.find('param').each((_, paramElemNode) => {
+    objectElem.children('param').each((_, paramElemNode) => {
       const paramElem = $(paramElemNode);
       const name = paramElem.attr('name');
       const value = paramElem.attr('value');
