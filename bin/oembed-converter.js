@@ -5,7 +5,7 @@ const rp = require('request-promise-native');
 const mkdirp = require('mkdirp');
 
 const cachedRp = (() => {
-  const cacheSec = 10 * 60;
+  const cacheSec = 30 * 60;
   const cacheMSec = cacheSec * 1000;
 
   const cacheDir = `${__dirname}/../cache`;
