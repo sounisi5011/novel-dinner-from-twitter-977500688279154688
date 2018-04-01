@@ -77,8 +77,9 @@ address dt+dd:before {
 }
 
 .license {
-  margin-left:  1em;
-  margin-right: 1em;
+  margin-left:  auto;
+  margin-right: auto;
+  width: calc(100% - 2em);
   border: 1px solid #ddd;
   padding: 1em;
   text-align: center;
@@ -91,4 +92,19 @@ address dt+dd:before {
 
 .license .cc-logo+br {
   display: none;
+}
+
+.view-repository {
+  margin-bottom: 0;
+  padding-bottom: 1em;
+  text-align: center;
+}
+
+.view-repository > a {
+  display: inline-block;
+  text-decoration: none;
+  border-radius: .25em;
+  padding: .6em 1em;
+  color: #fff;
+  background-color: #333;
 }
