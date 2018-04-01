@@ -29,7 +29,12 @@ const cachedRp = (() => {
       const fileData = fs.readFileSync(cacheFilepath, 'utf8');
       const cacheData = JSON.parse(fileData);
       if (cacheData && typeof cacheData === 'object') {
-        Object.assign(httpCache, cacheData);
+        const nowMSec = Date.now();
+        for (const [cacheKey, value] of Object.entries(cacheData)) {
+          if (value && nowMSec <= value.expires) {
+            httpCache[cacheKey] = value;
+          }
+        }
       }
     }
   } catch(e) {}
@@ -44,6 +49,8 @@ const cachedRp = (() => {
       if (cacheData && nowMSec <= cacheData.expires) {
         resolve(cacheData.value);
       } else {
+        delete httpCache[cacheKey];
+
         rp(options)
           .then(value => {
             if (value instanceof http.IncomingMessage) {
