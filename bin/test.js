@@ -10,37 +10,37 @@ const $ = cheerio.load(inputHtml, {
 
 const requestList = [];
 
-$('object[type="application/x.oembed"]').each((_, elemNode) => {
-  const elem = $(elemNode);
-  const url = elem.attr('data');
-  const width = elem.attr('width');
-  const height = elem.attr('height');
+$('object[type="application/x.oembed"]').each((_, objectElemNode) => {
+  const objectElem = $(objectElemNode);
+  const embeddedTargetUrl = objectElem.attr('data');
+  const embeddedResourceWidth = objectElem.attr('width');
+  const embeddedResourceHeight = objectElem.attr('height');
 
   /**
    * @see https://oembed.com/
    */
 
-  const queryParameters = {url};
+  const queryParameters = {url: embeddedTargetUrl};
   let endpointUrl = '';
   let appendScriptHtml = '';
-  if (/^https:\/\/twitter\.com\/[^/]*\/status\/[^/]*$/.test(url)) {
+  if (/^https:\/\/twitter\.com\/[^/]*\/status\/[^/]*$/.test(embeddedTargetUrl)) {
     endpointUrl = 'https://publish.twitter.com/oembed';
     appendScriptHtml = '<script async src="https://platform.twitter.com/widgets.js"></script>';
     queryParameters.omit_script = 'true';
   }
 
   if (endpointUrl !== '') {
-    if (width) {
-      queryParameters.maxwidth = width;
+    if (embeddedResourceWidth) {
+      queryParameters.maxwidth = embeddedResourceWidth;
     }
-    if (height) {
-      queryParameters.maxheight = height;
+    if (embeddedResourceHeight) {
+      queryParameters.maxheight = embeddedResourceHeight;
     }
 
-    elem.find('param').each((_, elemNode) => {
-      const elem = $(elemNode);
-      const name = elem.attr('name');
-      const value = elem.attr('value');
+    objectElem.find('param').each((_, paramElemNode) => {
+      const paramElem = $(paramElemNode);
+      const name = paramElem.attr('name');
+      const value = paramElem.attr('value');
 
       if (name && value) {
         queryParameters[name] = value;
@@ -48,8 +48,8 @@ $('object[type="application/x.oembed"]').each((_, elemNode) => {
     });
 
     let replaceElem = $('<a>');
-    replaceElem.attr('href', url);
-    replaceElem.text(url);
+    replaceElem.attr('href', embeddedTargetUrl);
+    replaceElem.text(embeddedTargetUrl);
 
     requestList.push(new Promise(resolve => {
       rp({
@@ -115,13 +115,13 @@ $('object[type="application/x.oembed"]').each((_, elemNode) => {
              */
           }
 
-          resolve({elem, replaceElem, appendScriptHtml});
+          resolve({objectElem, replaceElem, appendScriptHtml});
         })
         .catch(error => {
           /*
            * API call failed
            */
-          resolve({elem, replaceElem});
+          resolve({objectElem, replaceElem});
         });
     }));
   } else {
@@ -134,8 +134,8 @@ $('object[type="application/x.oembed"]').each((_, elemNode) => {
 Promise.all(requestList).then(values => {
   const appendScriptSet = new Set;
 
-  for (const {elem, replaceElem, appendScriptHtml} of values) {
-    elem.replaceWith(replaceElem);
+  for (const {objectElem, replaceElem, appendScriptHtml} of values) {
+    objectElem.replaceWith(replaceElem);
     if (appendScriptHtml !== '') {
       appendScriptSet.add(appendScriptHtml);
     }
