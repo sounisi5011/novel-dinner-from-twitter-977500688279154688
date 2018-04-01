@@ -1,6 +1,8 @@
 # 夕食
 
-<blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">夕食 <a href="https://t.co/9MbWmbxwGX">pic.twitter.com/9MbWmbxwGX</a></p>&mdash; ミソオデン (@wodnuyRnaiR) <a href="https://twitter.com/wodnuyRnaiR/status/977500688279154688?ref_src=twsrc%5Etfw">2018年3月24日</a></blockquote>
+<object type="application/x.oembed" data="https://twitter.com/wodnuyRnaiR/status/977500688279154688">
+  <param name="lang" value="ja">
+</object>
 
 ## あらすじ
 

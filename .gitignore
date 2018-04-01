@@ -8,3 +8,4 @@ yarn-error.log
 
 /dest/
 node_modules/
+/cache/
