@@ -1,7 +1,6 @@
 # 夕食
 
 <object type="application/x.oembed" data="https://twitter.com/wodnuyRnaiR/status/977500688279154688">
-  <param name="omit_script" value="true">
   <param name="lang" value="ja">
 </object>
 
