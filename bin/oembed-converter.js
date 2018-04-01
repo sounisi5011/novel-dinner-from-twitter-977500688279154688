@@ -121,7 +121,7 @@ $('object[type="application/x.oembed"]').each((_, objectElemNode) => {
     queryParameters.omit_script = 'true';
   }
 
-  if (endpointUrl !== '') {
+  if (endpointUrl) {
     if (embeddedResourceWidth) {
       queryParameters.maxwidth = embeddedResourceWidth;
     }
@@ -228,14 +228,14 @@ Promise.all(requestList).then(values => {
 
   for (const {objectElem, replaceElem, appendScriptHtml} of values) {
     objectElem.replaceWith(replaceElem);
-    if (appendScriptHtml !== '') {
+    if (appendScriptHtml) {
       appendScriptSet.add(appendScriptHtml);
     }
   }
 
   const bodyElem = $('body');
   for (const scriptHtml of appendScriptSet) {
-    if (scriptHtml !== '') {
+    if (scriptHtml) {
       bodyElem.append(scriptHtml);
     }
   }
