@@ -56,6 +56,7 @@ footer small {
 
 .social-buttons {
   text-align: left;
+  display: flex;
 }
 
 .social-buttons > * {
@@ -68,6 +69,7 @@ footer small {
 }
 
 .social-buttons > .default-button-style {
+  align-self: center;
   border-radius: .25em;
   padding: .25em 1em;
   text-decoration: none;
