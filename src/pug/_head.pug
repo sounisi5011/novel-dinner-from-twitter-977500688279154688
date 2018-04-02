@@ -234,7 +234,7 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
             resource
           );
           const srcPath = resourceData.src || resourceData.href;
-          const srcExtension = srcPath.substr(srcPath.lastIndexOf('.') + 1);
+          const srcExtension = (/^[^?]+\.([a-z]+)(?:$|\?)/.exec(srcPath) || [, ''])[1];
           const integrityValue = (
             (
               resourceData.integrity &&

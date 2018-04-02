@@ -34,7 +34,7 @@ html(lang="ja")
               resource
             );
             const srcPath = resourceData.src;
-            const srcExtension = srcPath.substr(srcPath.lastIndexOf('.') + 1);
+            const srcExtension = (/^[^?]+\.([a-z]+)(?:$|\?)/.exec(srcPath) || [, ''])[1];
             const integrityValue = (
               (
                 resourceData.integrity &&
@@ -68,7 +68,7 @@ html(lang="ja")
               resource
             );
             const srcPath = resourceData.src;
-            const srcExtension = srcPath.substr(srcPath.lastIndexOf('.') + 1);
+            const srcExtension = (/^[^?]+\.([a-z]+)(?:$|\?)/.exec(srcPath) || [, ''])[1];
             const integrityValue = (
               (
                 resourceData.integrity &&
