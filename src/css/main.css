@@ -76,18 +76,24 @@ footer small {
 
 .social-buttons > .default-button-style.twitter-share-button {
   color: #fff;
-  background-color: #1b95e0;
+  background-color: #1b95e0; /* hsv 203 88 88 */
 }
 
 .social-buttons > .default-button-style.twitter-share-button:active,
 .social-buttons > .default-button-style.twitter-share-button:focus,
 .social-buttons > .default-button-style.twitter-share-button:hover {
-  background-color: #0c7abf;
+  background-color: #0c7abf; /* hsv 203 94 75 */
 }
 
 .social-buttons > .default-button-style.pocket-btn {
   color: #fff;
-  background-color: #ea5867;
+  background-color: #ea5867; /* hsv 354 62 92 */
+}
+
+.social-buttons > .default-button-style.pocket-btn:active,
+.social-buttons > .default-button-style.pocket-btn:focus,
+.social-buttons > .default-button-style.pocket-btn:hover {
+  background-color: #c9404e; /* hsv 354 68 79 */
 }
 
 address dt,
