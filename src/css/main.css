@@ -74,6 +74,12 @@ footer small {
   background-color: #1b95e0;
 }
 
+.twitter-share-button.no-widgets-js:active,
+.twitter-share-button.no-widgets-js:focus,
+.twitter-share-button.no-widgets-js:hover {
+  background-color: #0c7abf;
+}
+
 address dt,
 address dd {
   display:  inline;
