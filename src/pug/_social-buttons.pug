@@ -1,3 +1,61 @@
 p.social-buttons
   //- Twitter
-  a(href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button") Tweet
+  a(
+    href=(tweetContentParameters => {
+      /**
+       * @see https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
+       */
+      const encodeRFC3986URIComponent = str => (
+        encodeURIComponent(str)
+          .replace(
+            /[!'()*]/g,
+            c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
+          )
+      );
+      const urlRegExp = /^.+$/;
+      const twitterUserNameRegExp = /^@[a-zA-Z0-9_]{1,15}$/;
+      const twitterHashtagRegExp = /^.+$/;
+
+      const params = [...Object.entries(tweetContentParameters)]
+        .map(([key, value]) => {
+          if (key === 'text') {
+            if (!value) {
+              return null;
+            }
+          } else if (key === 'url') {
+            if (!urlRegExp.test(value)) {
+              return null;
+            }
+          } else if (/^(?:hashtags|related)$/.test(key)) {
+            value = (Array.isArray(value) ? value : String(value).split(','))
+              .filter(value => (
+                key === 'hashtags' && twitterHashtagRegExp.test(value) ||
+                key === 'related' && twitterUserNameRegExp.test(value) ||
+                false
+              ))
+              .join(',');
+            if (!value) {
+              return null;
+            }
+          } else if (key === 'via') {
+            if (!twitterUserNameRegExp.test(value)) {
+              return null;
+            }
+          } else {
+            return null;
+          }
+          return encodeRFC3986URIComponent(key) + '=' + encodeRFC3986URIComponent(value);
+        })
+        .filter(Boolean)
+        .join('&');
+      return 'https://twitter.com/share' + (params ? ('?' + params) : '');
+    })({
+      text: '',
+      url: '',
+      hashtags: [],
+      via: '',
+      related: [],
+    })
+    class="twitter-share-button"
+    data-size="large"
+  ) Tweet
