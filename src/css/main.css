@@ -96,6 +96,11 @@ footer small {
   background-color: #c9404e; /* hsv 354 68 79 */
 }
 
+.social-buttons > .default-button-style.hatena-bookmark-button {
+  color: #fff;
+  background-color: #42a4df;
+}
+
 address dt,
 address dd {
   display:  inline;
