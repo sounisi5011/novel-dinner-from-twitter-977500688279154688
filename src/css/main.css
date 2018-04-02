@@ -55,6 +55,11 @@ footer small {
 }
 
 .twitter-share-button.no-widgets-js {
+  border-radius: .25em;
+  padding: .25em 1em;
+  text-decoration: none;
+  color: #fff;
+  background-color: #1b95e0;
 }
 
 address dt,
