@@ -63,5 +63,48 @@ p.social-buttons
   ) ツイート
 
   //- Pocket
-  a(data-pocket-label="pocket" data-pocket-count="none" class="pocket-btn" data-lang="en")
+  a(
+    href=(pocketParameters => {
+      /**
+       * @see https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
+       */
+      const encodeRFC3986URIComponent = str => (
+        encodeURIComponent(str)
+          .replace(
+            /[!'()*]/g,
+            c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
+          )
+      );
+      /*
+       * TODO: Fix URL regex
+       */
+      const urlRegExp = /^.+$/;
+
+      const params = [...Object.entries(pocketParameters)]
+        .map(([key, value]) => {
+          if (key === 'url') {
+            if (!urlRegExp.test(value)) {
+              return null;
+            }
+          } else if (key === 'title') {
+            if (!value) {
+              return null;
+            }
+          } else {
+            return null;
+          }
+          return encodeRFC3986URIComponent(key) + '=' + encodeRFC3986URIComponent(value);
+        })
+        .filter(Boolean)
+        .join('&');
+      return 'https://getpocket.com/save' + (params ? ('?' + params) : '');
+    })({
+      url: '',
+      title: '',
+    })
+    data-pocket-label="pocket"
+    data-pocket-count="none"
+    class="pocket-btn"
+    data-lang="ja"
+  )
   - includeResources.push('https://widgets.getpocket.com/v1/j/btn.js?v=1');
