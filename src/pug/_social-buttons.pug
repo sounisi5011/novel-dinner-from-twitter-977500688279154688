@@ -110,3 +110,15 @@ p.social-buttons
     data-lang="ja"
   ) Pocket
   - includeResources.push({src: 'https://widgets.getpocket.com/v1/j/btn.js?v=1', id: 'pocket-btn-js', async: true});
+
+  //- はてなブックマーク
+  //- http://b.hatena.ne.jp/guide/bbutton
+  a(
+    href="http://b.hatena.ne.jp/entry/"
+    class="default-button-style hatena-bookmark-button"
+    data-hatena-bookmark-layout="basic-label"
+    data-hatena-bookmark-lang="ja"
+    title="このページをはてなブックマークに追加"
+  )
+    img(src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このページをはてなブックマークに追加" width="20" height="20" style="border: none;")
+  - includeResources.push({src: 'https://b.st-hatena.com/js/bookmark_button.js', async: true});
