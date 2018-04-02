@@ -67,7 +67,10 @@ footer small {
   margin-left: 0;
 }
 
-.twitter-share-button.no-widgets-js {
+.social-buttons > .default-button-style {
+}
+
+.social-buttons > .default-button-style.twitter-share-button {
   border-radius: .25em;
   padding: .25em 1em;
   text-decoration: none;
@@ -75,10 +78,13 @@ footer small {
   background-color: #1b95e0;
 }
 
-.twitter-share-button.no-widgets-js:active,
-.twitter-share-button.no-widgets-js:focus,
-.twitter-share-button.no-widgets-js:hover {
+.social-buttons > .default-button-style.twitter-share-button:active,
+.social-buttons > .default-button-style.twitter-share-button:focus,
+.social-buttons > .default-button-style.twitter-share-button:hover {
   background-color: #0c7abf;
+}
+
+.social-buttons > .default-button-style.pocket-btn {
 }
 
 address dt,
