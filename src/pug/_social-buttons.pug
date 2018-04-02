@@ -12,6 +12,7 @@ p.social-buttons
             c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
           )
       );
+      // TODO: Fix URL regex
       const urlRegExp = /^.+$/;
       const twitterUserNameRegExp = /^@[a-zA-Z0-9_]{1,15}$/;
       const twitterHashtagRegExp = /^.+$/;
