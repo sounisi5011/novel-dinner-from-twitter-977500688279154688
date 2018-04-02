@@ -254,6 +254,7 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
             crossorigin=(resourceData.crossorigin || false)
             integrity=integrityValue
             referrerpolicy=(resourceData.referrerpolicy || false)
+            id=(resourceData.id || false)
           )
 
         else if resourceData.include === 'head' && srcExtension === 'js'
@@ -264,4 +265,5 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
             defer=Boolean(resourceData.defer)
             crossorigin=(resourceData.crossorigin || false)
             integrity=integrityValue
+            id=(resourceData.id || false)
           )
