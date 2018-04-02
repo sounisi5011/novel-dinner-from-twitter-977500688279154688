@@ -54,6 +54,9 @@ footer small {
   font-size: 100%;
 }
 
+.twitter-share-button.no-widgets-js {
+}
+
 address dt,
 address dd {
   display:  inline;
