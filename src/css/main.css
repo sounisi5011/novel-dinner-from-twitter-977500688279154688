@@ -59,6 +59,7 @@ footer small {
 }
 
 .social-buttons > * {
+  display: inline-block;
   margin-left: .6em;
 }
 
