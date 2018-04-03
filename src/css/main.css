@@ -57,69 +57,74 @@ footer small {
 .social-buttons {
   text-align: left;
   display: flex;
+  padding: 0;
 }
 
-.social-buttons > * {
+.social-buttons > li {
+  align-self: center;
   display: inline-block;
   margin-left: .6em;
 }
 
-.social-buttons > *:first-child {
+.social-buttons > li:first-child {
   margin-left: 0;
 }
 
-.social-buttons > .default-button-style {
-  align-self: center;
+.social-buttons > li > * {
+  display: inline-block;
+}
+
+.social-buttons > li > .default-button-style {
   border-radius: .25em;
   padding: .25em 1em;
   text-decoration: none;
   line-height: 1.5;
 }
 
-.social-buttons > .default-button-style.twitter-share-button {
+.social-buttons > li > .default-button-style.twitter-share-button {
   color: #fff;
   background-color: #1b95e0; /* hsv 203 88 88 */
 }
 
-.social-buttons > .default-button-style.twitter-share-button:active,
-.social-buttons > .default-button-style.twitter-share-button:focus,
-.social-buttons > .default-button-style.twitter-share-button:hover {
+.social-buttons > li > .default-button-style.twitter-share-button:active,
+.social-buttons > li > .default-button-style.twitter-share-button:focus,
+.social-buttons > li > .default-button-style.twitter-share-button:hover {
   background-color: #0c7abf; /* hsv 203 94 75 */
 }
 
-.social-buttons > .default-button-style.g-plus {
+.social-buttons > li > .default-button-style.g-plus {
   background-color: #fff;
   color: #262626;
 }
 
-.social-buttons > .default-button-style.g-plus > img {
+.social-buttons > li > .default-button-style.g-plus > img {
   vertical-align: text-top;
 }
 
-.social-buttons > .default-button-style.pocket-btn {
+.social-buttons > li > .default-button-style.pocket-btn {
   color: #fff;
   background-color: #ea5867; /* hsv 354 62 92 */
 }
 
-.social-buttons > .default-button-style.pocket-btn:active,
-.social-buttons > .default-button-style.pocket-btn:focus,
-.social-buttons > .default-button-style.pocket-btn:hover {
+.social-buttons > li > .default-button-style.pocket-btn:active,
+.social-buttons > li > .default-button-style.pocket-btn:focus,
+.social-buttons > li > .default-button-style.pocket-btn:hover {
   background-color: #c9404e; /* hsv 354 68 79 */
 }
 
-.social-buttons > .default-button-style.hatena-bookmark-button {
+.social-buttons > li > .default-button-style.hatena-bookmark-button {
   color: #fff;
   background-color: #42a4df;
 }
 
-.social-buttons > .default-button-style.tumblr-share-button {
+.social-buttons > li > .default-button-style.tumblr-share-button {
   color: #fff;
   background-color: #36465d; /* hsv 215 42 36 */
 }
 
-.social-buttons > .default-button-style.tumblr-share-button:active,
-.social-buttons > .default-button-style.tumblr-share-button:focus,
-.social-buttons > .default-button-style.tumblr-share-button:hover {
+.social-buttons > li > .default-button-style.tumblr-share-button:active,
+.social-buttons > li > .default-button-style.tumblr-share-button:focus,
+.social-buttons > li > .default-button-style.tumblr-share-button:hover {
   background-color: #1e2a3b; /* hsv 215 48 23 */
 }
 
