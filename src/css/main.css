@@ -58,6 +58,7 @@ footer small {
   text-align: left;
   display: flex;
   flex-wrap: wrap;
+  margin-right: -.6em;
   margin-bottom: -.6em;
   padding: 0;
 }
