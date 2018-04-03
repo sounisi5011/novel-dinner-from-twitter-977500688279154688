@@ -117,7 +117,8 @@ ul.social-buttons
       })()
       class="default-button-style twitter-share-button"
     ) Twitterでツイート
-  - includeResources.push({src: 'https://platform.twitter.com/widgets.js', async: true});
+  //- https://dev.twitter.com/web/javascript/loading
+  - includeResources.push({src: 'https://platform.twitter.com/widgets.js', id: 'twitter-wjs', async: true});
 
   //- Google+
   //- https://developers.google.com/+/web/share/?hl=ja
