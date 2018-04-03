@@ -136,6 +136,66 @@ p.social-buttons
   //- https://www.tumblr.com/docs/ja/share_button
   a(
     class="default-button-style tumblr-share-button"
-    href="https://embed.tumblr.com/share"
+    href=(parameters => {
+      /**
+       * @see https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
+       */
+      const encodeRFC3986URIComponent = str => (
+        encodeURIComponent(str)
+          .replace(
+            /[!'()*]/g,
+            c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
+          )
+      );
+      /*
+       * TODO: Fix URL and Tag regex
+       */
+      const posttypeRegExp = /^.+$/;
+      const urlRegExp = /^.+$/;
+      const tagRegExp = /^.+$/;
+
+      const queryString = [...Object.entries(parameters)]
+        .map(([key, value]) => {
+          if (key === 'canonicalUrl') {
+            if (!(value && urlRegExp.test(value))) {
+              return null;
+            }
+          } else if (key === 'posttype') {
+            if (!(value && posttypeRegExp.test(value))) {
+              return null;
+            }
+          } else if (key === 'tags') {
+            value = (Array.isArray(value) ? value : String(value).split(','))
+              .filter(value => tagRegExp.test(value))
+              .join(',');
+            if (!value) {
+              return null;
+            }
+          } else if (/^(?:title|content|caption)$/.test(key)) {
+            if (!value) {
+              return null;
+            }
+          } else if (key === 'showVia') {
+            if (!value) {
+              return null;
+            }
+            key = 'show-via';
+          } else {
+            return null;
+          }
+          return encodeRFC3986URIComponent(key) + '=' + encodeRFC3986URIComponent(value);
+        })
+        .filter(Boolean)
+        .join('&');
+      return 'http://tumblr.com/widgets/share/tool' + (queryString ? ('?' + queryString) : '');
+    })({
+      canonicalUrl: baseUrl,
+      posttype: null,
+      tags: [],
+      title: title,
+      content: '',
+      caption: '',
+      showVia: null,
+    })
   ) Tumblr
   - includeResources.push({src: 'https://assets.tumblr.com/share-button.js', id: 'tumblr-js', async: true});
