@@ -11,6 +11,69 @@ ul.social-buttons
         )
     );
 
+    /**
+     * @param {Object<string, *>} parameters
+     * @param {Object<string, (function(*, string): (string | Array<string>) | boolean | string)>} option
+     * @return {string}
+     */
+    const queryStringGenerator = (parameters, option) => {
+      const queryString = [...Object.entries(parameters)]
+        .map(([name, value]) => {
+          name = String(name);
+
+          /**
+           * @type {Set<string>}
+           */
+          const keySet = new Set([name]);
+
+          /**
+           * @type {(function(*, string): (string | Array<string>) | boolean | string | undefined)}
+           */
+          let optionValue = option[name];
+
+          /*
+           * 値が文字列の場合、他のオプションへの参照と判断し、ループで取得する
+           */
+          while (typeof optionValue === 'string') {
+            /**
+             * @type {string}
+             */
+            const refKey = optionValue;
+
+            if (keySet.has(refKey)) {
+              return null;
+            }
+            keySet.add(refKey);
+
+            optionValue = option[refKey];
+          }
+
+          if (typeof optionValue === 'function') {
+            /**
+             * @type {function(*, string): (string | Array<string>)}
+             */
+            const convertFunc = optionValue;
+            const retval = convertFunc(value, name);
+            const [newValue, newName] = Array.isArray(retval) ? retval : [retval, ''];
+            if (!newValue) {
+              return null;
+            }
+            if (newName) {
+              name = newName;
+            }
+            value = newValue;
+          } else if (!optionValue || !value) {
+            return null;
+          }
+
+          return encodeRFC3986URIComponent(name) + '=' + encodeRFC3986URIComponent(value);
+        })
+        .filter(Boolean)
+        .join('&');
+
+      return queryString ? ('?' + queryString) : '';
+    };
+
     /*
      * TODO: Fix URL regex
      */
@@ -24,39 +87,21 @@ ul.social-buttons
         const twitterUserNameRegExp = /^[a-zA-Z0-9_]{1,15}$/;
         const twitterHashtagRegExp = /^.+$/;
 
-        const queryString = [...Object.entries(parameters)]
-          .map(([key, value]) => {
-            if (key === 'text') {
-              if (!value) {
-                return null;
-              }
-            } else if (key === 'url') {
-              if (!urlRegExp.test(value)) {
-                return null;
-              }
-            } else if (/^(?:hashtags|related)$/.test(key)) {
-              value = (Array.isArray(value) ? value : String(value).split(','))
-                .filter(value => (
-                  key === 'hashtags' && twitterHashtagRegExp.test(value) ||
-                  key === 'related' && twitterUserNameRegExp.test(value) ||
-                  false
-                ))
-                .join(',');
-              if (!value) {
-                return null;
-              }
-            } else if (key === 'via') {
-              if (!twitterUserNameRegExp.test(value)) {
-                return null;
-              }
-            } else {
-              return null;
-            }
-            return encodeRFC3986URIComponent(key) + '=' + encodeRFC3986URIComponent(value);
-          })
-          .filter(Boolean)
-          .join('&');
-        return 'https://twitter.com/share' + (queryString ? ('?' + queryString) : '');
+        return 'https://twitter.com/share' + queryStringGenerator(parameters, {
+          text: true,
+          url: value => value && urlRegExp.test(value) ? value : '',
+          hashtags: (value, key) => (
+            (Array.isArray(value) ? value : String(value).split(','))
+              .filter(value => (
+                key === 'hashtags' && value && twitterHashtagRegExp.test(value) ||
+                key === 'related' && value && twitterUserNameRegExp.test(value) ||
+                false
+              ))
+              .join(',')
+          ),
+          via: value => value && twitterUserNameRegExp.test(value) ? value : '',
+          related: 'hashtags',
+        });
       })({
         text: title,
         url: baseUrl,
@@ -106,24 +151,10 @@ ul.social-buttons
   li
     a(
       href=(parameters => {
-        const queryString = [...Object.entries(parameters)]
-          .map(([key, value]) => {
-            if (key === 'url') {
-              if (!urlRegExp.test(value)) {
-                return null;
-              }
-            } else if (key === 'title') {
-              if (!value) {
-                return null;
-              }
-            } else {
-              return null;
-            }
-            return encodeRFC3986URIComponent(key) + '=' + encodeRFC3986URIComponent(value);
-          })
-          .filter(Boolean)
-          .join('&');
-        return 'https://getpocket.com/save' + (queryString ? ('?' + queryString) : '');
+        return 'https://getpocket.com/save' + queryStringGenerator(parameters, {
+          url: value => value && urlRegExp.test(value) ? value : '',
+          title: true,
+        });
       })({
         url: baseUrl,
         title: title,
@@ -167,40 +198,19 @@ ul.social-buttons
         const posttypeRegExp = /^.+$/;
         const tagRegExp = /^.+$/;
 
-        const queryString = [...Object.entries(parameters)]
-          .map(([key, value]) => {
-            if (key === 'canonicalUrl') {
-              if (!(value && urlRegExp.test(value))) {
-                return null;
-              }
-            } else if (key === 'posttype') {
-              if (!(value && posttypeRegExp.test(value))) {
-                return null;
-              }
-            } else if (key === 'tags') {
-              value = (Array.isArray(value) ? value : String(value).split(','))
-                .filter(value => tagRegExp.test(value))
-                .join(',');
-              if (!value) {
-                return null;
-              }
-            } else if (/^(?:title|content|caption)$/.test(key)) {
-              if (!value) {
-                return null;
-              }
-            } else if (key === 'showVia') {
-              if (!value) {
-                return null;
-              }
-              key = 'show-via';
-            } else {
-              return null;
-            }
-            return encodeRFC3986URIComponent(key) + '=' + encodeRFC3986URIComponent(value);
-          })
-          .filter(Boolean)
-          .join('&');
-        return 'http://tumblr.com/widgets/share/tool' + (queryString ? ('?' + queryString) : '');
+        return 'http://tumblr.com/widgets/share/tool' + queryStringGenerator(parameters, {
+          canonicalUrl: value => value && urlRegExp.test(value) ? value : '',
+          posttype: value => value && posttypeRegExp.test(value) ? value : '',
+          tags: (value) => (
+            (Array.isArray(value) ? value : String(value).split(','))
+              .filter(value => value && tagRegExp.test(value))
+              .join(',')
+          ),
+          title: true,
+          content: true,
+          caption: true,
+          showVia: value => [value, 'show-via'],
+        });
       })({
         canonicalUrl: baseUrl,
         posttype: 'link',
@@ -221,29 +231,11 @@ ul.social-buttons
       class="default-button-style"
       data-pin-do="buttonPin"
       href=(parameters => {
-        const queryString = [...Object.entries(parameters)]
-          .map(([key, value]) => {
-            if (key === 'url') {
-              if (!(value && urlRegExp.test(value))) {
-                return null;
-              }
-            } else if (key === 'imageUrl') {
-              if (!(value && urlRegExp.test(value))) {
-                return null;
-              }
-              key = 'media';
-            } else if (key === 'description') {
-              if (!value) {
-                return null;
-              }
-            } else {
-              return null;
-            }
-            return encodeRFC3986URIComponent(key) + '=' + encodeRFC3986URIComponent(value);
-          })
-          .filter(Boolean)
-          .join('&');
-        return 'https://www.pinterest.com/pin/create/button/' + (queryString ? ('?' + queryString) : '');
+        return 'https://www.pinterest.com/pin/create/button/' + queryStringGenerator(parameters, {
+          url: value => value && urlRegExp.test(value) ? value : '',
+          imageUrl: value => [(value && urlRegExp.test(value) ? value : ''), 'media'],
+          description: true,
+        });
       })({
         url: baseUrl,
         imageUrl: '',
