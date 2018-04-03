@@ -69,48 +69,49 @@ footer small {
   margin-bottom: .6em;
 }
 
-.social-buttons > li > * {
+.social-buttons > li > *,
+.social-buttons .default-button-style {
   display: inline-block;
 }
 
-.social-buttons > li > .default-button-style {
+.social-buttons .default-button-style {
   border-radius: .25em;
   padding: .25em 1em;
   text-decoration: none;
   line-height: 1.5;
 }
 
-.social-buttons > li > .default-button-style.twitter-share-button {
+.social-buttons .default-button-style.twitter-share-button {
   color: #fff;
   background-color: #1b95e0; /* hsv 203 88 88 */
 }
 
-.social-buttons > li > .default-button-style.twitter-share-button:active,
-.social-buttons > li > .default-button-style.twitter-share-button:focus,
-.social-buttons > li > .default-button-style.twitter-share-button:hover {
+.social-buttons .default-button-style.twitter-share-button:active,
+.social-buttons .default-button-style.twitter-share-button:focus,
+.social-buttons .default-button-style.twitter-share-button:hover {
   background-color: #0c7abf; /* hsv 203 94 75 */
 }
 
-.social-buttons > li > .default-button-style.g-plus {
+.social-buttons .default-button-style.g-plus {
   background-color: #fff;
   color: #262626;
 }
 
-.social-buttons > li > .default-button-style.g-plus > img {
+.social-buttons .default-button-style.g-plus img {
   vertical-align: text-top;
 }
 
 /*
  * Pocketのボタンに余計な余白ができるため、余白を消す
  */
-.social-buttons > li > .pocket-btn {
+.social-buttons .pocket-btn {
   position: relative;
   top: 1px;
   margin-left: -3px;
   margin-right: -3px;
 }
 
-.social-buttons > li > .default-button-style.pocket-btn {
+.social-buttons .default-button-style.pocket-btn {
   position: static;
   top: 0;
   margin-left: 0;
@@ -119,40 +120,40 @@ footer small {
   background-color: #ea5867; /* hsv 354 62 92 */
 }
 
-.social-buttons > li > .default-button-style.pocket-btn:active,
-.social-buttons > li > .default-button-style.pocket-btn:focus,
-.social-buttons > li > .default-button-style.pocket-btn:hover {
+.social-buttons .default-button-style.pocket-btn:active,
+.social-buttons .default-button-style.pocket-btn:focus,
+.social-buttons .default-button-style.pocket-btn:hover {
   background-color: #c9404e; /* hsv 354 68 79 */
 }
 
-.social-buttons > li > .default-button-style.hatena-bookmark-button {
+.social-buttons .default-button-style.hatena-bookmark-button {
   color: #fff;
   background-color: #42a4df;
 }
 
-.social-buttons > li > .default-button-style.hatena-bookmark-button > img {
+.social-buttons .default-button-style.hatena-bookmark-button img {
   vertical-align: bottom;
 }
 
-.social-buttons > li > .default-button-style.tumblr-share-button {
+.social-buttons .default-button-style.tumblr-share-button {
   color: #fff;
   background-color: #36465d; /* hsv 215 42 36 */
 }
 
-.social-buttons > li > .default-button-style.tumblr-share-button:active,
-.social-buttons > li > .default-button-style.tumblr-share-button:focus,
-.social-buttons > li > .default-button-style.tumblr-share-button:hover {
+.social-buttons .default-button-style.tumblr-share-button:active,
+.social-buttons .default-button-style.tumblr-share-button:focus,
+.social-buttons .default-button-style.tumblr-share-button:hover {
   background-color: #1e2a3b; /* hsv 215 48 23 */
 }
 
-.social-buttons > li.pinterest-share-button > .default-button-style {
+.social-buttons .pinterest-share-button .default-button-style {
   color: #fff;
   background-color: #be3228; /* hsv 4 79 75 */
 }
 
-.social-buttons > li.pinterest-share-button > .default-button-style:active,
-.social-buttons > li.pinterest-share-button > .default-button-style:focus,
-.social-buttons > li.pinterest-share-button > .default-button-style:hover {
+.social-buttons .pinterest-share-button .default-button-style:active,
+.social-buttons .pinterest-share-button .default-button-style:focus,
+.social-buttons .pinterest-share-button .default-button-style:hover {
   background-color: #9e2118; /* hsv 4 85 62 */
 }
 
@@ -160,20 +161,15 @@ footer small {
  * LINE Share Button
  */
 
-.social-buttons > li > .default-button-style.line-it-button {
+.social-buttons .default-button-style.line-it-button {
   background-color: #00b833;
   color: #fff;
 }
 
-.social-buttons > li > .default-button-style.line-it-button:active,
-.social-buttons > li > .default-button-style.line-it-button:focus,
-.social-buttons > li > .default-button-style.line-it-button:hover {
+.social-buttons .default-button-style.line-it-button:active,
+.social-buttons .default-button-style.line-it-button:focus,
+.social-buttons .default-button-style.line-it-button:hover {
   background-color: #07a805;
-}
-
-.social-buttons > li > .default-button-style.line-it-button a {
-  text-decoration: inherit;
-  color: inherit;
 }
 
 address dt,
