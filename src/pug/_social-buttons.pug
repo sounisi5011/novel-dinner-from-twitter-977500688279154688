@@ -12,11 +12,11 @@ ul.social-buttons
     );
 
     /**
-     * @param {Object<string, *>} parameters
      * @param {Object<string, (function(*, string): (string | Array<string>) | boolean | string)>} option
+     * @param {Object<string, *>} parameters
      * @return {string}
      */
-    const queryStringGenerator = (parameters, option) => {
+    const queryStringGenerator = (option, parameters) => {
       const queryString = [...Object.entries(parameters)]
         .map(([name, value]) => {
           name = String(name);
@@ -83,11 +83,11 @@ ul.social-buttons
   //- https://dev.twitter.com/web/tweet-button
   li
     a(
-      href=(parameters => {
+      href=(() => {
         const twitterUserNameRegExp = /^[a-zA-Z0-9_]{1,15}$/;
         const twitterHashtagRegExp = /^.+$/;
 
-        return 'https://twitter.com/share' + queryStringGenerator(parameters, {
+        return 'https://twitter.com/share' + queryStringGenerator({
           text: true,
           url: value => value && urlRegExp.test(value) ? value : '',
           hashtags: (value, key) => (
@@ -101,18 +101,18 @@ ul.social-buttons
           ),
           via: value => value && twitterUserNameRegExp.test(value) ? value : '',
           related: 'hashtags',
+        }, {
+          text: title,
+          url: baseUrl,
+          hashtags: [],
+          via: (
+            Array.isArray(twitterAccountList) ?
+            (twitterAccountList.map(account => account.name)[0] || '') :
+            (twitterAccountList ? twitterAccountList.name : '')
+          ),
+          related: [],
         });
-      })({
-        text: title,
-        url: baseUrl,
-        hashtags: [],
-        via: (
-          Array.isArray(twitterAccountList) ?
-          (twitterAccountList.map(account => account.name)[0] || '') :
-          (twitterAccountList ? twitterAccountList.name : '')
-        ),
-        related: [],
-      })
+      })()
       class="default-button-style twitter-share-button"
     ) Twitterでツイート
 
@@ -152,14 +152,14 @@ ul.social-buttons
   li
     a(
       class="default-button-style tumblr-share-button"
-      href=(parameters => {
+      href=(() => {
         /*
          * TODO: Fix URL and Tag regex
          */
         const posttypeRegExp = /^.+$/;
         const tagRegExp = /^.+$/;
 
-        return 'http://tumblr.com/widgets/share/tool' + queryStringGenerator(parameters, {
+        return 'http://tumblr.com/widgets/share/tool' + queryStringGenerator({
           canonicalUrl: value => value && urlRegExp.test(value) ? value : '',
           posttype: value => value && posttypeRegExp.test(value) ? value : '',
           tags: (value) => (
@@ -171,16 +171,16 @@ ul.social-buttons
           content: true,
           caption: true,
           showVia: value => [value, 'show-via'],
+        }, {
+          canonicalUrl: baseUrl,
+          posttype: 'link',
+          tags: [],
+          title: title,
+          content: '',
+          caption: '',
+          showVia: null,
         });
-      })({
-        canonicalUrl: baseUrl,
-        posttype: 'link',
-        tags: [],
-        title: title,
-        content: '',
-        caption: '',
-        showVia: null,
-      })
+      })()
       data-locale="ja_JP"
     ) Tumblrに投稿
   - includeResources.push({src: 'https://assets.tumblr.com/share-button.js', id: 'tumblr-js', async: true});
@@ -220,15 +220,16 @@ ul.social-buttons
   //- https://getpocket.com/publisher/button
   li
     a(
-      href=(parameters => {
-        return 'https://getpocket.com/save' + queryStringGenerator(parameters, {
+      href=(
+        'https://getpocket.com/save' +
+        queryStringGenerator({
           url: value => value && urlRegExp.test(value) ? value : '',
           title: true,
-        });
-      })({
-        url: baseUrl,
-        title: title,
-      })
+        }, {
+          url: baseUrl,
+          title: title,
+        })
+      )
       data-pocket-label="pocket"
       data-pocket-count="none"
       class="default-button-style pocket-btn"
@@ -242,16 +243,17 @@ ul.social-buttons
     a(
       class="default-button-style"
       data-pin-do="buttonPin"
-      href=(parameters => {
-        return 'https://www.pinterest.com/pin/create/button/' + queryStringGenerator(parameters, {
+      href=(
+        'https://www.pinterest.com/pin/create/button/' +
+        queryStringGenerator({
           url: value => value && urlRegExp.test(value) ? value : '',
           imageUrl: value => [(value && urlRegExp.test(value) ? value : ''), 'media'],
           description: true,
-        });
-      })({
-        url: baseUrl,
-        imageUrl: '',
-        description: '',
-      })
+        }, {
+          url: baseUrl,
+          imageUrl: '',
+          description: '',
+        })
+      )
     ) Pinterestに保存
   - includeResources.push({src: '//assets.pinterest.com/js/pinit.js', async: true});
