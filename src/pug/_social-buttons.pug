@@ -299,3 +299,9 @@ ul.social-buttons
       })
     ) Pinterestに保存
   - includeResources.push({src: '//assets.pinterest.com/js/pinit.js', async: true});
+
+  //- LINE
+  //- https://social-plugins.line.me/ja/how_to_install#lineitbutton
+  li
+    div(class="line-it-button" data-lang="ja" data-type="share-a" data-url=baseUrl style="display: none;")
+  - includeResources.push({src: 'https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js', async: true});
