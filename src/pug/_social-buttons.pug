@@ -1,27 +1,30 @@
 ul.social-buttons
+  -
+    /**
+     * @see https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
+     */
+    const encodeRFC3986URIComponent = str => (
+      encodeURIComponent(str)
+        .replace(
+          /[!'()*]/g,
+          c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
+        )
+    );
+
+    /*
+     * TODO: Fix URL regex
+     */
+    const urlRegExp = /^.+$/;
+
   //- Twitter
   //- https://dev.twitter.com/web/tweet-button
   li
     a(
-      href=(tweetContentParameters => {
-        /**
-         * @see https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
-         */
-        const encodeRFC3986URIComponent = str => (
-          encodeURIComponent(str)
-            .replace(
-              /[!'()*]/g,
-              c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
-            )
-        );
-        /*
-         * TODO: Fix URL regex
-         */
-        const urlRegExp = /^.+$/;
+      href=(parameters => {
         const twitterUserNameRegExp = /^[a-zA-Z0-9_]{1,15}$/;
         const twitterHashtagRegExp = /^.+$/;
 
-        const params = [...Object.entries(tweetContentParameters)]
+        const queryString = [...Object.entries(parameters)]
           .map(([key, value]) => {
             if (key === 'text') {
               if (!value) {
@@ -53,7 +56,7 @@ ul.social-buttons
           })
           .filter(Boolean)
           .join('&');
-        return 'https://twitter.com/share' + (params ? ('?' + params) : '');
+        return 'https://twitter.com/share' + (queryString ? ('?' + queryString) : '');
       })({
         text: title,
         url: baseUrl,
@@ -73,16 +76,6 @@ ul.social-buttons
   li
     a(
       href=(url => {
-        /**
-         * @see https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
-         */
-        const encodeRFC3986URIComponent = str => (
-          encodeURIComponent(str)
-            .replace(
-              /[!'()*]/g,
-              c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
-            )
-        );
         return 'https://plus.google.com/share?url=' + encodeRFC3986URIComponent(url);
       })(baseUrl)
       class="default-button-style g-plus"
@@ -112,23 +105,8 @@ ul.social-buttons
   //- https://getpocket.com/publisher/button
   li
     a(
-      href=(pocketParameters => {
-        /**
-         * @see https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
-         */
-        const encodeRFC3986URIComponent = str => (
-          encodeURIComponent(str)
-            .replace(
-              /[!'()*]/g,
-              c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
-            )
-        );
-        /*
-         * TODO: Fix URL regex
-         */
-        const urlRegExp = /^.+$/;
-
-        const params = [...Object.entries(pocketParameters)]
+      href=(parameters => {
+        const queryString = [...Object.entries(parameters)]
           .map(([key, value]) => {
             if (key === 'url') {
               if (!urlRegExp.test(value)) {
@@ -145,7 +123,7 @@ ul.social-buttons
           })
           .filter(Boolean)
           .join('&');
-        return 'https://getpocket.com/save' + (params ? ('?' + params) : '');
+        return 'https://getpocket.com/save' + (queryString ? ('?' + queryString) : '');
       })({
         url: baseUrl,
         title: title,
@@ -183,21 +161,10 @@ ul.social-buttons
     a(
       class="default-button-style tumblr-share-button"
       href=(parameters => {
-        /**
-         * @see https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
-         */
-        const encodeRFC3986URIComponent = str => (
-          encodeURIComponent(str)
-            .replace(
-              /[!'()*]/g,
-              c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
-            )
-        );
         /*
          * TODO: Fix URL and Tag regex
          */
         const posttypeRegExp = /^.+$/;
-        const urlRegExp = /^.+$/;
         const tagRegExp = /^.+$/;
 
         const queryString = [...Object.entries(parameters)]
@@ -254,21 +221,6 @@ ul.social-buttons
       class="default-button-style"
       data-pin-do="buttonPin"
       href=(parameters => {
-        /**
-         * @see https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
-         */
-        const encodeRFC3986URIComponent = str => (
-          encodeURIComponent(str)
-            .replace(
-              /[!'()*]/g,
-              c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
-            )
-        );
-        /*
-         * TODO: Fix URL regex
-         */
-        const urlRegExp = /^.+$/;
-
         const queryString = [...Object.entries(parameters)]
           .map(([key, value]) => {
             if (key === 'url') {
@@ -306,16 +258,6 @@ ul.social-buttons
     div(class="line-it-button" data-lang="ja" data-type="share-a" data-url=baseUrl)
       a.default-button-style.line-it-button(
         href=(url => {
-          /**
-           * @see https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
-           */
-          const encodeRFC3986URIComponent = str => (
-            encodeURIComponent(str)
-              .replace(
-                /[!'()*]/g,
-                c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
-              )
-          );
           return 'https://social-plugins.line.me/lineit/share?url=' + encodeRFC3986URIComponent(url);
         })(baseUrl)
       )
