@@ -5,7 +5,7 @@ const rp = require('request-promise-native');
 const mkdirp = require('mkdirp');
 
 const cachedRp = (() => {
-  const cacheSec = 10 * 60;
+  const cacheSec = 30 * 60;
   const cacheMSec = cacheSec * 1000;
 
   const cacheDir = `${__dirname}/../cache`;
@@ -114,10 +114,13 @@ $('object[type="application/x.oembed"]').each((_, objectElemNode) => {
 
   const queryParameters = {url: embeddedTargetUrl};
   let endpointUrl = '';
-  let appendScriptHtml = '';
+  const appendScriptList = [];
   if (/^https:\/\/twitter\.com\/[^/]*\/status\/[^/]*$/.test(embeddedTargetUrl)) {
     endpointUrl = 'https://publish.twitter.com/oembed';
-    appendScriptHtml = '<script async src="https://platform.twitter.com/widgets.js"></script>';
+    appendScriptList.push({
+      src: 'https://platform.twitter.com/widgets.js',
+      async: null,
+    });
     queryParameters.omit_script = 'true';
   }
 
@@ -207,7 +210,7 @@ $('object[type="application/x.oembed"]').each((_, objectElemNode) => {
              */
           }
 
-          resolve({objectElem, replaceElem, appendScriptHtml});
+          resolve({objectElem, replaceElem, appendScriptList});
         })
         .catch(error => {
           /*
@@ -224,20 +227,58 @@ $('object[type="application/x.oembed"]').each((_, objectElemNode) => {
 });
 
 Promise.all(requestList).then(values => {
-  const appendScriptSet = new Set;
+  const appendScriptMap = new Map;
 
-  for (const {objectElem, replaceElem, appendScriptHtml} of values) {
+  for (const {objectElem, replaceElem, appendScriptList} of values) {
     objectElem.replaceWith(replaceElem);
-    if (appendScriptHtml) {
-      appendScriptSet.add(appendScriptHtml);
-    }
+    appendScriptList.forEach(appendScript => {
+      const key = (
+        appendScript.src ? `S${appendScript.src}` :
+        appendScript.text ? `T${appendScript.text}` :
+        ''
+      );
+      if (key) appendScriptMap.set(key, appendScript);
+    });
   }
 
+  const scriptElems = $('script');
   const bodyElem = $('body');
-  for (const scriptHtml of appendScriptSet) {
-    if (scriptHtml) {
-      bodyElem.append(scriptHtml);
+  for (const [, appendScript] of appendScriptMap) {
+    const src = appendScript.src;
+
+    if (src && scriptElems.is(`[src="${src.replace(/[\\"]/g, '\\$&')}"]`)) {
+      continue;
     }
+
+    let scriptHtml = '<script';
+
+    for (const [prop, value] of Object.entries(appendScript)) {
+      /*
+       * @see https://html.spec.whatwg.org/multipage/syntax.html#attributes-2
+       *
+       * Note: 正規表現を書くのがめんどくさいので、noncharacterのパターンは含めていない
+       */
+      if (
+        !/[\u0000-\u001F\u007F-\u009F\u0020"'>/=]/.test(prop) &&
+        prop !== 'text'
+      ) {
+        scriptHtml += ` ${prop.replace(/&/g, '&amp;')}`;
+        if (value !== null) {
+          scriptHtml += `="${value.replace(/&/g, '&amp;').replace(/"/g, '&quot;')}"`;
+        }
+      }
+    }
+
+    scriptHtml += '>';
+
+    if (!src) {
+      const scriptText = appendScript.text;
+      if (scriptText) scriptHtml += String(scriptText);
+    }
+
+    scriptHtml += '</script>';
+
+    bodyElem.append(scriptHtml);
   }
 
   process.stdout.write($.html());
