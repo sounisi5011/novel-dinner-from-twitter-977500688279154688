@@ -44,6 +44,10 @@ main h1 {
   text-align: center;
 }
 
+/*
+ * Footer
+ */
+
 footer {
   text-align: right;
   border-top: solid;
@@ -53,6 +57,10 @@ footer {
 footer small {
   font-size: 100%;
 }
+
+/*
+ * Social Buttons
+ */
 
 .social-buttons {
   text-align: left;
@@ -83,6 +91,10 @@ footer small {
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
+/*
+ * Twitter Social Button
+ */
+
 .social-buttons .default-button-style.twitter-share-button {
   color: #fff;
   background-color: #1b95e0; /* hsv 203 88 88 */
@@ -93,6 +105,10 @@ footer small {
 .social-buttons .default-button-style.twitter-share-button:hover {
   background-color: #0c7abf; /* hsv 203 94 75 */
 }
+
+/*
+ * Google+ Social Button
+ */
 
 .social-buttons .default-button-style.g-plus {
   background-color: #fff; /* hsv 0 0 100 */
@@ -110,7 +126,9 @@ footer small {
 }
 
 /*
- * Pocketのボタンに余計な余白ができるため、余白を消す
+ * Pocket Social Button
+ *
+ * Note: Pocketのボタンに余計な余白ができるため、余白を消す
  */
 .social-buttons .pocket-btn {
   position: relative;
@@ -134,6 +152,10 @@ footer small {
   background-color: #c9404e; /* hsv 354 68 79 */
 }
 
+/*
+ * はてなブックマーク Social Button
+ */
+
 .social-buttons .default-button-style.hatena-bookmark-button {
   color: #fff;
   background-color: #42a4df;
@@ -142,6 +164,10 @@ footer small {
 .social-buttons .default-button-style.hatena-bookmark-button img {
   vertical-align: bottom;
 }
+
+/*
+ * Tumblr Social Button
+ */
 
 .social-buttons .default-button-style.tumblr-share-button {
   color: #fff;
@@ -153,6 +179,10 @@ footer small {
 .social-buttons .default-button-style.tumblr-share-button:hover {
   background-color: #1e2a3b; /* hsv 215 48 23 */
 }
+
+/*
+ * Pinterest Social Button
+ */
 
 .social-buttons .pinterest-share-button .default-button-style {
   color: #fff;
@@ -166,7 +196,7 @@ footer small {
 }
 
 /*
- * LINE Share Button
+ * LINE Social Button
  */
 
 .social-buttons .default-button-style.line-it-button {
@@ -179,6 +209,10 @@ footer small {
 .social-buttons .default-button-style.line-it-button:hover {
   background-color: #07a805;
 }
+
+/*
+ * Address
+ */
 
 address dt,
 address dd {
@@ -198,9 +232,17 @@ address dt+dd:before {
   content: none;
 }
 
+/*
+ * Copyright
+ */
+
 .copyright {
   text-align: center;
 }
+
+/*
+ * License
+ */
 
 .license {
   margin-left:  auto;
@@ -211,6 +253,10 @@ address dt+dd:before {
   text-align: center;
 }
 
+/*
+ * Creative Commons License
+ */
+
 .license .cc-logo {
   display: block;
   margin-bottom: 1em;
@@ -219,6 +265,10 @@ address dt+dd:before {
 .license .cc-logo+br {
   display: none;
 }
+
+/*
+ * Repository Anchor
+ */
 
 .view-repository {
   margin-bottom: 0;
