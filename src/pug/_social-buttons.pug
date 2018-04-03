@@ -114,7 +114,12 @@ p.social-buttons
   //- はてなブックマーク
   //- http://b.hatena.ne.jp/guide/bbutton
   a(
-    href="http://b.hatena.ne.jp/entry/"
+    href=(url => {
+      const match = url.match(/^http(s)?:\/\/([\s\S]*)$/);
+      return 'http://b.hatena.ne.jp/entry/' + (
+        match ? (match[1] ? 's/' : '') + match[2] : url
+      );
+    })(baseUrl)
     class="default-button-style hatena-bookmark-button"
     data-hatena-bookmark-layout="basic-label"
     data-hatena-bookmark-lang="ja"
