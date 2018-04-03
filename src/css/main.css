@@ -95,8 +95,14 @@ footer small {
 }
 
 .social-buttons .default-button-style.g-plus {
-  background-color: #fff;
+  background-color: #fff; /* hsv 0 0 100 */
   color: #262626;
+}
+
+.social-buttons .default-button-style.g-plus:active,
+.social-buttons .default-button-style.g-plus:focus,
+.social-buttons .default-button-style.g-plus:hover {
+  background-color: #dedede; /* hsv 0 0 87 */
 }
 
 .social-buttons .default-button-style.g-plus img {
