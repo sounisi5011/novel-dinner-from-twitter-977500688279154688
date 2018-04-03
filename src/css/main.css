@@ -87,6 +87,15 @@ footer small {
   background-color: #0c7abf; /* hsv 203 94 75 */
 }
 
+.social-buttons > .default-button-style.g-plus {
+  background-color: #fff;
+  color: #262626;
+}
+
+.social-buttons > .default-button-style.g-plus > img {
+  vertical-align: text-top;
+}
+
 .social-buttons > .default-button-style.pocket-btn {
   color: #fff;
   background-color: #ea5867; /* hsv 354 62 92 */
