@@ -101,7 +101,21 @@ footer small {
   vertical-align: text-top;
 }
 
+/*
+ * Pocketのボタンに余計な余白ができるため、余白を消す
+ */
+.social-buttons > li > .pocket-btn {
+  position: relative;
+  top: 1px;
+  margin-left: -3px;
+  margin-right: -3px;
+}
+
 .social-buttons > li > .default-button-style.pocket-btn {
+  position: static;
+  top: 0;
+  margin-left: 0;
+  margin-right: 0;
   color: #fff;
   background-color: #ea5867; /* hsv 354 62 92 */
 }
