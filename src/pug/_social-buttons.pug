@@ -243,3 +243,56 @@ ul.social-buttons
       data-locale="ja_JP"
     ) Tumblrに投稿する
   - includeResources.push({src: 'https://assets.tumblr.com/share-button.js', id: 'tumblr-js', async: true});
+
+  //- Pinterest
+  //- https://developers.pinterest.com/tools/widget-builder/?type=pinit
+  li.pinterest-share-button
+    a(
+      class="default-button-style"
+      data-pin-do="buttonPin"
+      href=(parameters => {
+        /**
+         * @see https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
+         */
+        const encodeRFC3986URIComponent = str => (
+          encodeURIComponent(str)
+            .replace(
+              /[!'()*]/g,
+              c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
+            )
+        );
+        /*
+         * TODO: Fix URL regex
+         */
+        const urlRegExp = /^.+$/;
+
+        const queryString = [...Object.entries(parameters)]
+          .map(([key, value]) => {
+            if (key === 'url') {
+              if (!(value && urlRegExp.test(value))) {
+                return null;
+              }
+            } else if (key === 'imageUrl') {
+              if (!(value && urlRegExp.test(value))) {
+                return null;
+              }
+              key = 'media';
+            } else if (key === 'description') {
+              if (!value) {
+                return null;
+              }
+            } else {
+              return null;
+            }
+            return encodeRFC3986URIComponent(key) + '=' + encodeRFC3986URIComponent(value);
+          })
+          .filter(Boolean)
+          .join('&');
+        return 'https://www.pinterest.com/pin/create/button/' + (queryString ? ('?' + queryString) : '');
+      })({
+        url: baseUrl,
+        imageUrl: '',
+        description: '',
+      })
+    )
+  - includeResources.push({src: '//assets.pinterest.com/js/pinit.js', async: true});
