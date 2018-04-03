@@ -146,45 +146,6 @@ ul.social-buttons
       | #{s}で共有
   - includeResources.push({src: 'https://apis.google.com/js/platform.js', async: true});
 
-  //- Pocket
-  //- https://getpocket.com/publisher/button
-  li
-    a(
-      href=(parameters => {
-        return 'https://getpocket.com/save' + queryStringGenerator(parameters, {
-          url: value => value && urlRegExp.test(value) ? value : '',
-          title: true,
-        });
-      })({
-        url: baseUrl,
-        title: title,
-      })
-      data-pocket-label="pocket"
-      data-pocket-count="none"
-      class="default-button-style pocket-btn"
-      data-lang="ja"
-    ) Pocketに追加
-  - includeResources.push({src: 'https://widgets.getpocket.com/v1/j/btn.js?v=1', id: 'pocket-btn-js', async: true});
-
-  //- はてなブックマーク
-  //- http://b.hatena.ne.jp/guide/bbutton
-  li
-    a(
-      href=(url => {
-        const match = url.match(/^http(s)?:\/\/([\s\S]*)$/);
-        return 'http://b.hatena.ne.jp/entry/' + (
-          match ? (match[1] ? 's/' : '') + match[2] : url
-        );
-      })(baseUrl)
-      class="default-button-style hatena-bookmark-button"
-      data-hatena-bookmark-layout="basic-label"
-      data-hatena-bookmark-lang="ja"
-      title="このページをはてなブックマークに追加"
-    )
-      img(src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="はてブで" width="20" height="20" style="border: none;")
-      | ブックマーク
-  - includeResources.push({src: 'https://b.st-hatena.com/js/bookmark_button.js', async: true});
-
   //- Tumblr
   //- https://www.tumblr.com/docs/ja/share_button
   //- TODO: デプロイ後、ちゃんと機能するかテストする
@@ -224,6 +185,57 @@ ul.social-buttons
     ) Tumblrに投稿
   - includeResources.push({src: 'https://assets.tumblr.com/share-button.js', id: 'tumblr-js', async: true});
 
+  //- LINE
+  //- https://social-plugins.line.me/ja/how_to_install#lineitbutton
+  li
+    div(class="line-it-button" data-lang="ja" data-type="share-a" data-url=baseUrl)
+      a.default-button-style.line-it-button(
+        href=(url => {
+          return 'https://social-plugins.line.me/lineit/share?url=' + encodeRFC3986URIComponent(url);
+        })(baseUrl)
+      )
+        | LINEで送る
+  - includeResources.push({src: 'https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js', async: true});
+
+  //- はてなブックマーク
+  //- http://b.hatena.ne.jp/guide/bbutton
+  li
+    a(
+      href=(url => {
+        const match = url.match(/^http(s)?:\/\/([\s\S]*)$/);
+        return 'http://b.hatena.ne.jp/entry/' + (
+          match ? (match[1] ? 's/' : '') + match[2] : url
+        );
+      })(baseUrl)
+      class="default-button-style hatena-bookmark-button"
+      data-hatena-bookmark-layout="basic-label"
+      data-hatena-bookmark-lang="ja"
+      title="このページをはてなブックマークに追加"
+    )
+      img(src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="はてブで" width="20" height="20" style="border: none;")
+      | ブックマーク
+  - includeResources.push({src: 'https://b.st-hatena.com/js/bookmark_button.js', async: true});
+
+  //- Pocket
+  //- https://getpocket.com/publisher/button
+  li
+    a(
+      href=(parameters => {
+        return 'https://getpocket.com/save' + queryStringGenerator(parameters, {
+          url: value => value && urlRegExp.test(value) ? value : '',
+          title: true,
+        });
+      })({
+        url: baseUrl,
+        title: title,
+      })
+      data-pocket-label="pocket"
+      data-pocket-count="none"
+      class="default-button-style pocket-btn"
+      data-lang="ja"
+    ) Pocketに追加
+  - includeResources.push({src: 'https://widgets.getpocket.com/v1/j/btn.js?v=1', id: 'pocket-btn-js', async: true});
+
   //- Pinterest
   //- https://developers.pinterest.com/tools/widget-builder/?type=pinit
   li.pinterest-share-button
@@ -243,15 +255,3 @@ ul.social-buttons
       })
     ) Pinterestに保存
   - includeResources.push({src: '//assets.pinterest.com/js/pinit.js', async: true});
-
-  //- LINE
-  //- https://social-plugins.line.me/ja/how_to_install#lineitbutton
-  li
-    div(class="line-it-button" data-lang="ja" data-type="share-a" data-url=baseUrl)
-      a.default-button-style.line-it-button(
-        href=(url => {
-          return 'https://social-plugins.line.me/lineit/share?url=' + encodeRFC3986URIComponent(url);
-        })(baseUrl)
-      )
-        | LINEで送る
-  - includeResources.push({src: 'https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js', async: true});
