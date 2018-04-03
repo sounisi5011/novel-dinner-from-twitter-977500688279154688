@@ -130,6 +130,10 @@ footer small {
   background-color: #42a4df;
 }
 
+.social-buttons > li > .default-button-style.hatena-bookmark-button > img {
+  vertical-align: bottom;
+}
+
 .social-buttons > li > .default-button-style.tumblr-share-button {
   color: #fff;
   background-color: #36465d; /* hsv 215 42 36 */
