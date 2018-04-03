@@ -54,10 +54,14 @@ p.social-buttons
         .join('&');
       return 'https://twitter.com/share' + (params ? ('?' + params) : '');
     })({
-      text: '',
-      url: '',
+      text: title,
+      url: baseUrl,
       hashtags: [],
-      via: '',
+      via: (
+        Array.isArray(twitterAccountList) ?
+        (twitterAccountList.map(account => account.name)[0] || '') :
+        (twitterAccountList ? twitterAccountList.name : '')
+      ),
       related: [],
     })
     class="default-button-style twitter-share-button"
@@ -101,8 +105,8 @@ p.social-buttons
         .join('&');
       return 'https://getpocket.com/save' + (params ? ('?' + params) : '');
     })({
-      url: '',
-      title: '',
+      url: baseUrl,
+      title: title,
     })
     data-pocket-label="pocket"
     data-pocket-count="none"
