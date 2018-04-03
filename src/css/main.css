@@ -156,6 +156,26 @@ footer small {
   background-color: #9e2118; /* hsv 4 85 62 */
 }
 
+/*
+ * LINE Share Button
+ */
+
+.social-buttons > li > .default-button-style.line-it-button {
+  background-color: #00b833;
+  color: #fff;
+}
+
+.social-buttons > li > .default-button-style.line-it-button:active,
+.social-buttons > li > .default-button-style.line-it-button:focus,
+.social-buttons > li > .default-button-style.line-it-button:hover {
+  background-color: #07a805;
+}
+
+.social-buttons > li > .default-button-style.line-it-button a {
+  text-decoration: inherit;
+  color: inherit;
+}
+
 address dt,
 address dd {
   display:  inline;
