@@ -142,6 +142,17 @@ footer small {
   background-color: #1e2a3b; /* hsv 215 48 23 */
 }
 
+.social-buttons > li.pinterest-share-button > .default-button-style {
+  color: #fff;
+  background-color: #be3228; /* hsv 4 79 75 */
+}
+
+.social-buttons > li.pinterest-share-button > .default-button-style:active,
+.social-buttons > li.pinterest-share-button > .default-button-style:focus,
+.social-buttons > li.pinterest-share-button > .default-button-style:hover {
+  background-color: #9e2118; /* hsv 4 85 62 */
+}
+
 address dt,
 address dd {
   display:  inline;
