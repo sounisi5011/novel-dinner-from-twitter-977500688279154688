@@ -79,6 +79,8 @@ ul.social-buttons
      */
     const urlRegExp = /^.+$/;
 
+  //- ----- ----- ----- ----- ----- -//
+
   //- Twitter
   //- https://dev.twitter.com/web/tweet-button
   li
@@ -115,6 +117,7 @@ ul.social-buttons
       })()
       class="default-button-style twitter-share-button"
     ) Twitterでツイート
+  - includeResources.push({src: 'https://platform.twitter.com/widgets.js', async: true});
 
   //- Google+
   //- https://developers.google.com/+/web/share/?hl=ja
