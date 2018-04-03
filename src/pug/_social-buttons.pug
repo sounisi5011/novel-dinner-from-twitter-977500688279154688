@@ -303,5 +303,21 @@ ul.social-buttons
   //- LINE
   //- https://social-plugins.line.me/ja/how_to_install#lineitbutton
   li
-    div(class="line-it-button" data-lang="ja" data-type="share-a" data-url=baseUrl style="display: none;")
+    div(class="line-it-button" data-lang="ja" data-type="share-a" data-url=baseUrl)
+      a(
+        href=(url => {
+          /**
+           * @see https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
+           */
+          const encodeRFC3986URIComponent = str => (
+            encodeURIComponent(str)
+              .replace(
+                /[!'()*]/g,
+                c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
+              )
+          );
+          return 'https://social-plugins.line.me/lineit/share?url=' + encodeRFC3986URIComponent(url);
+        })(baseUrl)
+      )
+        | LINEで送る
   - includeResources.push({src: 'https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js', async: true});
