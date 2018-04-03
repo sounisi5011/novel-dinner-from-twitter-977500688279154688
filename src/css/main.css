@@ -57,17 +57,16 @@ footer small {
 .social-buttons {
   text-align: left;
   display: flex;
+  flex-wrap: wrap;
+  margin-bottom: -.6em;
   padding: 0;
 }
 
 .social-buttons > li {
   align-self: center;
   display: inline-block;
-  margin-left: .6em;
-}
-
-.social-buttons > li:first-child {
-  margin-left: 0;
+  margin-right: .6em;
+  margin-bottom: .6em;
 }
 
 .social-buttons > li > * {
