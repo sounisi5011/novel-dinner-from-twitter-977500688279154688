@@ -79,6 +79,7 @@ footer small {
   padding: .25em 1em;
   text-decoration: none;
   line-height: 1.5;
+  -webkit-font-smoothing: subpixel-antialiased;
 }
 
 .social-buttons .default-button-style.twitter-share-button {
