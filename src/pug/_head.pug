@@ -25,7 +25,11 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
     meta(name="description" content=description)
 
   if copyright && author
-    meta(name="copyright" content=`© ${formatDate(generateTime, '%Y')} ${author}`)
+    meta(name="copyright" content=(
+      creationDate ?
+      `© ${formatDate(creationDate, '%Y')}-${formatDate(generateTime, '%Y')} ${author}` :
+      `© ${formatDate(generateTime, '%Y')} ${author}`
+    ))
 
   if generateTime
     meta(
@@ -230,7 +234,7 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
             resource
           );
           const srcPath = resourceData.src || resourceData.href;
-          const srcExtension = srcPath.substr(srcPath.lastIndexOf('.') + 1);
+          const srcExtension = (/^[^?]+\.([a-z]+)(?:$|\?)/.exec(srcPath) || [, ''])[1];
           const integrityValue = (
             (
               resourceData.integrity &&
@@ -250,6 +254,7 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
             crossorigin=(resourceData.crossorigin || false)
             integrity=integrityValue
             referrerpolicy=(resourceData.referrerpolicy || false)
+            id=(resourceData.id || false)
           )
 
         else if resourceData.include === 'head' && srcExtension === 'js'
@@ -260,4 +265,5 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
             defer=Boolean(resourceData.defer)
             crossorigin=(resourceData.crossorigin || false)
             integrity=integrityValue
+            id=(resourceData.id || false)
           )

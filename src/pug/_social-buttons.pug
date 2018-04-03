@@ -1,0 +1,259 @@
+ul.social-buttons
+  -
+    /**
+     * @see https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
+     */
+    const encodeRFC3986URIComponent = str => (
+      encodeURIComponent(str)
+        .replace(
+          /[!'()*]/g,
+          c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
+        )
+    );
+
+    /**
+     * @param {Object<string, (function(*, string): (string | Array<string>) | boolean | string)>} option
+     * @param {Object<string, *>} parameters
+     * @return {string}
+     */
+    const queryStringGenerator = (option, parameters) => {
+      const queryString = [...Object.entries(parameters)]
+        .map(([name, value]) => {
+          name = String(name);
+
+          /**
+           * @type {Set<string>}
+           */
+          const keySet = new Set([name]);
+
+          /**
+           * @type {(function(*, string): (string | Array<string>) | boolean | string | undefined)}
+           */
+          let optionValue = option[name];
+
+          /*
+           * 値が文字列の場合、他のオプションへの参照と判断し、ループで取得する
+           */
+          while (typeof optionValue === 'string') {
+            /**
+             * @type {string}
+             */
+            const refKey = optionValue;
+
+            if (keySet.has(refKey)) {
+              return null;
+            }
+            keySet.add(refKey);
+
+            optionValue = option[refKey];
+          }
+
+          if (typeof optionValue === 'function') {
+            /**
+             * @type {function(*, string): (string | Array<string>)}
+             */
+            const convertFunc = optionValue;
+            const retval = convertFunc(value, name);
+            const [newValue, newName] = Array.isArray(retval) ? retval : [retval, ''];
+            if (!newValue) {
+              return null;
+            }
+            if (newName) {
+              name = newName;
+            }
+            value = newValue;
+          } else if (!optionValue || !value) {
+            return null;
+          }
+
+          return encodeRFC3986URIComponent(name) + '=' + encodeRFC3986URIComponent(value);
+        })
+        .filter(Boolean)
+        .join('&');
+
+      return queryString ? ('?' + queryString) : '';
+    };
+
+    /*
+     * TODO: Fix URL regex
+     */
+    const urlRegExp = /^.+$/;
+
+  //- Twitter
+  //- https://dev.twitter.com/web/tweet-button
+  li
+    a(
+      href=(() => {
+        const twitterUserNameRegExp = /^[a-zA-Z0-9_]{1,15}$/;
+        const twitterHashtagRegExp = /^.+$/;
+
+        return 'https://twitter.com/share' + queryStringGenerator({
+          text: true,
+          url: value => value && urlRegExp.test(value) ? value : '',
+          hashtags: (value, key) => (
+            (Array.isArray(value) ? value : String(value).split(','))
+              .filter(value => (
+                key === 'hashtags' && value && twitterHashtagRegExp.test(value) ||
+                key === 'related' && value && twitterUserNameRegExp.test(value) ||
+                false
+              ))
+              .join(',')
+          ),
+          via: value => value && twitterUserNameRegExp.test(value) ? value : '',
+          related: 'hashtags',
+        }, {
+          text: title,
+          url: baseUrl,
+          hashtags: [],
+          via: (
+            Array.isArray(twitterAccountList) ?
+            (twitterAccountList.map(account => account.name)[0] || '') :
+            (twitterAccountList ? twitterAccountList.name : '')
+          ),
+          related: [],
+        });
+      })()
+      class="default-button-style twitter-share-button"
+    ) Twitterでツイート
+
+  //- Google+
+  //- https://developers.google.com/+/web/share/?hl=ja
+  li
+    a(
+      href=(url => {
+        return 'https://plus.google.com/share?url=' + encodeRFC3986URIComponent(url);
+      })(baseUrl)
+      class="default-button-style g-plus"
+      data-action="share"
+      data-annotation="none"
+    )
+      img(
+        src="https://www.gstatic.com/images/icons/gplus-16.png"
+        srcset=(
+          [
+            [64, 'https://www.gstatic.com/images/icons/gplus-64.png'],
+            [32, 'https://www.gstatic.com/images/icons/gplus-32.png'],
+            [16, 'https://www.gstatic.com/images/icons/gplus-16.png'],
+          ]
+            .map(([width, url]) => `${url} ${width}w`)
+            .join(',')
+        )
+        sizes="16px"
+        width="16"
+        height="16"
+        alt="Google+"
+      )
+      | #{s}で共有
+  - includeResources.push({src: 'https://apis.google.com/js/platform.js', async: true});
+
+  //- Tumblr
+  //- https://www.tumblr.com/docs/ja/share_button
+  //- TODO: デプロイ後、ちゃんと機能するかテストする
+  li
+    a(
+      class="default-button-style tumblr-share-button"
+      href=(() => {
+        /*
+         * TODO: Fix URL and Tag regex
+         */
+        const posttypeRegExp = /^.+$/;
+        const tagRegExp = /^.+$/;
+
+        return 'http://tumblr.com/widgets/share/tool' + queryStringGenerator({
+          canonicalUrl: value => value && urlRegExp.test(value) ? value : '',
+          posttype: value => value && posttypeRegExp.test(value) ? value : '',
+          tags: (value) => (
+            (Array.isArray(value) ? value : String(value).split(','))
+              .filter(value => value && tagRegExp.test(value))
+              .join(',')
+          ),
+          title: true,
+          content: true,
+          caption: true,
+          showVia: value => [value, 'show-via'],
+        }, {
+          canonicalUrl: baseUrl,
+          posttype: 'link',
+          tags: [],
+          title: title,
+          content: '',
+          caption: '',
+          showVia: null,
+        });
+      })()
+      data-locale="ja_JP"
+    ) Tumblrに投稿
+  - includeResources.push({src: 'https://assets.tumblr.com/share-button.js', id: 'tumblr-js', async: true});
+
+  //- LINE
+  //- https://social-plugins.line.me/ja/how_to_install#lineitbutton
+  li
+    div(class="line-it-button" data-lang="ja" data-type="share-a" data-url=baseUrl)
+      a.default-button-style.line-it-button(
+        href=(url => {
+          return 'https://social-plugins.line.me/lineit/share?url=' + encodeRFC3986URIComponent(url);
+        })(baseUrl)
+      )
+        | LINEで送る
+  - includeResources.push({src: 'https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js', async: true});
+
+  //- はてなブックマーク
+  //- http://b.hatena.ne.jp/guide/bbutton
+  li
+    a(
+      href=(url => {
+        const match = url.match(/^http(s)?:\/\/([\s\S]*)$/);
+        return 'http://b.hatena.ne.jp/entry/' + (
+          match ? (match[1] ? 's/' : '') + match[2] : url
+        );
+      })(baseUrl)
+      class="default-button-style hatena-bookmark-button"
+      data-hatena-bookmark-layout="basic-label"
+      data-hatena-bookmark-lang="ja"
+      title="このページをはてなブックマークに追加"
+    )
+      img(src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="はてブで" width="20" height="20" style="border: none;")
+      | ブックマーク
+  - includeResources.push({src: 'https://b.st-hatena.com/js/bookmark_button.js', async: true});
+
+  //- Pocket
+  //- https://getpocket.com/publisher/button
+  li
+    a(
+      href=(
+        'https://getpocket.com/save' +
+        queryStringGenerator({
+          url: value => value && urlRegExp.test(value) ? value : '',
+          title: true,
+        }, {
+          url: baseUrl,
+          title: title,
+        })
+      )
+      data-pocket-label="pocket"
+      data-pocket-count="none"
+      class="default-button-style pocket-btn"
+      data-lang="ja"
+    ) Pocketに追加
+  - includeResources.push({src: 'https://widgets.getpocket.com/v1/j/btn.js?v=1', id: 'pocket-btn-js', async: true});
+
+  //- Pinterest
+  //- https://developers.pinterest.com/tools/widget-builder/?type=pinit
+  li.pinterest-share-button
+    a(
+      class="default-button-style"
+      data-pin-do="buttonPin"
+      href=(
+        'https://www.pinterest.com/pin/create/button/' +
+        queryStringGenerator({
+          url: value => value && urlRegExp.test(value) ? value : '',
+          imageUrl: value => [(value && urlRegExp.test(value) ? value : ''), 'media'],
+          description: true,
+        }, {
+          url: baseUrl,
+          imageUrl: '',
+          description: '',
+        })
+      )
+    ) Pinterestに保存
+  - includeResources.push({src: '//assets.pinterest.com/js/pinit.js', async: true});
