@@ -304,6 +304,7 @@ blockquote.twitter-tweet {
   border: 1px solid #e1e8ed;
   border-radius: 4px;
   padding: 14.4px 20px 11.6px 20px;
+  -webkit-font-smoothing: subpixel-antialiased;
 }
 
 blockquote.twitter-tweet p {
