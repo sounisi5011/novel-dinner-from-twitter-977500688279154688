@@ -196,6 +196,13 @@ footer small {
 }
 
 /*
+ * 白いデザインのボタンがズレるので、vertical-alignを上書き
+ */
+.social-buttons .pinterest-share-button > * {
+  vertical-align: middle;
+}
+
+/*
  * LINE Social Button
  */
 
