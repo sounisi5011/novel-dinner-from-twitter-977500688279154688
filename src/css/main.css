@@ -103,6 +103,17 @@ footer small {
   background-color: #42a4df;
 }
 
+.social-buttons > .default-button-style.tumblr-share-button {
+  color: #fff;
+  background-color: #36465d; /* hsv 215 42 36 */
+}
+
+.social-buttons > .default-button-style.tumblr-share-button:active,
+.social-buttons > .default-button-style.tumblr-share-button:focus,
+.social-buttons > .default-button-style.tumblr-share-button:hover {
+  background-color: #1e2a3b; /* hsv 215 48 23 */
+}
+
 address dt,
 address dd {
   display:  inline;
