@@ -67,6 +67,29 @@ p.social-buttons
     class="default-button-style twitter-share-button"
   ) ツイート
 
+  //- Google+
+  //- https://developers.google.com/+/web/share/?hl=ja
+  a(
+    href=(url => {
+      /**
+       * @see https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
+       */
+      const encodeRFC3986URIComponent = str => (
+        encodeURIComponent(str)
+          .replace(
+            /[!'()*]/g,
+            c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
+          )
+      );
+      return 'https://plus.google.com/share?url=' + encodeRFC3986URIComponent(url);
+    })(baseUrl)
+    class="default-button-style g-plus"
+    data-action="share"
+    data-annotation="none"
+  )
+    img(src="https://www.gstatic.com/images/icons/gplus-64.png" alt="Share on Google+")
+  - includeResources.push({src: 'https://apis.google.com/js/platform.js', async: true});
+
   //- Pocket
   //- https://getpocket.com/publisher/button
   a(
