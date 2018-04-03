@@ -291,3 +291,9 @@ address dt+dd:before {
   color: #fff;
   background-color: #333;
 }
+
+/*
+ * Embedded Tweet No-JS Style
+ */
+blockquote.twitter-tweet {
+}
