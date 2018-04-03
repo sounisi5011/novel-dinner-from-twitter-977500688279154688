@@ -79,6 +79,8 @@ ul.social-buttons
      */
     const urlRegExp = /^.+$/;
 
+  //- ----- ----- ----- ----- ----- -//
+
   //- Twitter
   //- https://dev.twitter.com/web/tweet-button
   li
@@ -115,6 +117,8 @@ ul.social-buttons
       })()
       class="default-button-style twitter-share-button"
     ) Twitterでツイート
+  //- https://dev.twitter.com/web/javascript/loading
+  - includeResources.push({src: 'https://platform.twitter.com/widgets.js', id: 'twitter-wjs', async: true, defer: false});
 
   //- Google+
   //- https://developers.google.com/+/web/share/?hl=ja
@@ -144,7 +148,7 @@ ul.social-buttons
         alt="Google+"
       )
       | #{s}で共有
-  - includeResources.push({src: 'https://apis.google.com/js/platform.js', async: true});
+  - includeResources.push({src: 'https://apis.google.com/js/platform.js', async: true, defer: true});
 
   //- Tumblr
   //- https://www.tumblr.com/docs/ja/share_button
@@ -183,7 +187,7 @@ ul.social-buttons
       })()
       data-locale="ja_JP"
     ) Tumblrに投稿
-  - includeResources.push({src: 'https://assets.tumblr.com/share-button.js', id: 'tumblr-js', async: true});
+  - includeResources.push({src: 'https://assets.tumblr.com/share-button.js', id: 'tumblr-js', async: true, defer: false});
 
   //- LINE
   //- https://social-plugins.line.me/ja/how_to_install#lineitbutton
@@ -195,7 +199,7 @@ ul.social-buttons
         })(baseUrl)
       )
         | LINEで送る
-  - includeResources.push({src: 'https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js', async: true});
+  - includeResources.push({src: 'https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js', async: true, defer: true});
 
   //- はてなブックマーク
   //- http://b.hatena.ne.jp/guide/bbutton
@@ -214,7 +218,7 @@ ul.social-buttons
     )
       img(src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="はてブで" width="20" height="20" style="border: none;")
       | ブックマーク
-  - includeResources.push({src: 'https://b.st-hatena.com/js/bookmark_button.js', async: true});
+  - includeResources.push({src: 'https://b.st-hatena.com/js/bookmark_button.js', async: true, defer: false});
 
   //- Pocket
   //- https://getpocket.com/publisher/button
@@ -235,7 +239,7 @@ ul.social-buttons
       class="default-button-style pocket-btn"
       data-lang="ja"
     ) Pocketに追加
-  - includeResources.push({src: 'https://widgets.getpocket.com/v1/j/btn.js?v=1', id: 'pocket-btn-js', async: true});
+  - includeResources.push({src: 'https://widgets.getpocket.com/v1/j/btn.js?v=1', id: 'pocket-btn-js', async: true, defer: true});
 
   //- Pinterest
   //- https://developers.pinterest.com/tools/widget-builder/?type=pinit
@@ -256,4 +260,4 @@ ul.social-buttons
         })
       )
     ) Pinterestに保存
-  - includeResources.push({src: '//assets.pinterest.com/js/pinit.js', async: true});
+  - includeResources.push({src: '//assets.pinterest.com/js/pinit.js', async: true, defer: true});
