@@ -94,13 +94,9 @@ ul.social-buttons
         return 'https://twitter.com/share' + queryStringGenerator({
           text: true,
           url: value => value && urlRegExp.test(value) ? value : '',
-          hashtags: (value, key) => (
+          hashtags: value => (
             (Array.isArray(value) ? value : String(value).split(','))
-              .filter(value => (
-                key === 'hashtags' && value && twitterHashtagRegExp.test(value) ||
-                key === 'related' && value && relatedRegExp.test(value) ||
-                false
-              ))
+              .filter(value => value && twitterHashtagRegExp.test(value))
               .join(',')
           ),
           via: value => value && twitterUserNameRegExp.test(value) ? value : '',
