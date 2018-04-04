@@ -97,7 +97,7 @@ const cachedRp = (() => {
 const inputHtml = fs.readFileSync('/dev/stdin', 'utf8');
 
 const $ = cheerio.load(inputHtml, {
-  decodeEntities: false,
+  decodeEntities: true,
 });
 
 const requestList = [];
