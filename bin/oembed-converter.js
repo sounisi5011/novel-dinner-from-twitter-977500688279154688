@@ -97,7 +97,7 @@ const cachedRp = (() => {
 const inputHtml = fs.readFileSync('/dev/stdin', 'utf8');
 
 const $ = cheerio.load(inputHtml, {
-  decodeEntities: false,
+  decodeEntities: true,
 });
 
 const requestList = [];
@@ -281,5 +281,30 @@ Promise.all(requestList).then(values => {
     bodyElem.append(scriptHtml);
   }
 
-  process.stdout.write($.html());
+  const minifyNumericCharacterReferences = (match, decimal, hex) => {
+    const newEntitie = (
+      hex ? `&#${parseInt(hex, 16)};` :
+      decimal ? `&#x${Number(decimal).toString(16).toUpperCase()};` :
+      ''
+    );
+
+    return (
+      newEntitie && newEntitie.length < match.length ?
+      newEntitie :
+      match
+    );
+  };
+
+  const outputHTML = $.html()
+    /*
+     * 数値文字参照をより短い形式に変換
+     *
+     * ex: &#x2026; -> &#8230;
+     */
+    .replace(
+      /&#(?:([0-9]+)|[xX]([0-9a-fA-F]+));/g,
+      minifyNumericCharacterReferences
+    );
+
+  process.stdout.write(outputHTML);
 });
