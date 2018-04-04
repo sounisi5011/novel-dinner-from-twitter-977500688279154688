@@ -89,6 +89,7 @@ ul.social-buttons
       href=(() => {
         const twitterUserNameRegExp = /^[a-zA-Z0-9_]{1,15}$/;
         const twitterHashtagRegExp = /^.+$/;
+        const relatedRegExp = /^[a-zA-Z0-9_]{1,15}(?::.*)?$/;
 
         return 'https://twitter.com/share' + queryStringGenerator({
           text: true,
@@ -97,7 +98,7 @@ ul.social-buttons
             (Array.isArray(value) ? value : String(value).split(','))
               .filter(value => (
                 key === 'hashtags' && value && twitterHashtagRegExp.test(value) ||
-                key === 'related' && value && twitterUserNameRegExp.test(value) ||
+                key === 'related' && value && relatedRegExp.test(value) ||
                 false
               ))
               .join(',')
