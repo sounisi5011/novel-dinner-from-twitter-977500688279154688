@@ -12,7 +12,9 @@
     "build:css": "run-s mkdir build:css:generate",
     "build:css:generate": "glob-exec --foreach --parallel '{node_modules/sanitize.css/sanitize.css,src/css/**/*.css}' -- cleancss -O1 'optimizeFontWeight:off' '{{file}}' -o 'dest/{{file.base}}' --source-map",
     "build:js": "run-s mkdir build:js:generate",
-    "build:js:generate": "glob-exec --foreach --parallel 'src/js/*.js' -- uglifyjs '{{file}}' -cm -o 'dest/{{file.base}}' --source-map 'url=\\\"{{file.base}}.map\\\"'"
+    "build:js:generate": "glob-exec --foreach --parallel 'src/js/*.js' -- uglifyjs '{{file}}' -cm -o 'dest/{{file.base}}' --source-map 'url=\\\"{{file.base}}.map\\\"'",
+    "build:img": "run-s mkdir build:img:copy",
+    "build:img:copy": "cpy 'src/img/*' '!src/img/*.md' dest"
   },
   "engines": {
     "node": ">=8.10.0"
