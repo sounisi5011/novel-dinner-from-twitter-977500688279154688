@@ -7,6 +7,9 @@ module.exports = {
         1: {
           optimizeFontWeight: false,
         },
+        2: {
+          all: false,
+        },
       },
     }),
   ],
