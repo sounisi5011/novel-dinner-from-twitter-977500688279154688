@@ -302,7 +302,7 @@ Promise.all(requestList).then(values => {
      * ex: &#x2026; -> &#8230;
      */
     .replace(
-      /&#(?:([0-9]+)|x([0-9a-fA-F]+));/g,
+      /&#(?:([0-9]+)|[xX]([0-9a-fA-F]+));/g,
       minifyNumericCharacterReferences
     );
 
