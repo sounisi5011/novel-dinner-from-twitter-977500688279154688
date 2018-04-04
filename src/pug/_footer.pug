@@ -33,6 +33,8 @@ footer
       | #{formatDate(generateTime, '%Y年%-m月%-d日 %H:%M:%S JST', 9 * 60 * 60)}
 
   if copyright
+    include _license/cc_by_sa_4.0.pug
+
     if author
       p.copyright
         small(lang="en")
@@ -44,5 +46,3 @@ footer
           time(datetime=formatDate(generateTime, '%Y-%m-%dT%H:%M:%SZ', 0))
             | #{formatDate(generateTime, '%Y')}
           | #{s}#{author} #{copyright}
-
-    include _license/cc_by_sa_4.0.pug
