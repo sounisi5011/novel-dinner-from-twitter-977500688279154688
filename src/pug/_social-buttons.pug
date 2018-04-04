@@ -113,7 +113,9 @@ ul.social-buttons
               if (2 < value.length) {
                 console.error('Tweet Web Intentのrelatedパラメータに指定できるユーザの数は、最大で２つまでです');
               }
-              return value.filter(value => value && relatedRegExp.test(value));
+              return value
+                .filter(value => value && relatedRegExp.test(value))
+                .join(',');
             } else {
               return null;
             }
