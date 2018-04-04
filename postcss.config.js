@@ -1,5 +1,5 @@
 module.exports = {
-  map: true,
+  map: { inline: false },
   plugins: [
     require('postcss-import'),
   ],
