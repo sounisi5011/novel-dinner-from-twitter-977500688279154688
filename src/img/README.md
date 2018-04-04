@@ -1,6 +1,6 @@
 # Images Source List
 
-## `cc-by-sa.403x141.png`, `cc-by-sa.svg`
+## `cc-by-sa.403x141.png`
 
 Download: [https://creativecommons.jp/about/downloads/](https://creativecommons.jp/about/downloads/)  
 Minify: [https://tinypng.com](https://tinypng.com)
