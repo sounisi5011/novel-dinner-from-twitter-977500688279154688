@@ -1,6 +1,10 @@
 footer
   include _social-buttons.pug
 
+  if repositoryUrl
+    p.view-repository
+      a(href=repositoryUrl) View on GitHub
+
   -
     const showTwitter = (
       Array.isArray(twitterAccountList) &&
@@ -42,7 +46,3 @@ footer
           | #{s}#{author} #{copyright}
 
     include _license/cc_by_sa_4.0.pug
-
-  if repositoryUrl
-    p.view-repository
-      a(href=repositoryUrl) View on GitHub
