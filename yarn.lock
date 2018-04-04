@@ -428,7 +428,7 @@ clean-css-cli@^4.1.11:
     commander "2.x"
     glob "7.x"
 
-clean-css@^4.1.11, clean-css@^4.1.9:
+clean-css@^4.1.11, clean-css@^4.1.9, clean-css@^4.x:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-4.1.11.tgz#2ecdf145aba38f54740f26cefd0ff3e03e125d6a"
   dependencies:
@@ -2122,6 +2122,13 @@ posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
 
+postcss-clean@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/postcss-clean/-/postcss-clean-1.1.0.tgz#c2d61d5d8caf19a585adba16897726c2674c4207"
+  dependencies:
+    clean-css "^4.x"
+    postcss "^6.x"
+
 postcss-cli@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/postcss-cli/-/postcss-cli-5.0.0.tgz#3d6aee7652b8dc6566f0189dd90d11bb0a535a20"
@@ -2184,7 +2191,7 @@ postcss-value-parser@^3.2.3:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-3.3.0.tgz#87f38f9f18f774a4ab4c8a232f5c5ce8872a9d15"
 
-postcss@^6.0.1, postcss@^6.0.8:
+postcss@^6.0.1, postcss@^6.0.8, postcss@^6.x:
   version "6.0.21"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.21.tgz#8265662694eddf9e9a5960db6da33c39e4cd069d"
   dependencies:
