@@ -165,6 +165,14 @@ footer small {
 }
 
 /*
+.social-buttons .default-button-style.hatena-bookmark-button:active,
+.social-buttons .default-button-style.hatena-bookmark-button:focus,
+.social-buttons .default-button-style.hatena-bookmark-button:hover {
+  background-color: #0091c5;
+}
+*/
+
+/*
  * Tumblr Social Button
  */
 
