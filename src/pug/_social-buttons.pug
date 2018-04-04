@@ -83,36 +83,49 @@ ul.social-buttons
 
   //- Twitter
   //- https://dev.twitter.com/web/tweet-button
+  //- https://dev.twitter.com/web/tweet-button/web-intent
   li
     a(
       href=(() => {
         const twitterUserNameRegExp = /^[a-zA-Z0-9_]{1,15}$/;
         const twitterHashtagRegExp = /^.+$/;
+        const relatedRegExp = /^[a-zA-Z0-9_]{1,15}(?::.*)?$/;
 
         return 'https://twitter.com/share' + queryStringGenerator({
           text: true,
           url: value => value && urlRegExp.test(value) ? value : '',
-          hashtags: (value, key) => (
+          hashtags: value => (
             (Array.isArray(value) ? value : String(value).split(','))
-              .filter(value => (
-                key === 'hashtags' && value && twitterHashtagRegExp.test(value) ||
-                key === 'related' && value && twitterUserNameRegExp.test(value) ||
-                false
-              ))
+              .filter(value => value && twitterHashtagRegExp.test(value))
               .join(',')
           ),
           via: value => value && twitterUserNameRegExp.test(value) ? value : '',
-          related: 'hashtags',
+          related: value => {
+            if (typeof value === 'string') {
+              value = value.split(',');
+            } else if (value && !Array.isArray(value)) {
+              value = Object.entries(value)
+                .map(([key, value]) => String(value) ? `${key}:${value}` : String(key));
+            }
+
+            if (Array.isArray(value)) {
+              value = value.filter(value => value && relatedRegExp.test(value));
+              if (2 < value.length) {
+                console.error('Tweet Web Intentのrelatedパラメータに指定できるユーザの数は、最大で２つまでです');
+              }
+              return value.join(',');
+            } else {
+              return null;
+            }
+          },
+          inReplyTo: value => /^[0-9]+$/.test(value) ? [value, 'in-reply-to'] : null,
         }, {
           text: title,
           url: baseUrl,
-          hashtags: [],
-          via: (
-            Array.isArray(twitterAccountList) ?
-            (twitterAccountList.map(account => account.name)[0] || '') :
-            (twitterAccountList ? twitterAccountList.name : '')
-          ),
-          related: [],
+          related: {
+            wodnuyRnaiR: '神絵師。フェチいイラストをたくさん描いている。sounisi5011の呟きをイラストにした凄い人',
+            sounisi5011Vore: '著者。丸呑みネタばかり呟くド変態。フォロワー曰く、妄想力がとんでもないらしい。',
+          },
         });
       })()
       class="default-button-style twitter-share-button"
