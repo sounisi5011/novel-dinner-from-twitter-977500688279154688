@@ -281,5 +281,6 @@ Promise.all(requestList).then(values => {
     bodyElem.append(scriptHtml);
   }
 
-  process.stdout.write($.html());
+  const outputHTML = $.html();
+  process.stdout.write(outputHTML);
 });
