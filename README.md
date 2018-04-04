@@ -1,4 +1,4 @@
-# 創作小説【夜食】
+# 創作小説【夕食】
 
 この[とってもフェチいイラスト](https://twitter.com/wodnuyRnaiR/status/977500688279154688)の[ストーリーを書けと無茶振りされた](https://twitter.com/wodnuyRnaiR/status/977503341310746624)ので書きます。
 
