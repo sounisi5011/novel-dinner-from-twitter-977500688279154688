@@ -442,15 +442,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-clean-css-cli@^4.1.11:
-  version "4.1.11"
-  resolved "https://registry.yarnpkg.com/clean-css-cli/-/clean-css-cli-4.1.11.tgz#01c5689f05bc512a23285f1defdbde00bc11d86c"
-  dependencies:
-    clean-css "^4.1.9"
-    commander "2.x"
-    glob "7.x"
-
-clean-css@^4.1.11, clean-css@^4.1.9, clean-css@^4.x:
+clean-css@^4.1.11, clean-css@^4.x:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-4.1.11.tgz#2ecdf145aba38f54740f26cefd0ff3e03e125d6a"
   dependencies:
@@ -507,7 +499,7 @@ combined-stream@1.0.6, combined-stream@^1.0.5, combined-stream@~1.0.5:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@2.x, commander@^2.8.1, commander@~2.15.0:
+commander@^2.8.1, commander@~2.15.0:
   version "2.15.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
 
@@ -1076,7 +1068,7 @@ glob-parent@^3.1.0:
     is-glob "^3.1.0"
     path-dirname "^1.0.0"
 
-glob@7.1.X, glob@7.x, glob@^7.0.3, glob@^7.0.5, glob@^7.1.2:
+glob@7.1.X, glob@^7.0.3, glob@^7.0.5, glob@^7.1.2:
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.2.tgz#c19c9df9a028702d678612384a6552404c636d15"
   dependencies:
