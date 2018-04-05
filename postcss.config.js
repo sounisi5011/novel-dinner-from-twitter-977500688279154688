@@ -9,9 +9,9 @@ module.exports = ctx => {
      */
     return {
       map: { inline: false },
-      plugins: [
-        require('postcss-import'),
-        require('postcss-clean')({
+      plugins: {
+        'postcss-import': null,
+        'postcss-clean': {
           level: {
             1: {
               all: false,
@@ -23,8 +23,8 @@ module.exports = ctx => {
               tidyBlockScopes: true,
             },
           },
-        }),
-      ],
+        },
+      },
     };
   } else {
     /*
@@ -32,15 +32,15 @@ module.exports = ctx => {
      */
     return {
       map: { inline: false },
-      plugins: [
-        require('postcss-import'),
-        require('autoprefixer')({
+      plugins: {
+        'postcss-import': null,
+        'autoprefixer': {
           remove: false,
-        }),
-        require('postcss-clean')({
+        },
+        'postcss-clean': {
           level: 2,
-        }),
-      ],
+        },
+      },
     };
   }
 };
