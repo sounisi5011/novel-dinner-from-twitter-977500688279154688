@@ -1,7 +1,19 @@
 const path = require('path');
 
 const pathStartsWith = (path, searchPath) => {
-  return String(path).startsWith(searchPath);
+  const pathSepRegExp = /[/\\]/;
+  /**
+   * @see https://stackoverflow.com/a/6969486/4907315
+   */
+  const escapedSearchPath = searchPath
+    .replace(/[-[\]/{}()*+?.\\^$|]/g, c => {
+      return pathSepRegExp.test(c) ? pathSepRegExp.source : `\\${c}`;
+    });
+  const searchPathRegExp = new RegExp(
+    `^${escapedSearchPath}(?:${pathSepRegExp.source}|$)`
+  );
+
+  return searchPathRegExp.test(path);
 };
 
 module.exports = ctx => {
