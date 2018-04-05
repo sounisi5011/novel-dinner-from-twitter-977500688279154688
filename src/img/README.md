@@ -10,10 +10,6 @@ Minify: [https://tinypng.com](https://tinypng.com)
 Download (From generated HTML): [https://creativecommons.org/choose/](https://creativecommons.org/choose/)  
 Minify: [https://tinypng.com](https://tinypng.com)
 
-## `GitHub-Mark-*.png`, `GitHub-Mark.ai`, `GitHub-Mark.eps`
+## `GitHub-Mark-*.png`
 
 Download: [https://github.com/logos](https://github.com/logos)
-
-### `GitHub-Mark.*.svg`
-
-Format convert: [https://cloudconvert.com/](https://cloudconvert.com/)
