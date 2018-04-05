@@ -302,21 +302,40 @@ address dt+dd:before {
   color: #fff;
   line-height: 32px;
   -webkit-font-smoothing: subpixel-antialiased;
+  position: relative;
+}
+
+.view-repository > a:before {
+  content: attr(title);
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-decoration: none;
+  transform: scaleX(0);
+  transition: transform .25s;
+}
+
+.view-repository > a:active:before,
+.view-repository > a:focus:before,
+.view-repository > a:hover:before {
+  transform: scaleX(1);
 }
 
 .view-repository > a > img {
   width: 32px;
   height: 32px;
   vertical-align: bottom;
+  transform: scaleX(1);
+  transition: transform .25s;
 }
 
-.view-repository > a:active:after,
-.view-repository > a:focus:after,
-.view-repository > a:hover:after {
-  content: attr(title);
-  display: inline-block;
-  padding-left: .5em;
-  text-decoration: none;
+.view-repository > a:active > img,
+.view-repository > a:focus > img,
+.view-repository > a:hover > img {
+  transform: scaleX(0);
 }
 
 /*
