@@ -298,12 +298,82 @@ address dt+dd:before {
 }
 
 .view-repository > a {
-  display: inline-block;
-  text-decoration: none;
-  border-radius: .25em;
-  padding: .6em 1em;
+  display: block;
   color: #fff;
-  background-color: #333;
+  line-height: 32px;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+.view-repository > a:before {
+  content: attr(title);
+  display: none;
+}
+
+.view-repository > a:active:before,
+.view-repository > a:focus:before,
+.view-repository > a:hover:before {
+  display: block;
+}
+
+.view-repository > a > img {
+  width: 32px;
+  height: 32px;
+  vertical-align: bottom;
+}
+
+.view-repository > a:active > img,
+.view-repository > a:focus > img,
+.view-repository > a:hover > img {
+  display: none;
+}
+
+@supports (transform: scaleX(0)) and (transform: scaleX(1)) and (transition: transform .25s) {
+  /*
+   * アニメーション関係のプロパティ非対応時のデフォルトスタイルを上書き
+   */
+  .view-repository > a:before {
+    display: block;
+  }
+
+  .view-repository > a:active > img,
+  .view-repository > a:focus > img,
+  .view-repository > a:hover > img {
+    display: inline;
+  }
+
+  /*
+   * アニメーション用のスタイルを指定
+   */
+  .view-repository > a {
+    position: relative;
+  }
+
+  .view-repository > a:before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: scaleX(0);
+    transition: transform .25s;
+  }
+
+  .view-repository > a:active:before,
+  .view-repository > a:focus:before,
+  .view-repository > a:hover:before {
+    transform: scaleX(1);
+  }
+
+  .view-repository > a > img {
+    transform: scaleX(1);
+    transition: transform .25s;
+  }
+
+  .view-repository > a:active > img,
+  .view-repository > a:focus > img,
+  .view-repository > a:hover > img {
+    transform: scaleX(0);
+  }
 }
 
 /*
