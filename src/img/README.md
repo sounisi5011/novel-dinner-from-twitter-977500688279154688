@@ -13,3 +13,7 @@ Minify: [https://tinypng.com](https://tinypng.com)
 ## `GitHub-Mark-*.png`, `GitHub-Mark.ai`, `GitHub-Mark.eps`
 
 Download: [https://github.com/logos](https://github.com/logos)
+
+### `GitHub-Mark.*.svg`
+
+Format convert: [https://cloudconvert.com/](https://cloudconvert.com/)
