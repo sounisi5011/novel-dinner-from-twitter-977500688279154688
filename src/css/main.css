@@ -3,6 +3,7 @@ html {
   color: #eee;
   -webkit-font-smoothing: antialiased;
   height: 100%;
+  overflow-wrap: break-word;
 }
 
 body {
