@@ -3,16 +3,21 @@ const path = require('path');
 module.exports = ctx => {
   const fixStylePath = path.join(ctx.cwd, 'src/css/browser-fix-style');
 
-  if (ctx.file.dirname.startsWith(fixStylePath)) {
-    /*
-     * browser-fix-styleディレクトリ以下のCSSは、シンプルな縮小のみを適用する
-     */
-    return {
-      map: { inline: false },
-      plugins: {
-        'postcss-import': null,
-        'postcss-clean': {
-          level: {
+  /*
+   * browser-fix-styleディレクトリ以下のCSSであればtrueになるフラグ。
+   * browser-fix-styleディレクトリ以下のCSSには、単純な最適化を行う。
+   */
+  const isBrowserFixStyle = ctx.file.dirname.startsWith(fixStylePath);
+
+  return {
+    map: { inline: false },
+    plugins: {
+      'postcss-import': {},
+      'autoprefixer': isBrowserFixStyle ? false : { remove: false },
+      'postcss-clean': {
+        level: (
+          isBrowserFixStyle ?
+          {
             1: {
               all: false,
               removeEmpty: true,
@@ -22,25 +27,10 @@ module.exports = ctx => {
               tidyAtRules: true,
               tidyBlockScopes: true,
             },
-          },
-        },
+          } :
+          2
+        ),
       },
-    };
-  } else {
-    /*
-     * そうでない場合は、強力な圧縮を実行
-     */
-    return {
-      map: { inline: false },
-      plugins: {
-        'postcss-import': null,
-        'autoprefixer': {
-          remove: false,
-        },
-        'postcss-clean': {
-          level: 2,
-        },
-      },
-    };
-  }
+    },
+  };
 };
