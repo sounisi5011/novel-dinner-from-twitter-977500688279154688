@@ -3,6 +3,10 @@ html {
   color: #eee;
   -webkit-font-smoothing: antialiased;
   height: 100%;
+  word-break: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-break: strict;
 }
 
 body {
