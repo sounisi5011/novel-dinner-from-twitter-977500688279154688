@@ -49,4 +49,16 @@ footer
         img(
           alt="View on GitHub"
           src="GitHub-Mark-Light-32px.png"
+          srcset=(
+            [
+              [120, 'GitHub-Mark-Light-120px-plus.png'],
+              [64, 'GitHub-Mark-Light-64px.png'],
+              [32, 'GitHub-Mark-Light-32px.png'],
+            ]
+              .map(([width, url]) => `${url} ${width}w`)
+              .join(',')
+          )
+          sizes="32px"
+          width="32"
+          height="32"
         )
