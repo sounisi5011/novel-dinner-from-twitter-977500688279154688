@@ -9,3 +9,7 @@ Minify: [https://tinypng.com](https://tinypng.com)
 
 Download (From generated HTML): [https://creativecommons.org/choose/](https://creativecommons.org/choose/)  
 Minify: [https://tinypng.com](https://tinypng.com)
+
+## `GitHub-Mark-*.png`, `GitHub-Mark.ai`, `GitHub-Mark.eps`
+
+Download: [https://github.com/logos](https://github.com/logos)
