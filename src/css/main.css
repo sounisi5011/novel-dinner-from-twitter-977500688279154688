@@ -48,6 +48,7 @@ main h1 {
  */
 
 footer {
+  margin-bottom: 1em;
   text-align: right;
   border-top: solid;
   font-size: smaller;
@@ -285,8 +286,10 @@ address dt+dd:before {
  */
 
 .view-repository {
+  /*
   margin-bottom: 0;
   padding-bottom: 1em;
+  */
   text-align: center;
 }
 
