@@ -145,12 +145,12 @@ ul.social-buttons
       data-annotation="none"
     )
       img(
-        src="https://www.gstatic.com/images/icons/gplus-16.png"
+        src="gplus-16.png"
         srcset=(
           [
-            [64, 'https://www.gstatic.com/images/icons/gplus-64.png'],
-            [32, 'https://www.gstatic.com/images/icons/gplus-32.png'],
-            [16, 'https://www.gstatic.com/images/icons/gplus-16.png'],
+            [64, 'gplus-64.png'],
+            [32, 'gplus-32.png'],
+            [16, 'gplus-16.png'],
           ]
             .map(([width, url]) => `${url} ${width}w`)
             .join(',')
@@ -229,7 +229,7 @@ ul.social-buttons
       data-hatena-bookmark-lang="ja"
       title="このページをはてなブックマークに追加"
     )
-      img(src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="はてブで" width="20" height="20" style="border: none;")
+      img(src="hatena-bookmark.entry-button.button-only@2x.png" alt="はてブで" width="20" height="20" style="border: none;")
       | ブックマーク
   - includeResources.push({src: 'https://b.st-hatena.com/js/bookmark_button.js', async: true, defer: false});
 
