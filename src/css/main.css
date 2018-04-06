@@ -327,7 +327,7 @@ address dt+dd:before {
   display: none;
 }
 
-@supports (transform: scaleX(0)) and (transform: scaleX(1)) and (transition: transform .25s) {
+@supports (transform: scaleX(0)) and (transform: scaleX(1)) and (animation: view-repository-hide .25s) {
   /*
    * アニメーション関係のプロパティ非対応時のデフォルトスタイルを上書き
    */
