@@ -355,29 +355,29 @@ address dt+dd:before {
     left: 0;
     right: 0;
     transform: scaleX(0);
-    animation: view-repository-blur-pseudo .25s;
+    animation: view-repository-hide .25s;
   }
 
   .view-repository > a:active:before,
   .view-repository > a:focus:before,
   .view-repository > a:hover:before {
     transform: scaleX(1);
-    animation: view-repository-hover-pseudo .25s;
+    animation: view-repository-show .25s;
   }
 
   .view-repository > a > img {
     transform: scaleX(1);
-    animation: view-repository-blur-img .25s;
+    animation: view-repository-show .25s;
   }
 
   .view-repository > a:active > img,
   .view-repository > a:focus > img,
   .view-repository > a:hover > img {
     transform: scaleX(0);
-    animation: view-repository-hover-img .25s;
+    animation: view-repository-hide .25s;
   }
 
-  @keyframes view-repository-hover-img {
+  @keyframes view-repository-hide {
     0% {
       transform: scaleX(1);
     }
@@ -389,7 +389,7 @@ address dt+dd:before {
     }
   }
 
-  @keyframes view-repository-hover-pseudo {
+  @keyframes view-repository-show {
     0% {
       transform: scaleX(0);
     }
@@ -398,30 +398,6 @@ address dt+dd:before {
     }
     100% {
       transform: scaleX(1);
-    }
-  }
-
-  @keyframes view-repository-blur-img {
-    0% {
-      transform: scaleX(0);
-    }
-    50% {
-      transform: scaleX(0);
-    }
-    100% {
-      transform: scaleX(1);
-    }
-  }
-
-  @keyframes view-repository-blur-pseudo {
-    0% {
-      transform: scaleX(1);
-    }
-    50% {
-      transform: scaleX(0);
-    }
-    100% {
-      transform: scaleX(0);
     }
   }
 }
