@@ -374,6 +374,54 @@ address dt+dd:before {
   .view-repository > a:hover > img {
     transform: scaleX(0);
   }
+
+  @keyframes view-repository-hover-img {
+    0% {
+      transform: scaleX(1);
+    }
+    50% {
+      transform: scaleX(0);
+    }
+    100% {
+      transform: scaleX(0);
+    }
+  }
+
+  @keyframes view-repository-hover-pseudo {
+    0% {
+      transform: scaleX(0);
+    }
+    50% {
+      transform: scaleX(0);
+    }
+    100% {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes view-repository-blur-img {
+    0% {
+      transform: scaleX(0);
+    }
+    50% {
+      transform: scaleX(0);
+    }
+    100% {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes view-repository-blur-pseudo {
+    0% {
+      transform: scaleX(1);
+    }
+    50% {
+      transform: scaleX(0);
+    }
+    100% {
+      transform: scaleX(0);
+    }
+  }
 }
 
 /*
