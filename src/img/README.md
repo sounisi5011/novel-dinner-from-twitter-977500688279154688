@@ -13,3 +13,11 @@ Minify: [https://tinypng.com](https://tinypng.com)
 ## `GitHub-Mark-*.png`
 
 Download: [https://github.com/logos](https://github.com/logos)
+
+## `gplus-*.png`
+
+Download: [https://developers.google.com/+/web/share/?hl=ja#sharelink-sizes](https://developers.google.com/+/web/share/?hl=ja#sharelink-sizes)
+
+## `hatena-bookmark.entry-button.button-only@2x.png`
+
+Download (From generated HTML): [http://b.hatena.ne.jp/guide/bbutton](http://b.hatena.ne.jp/guide/bbutton)  
