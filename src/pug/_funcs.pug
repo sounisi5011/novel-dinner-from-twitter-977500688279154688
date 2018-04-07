@@ -195,10 +195,28 @@
   /**
    * @see https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
    */
-  const encodeRFC3986URIComponent = str => (
-    encodeURIComponent(str)
-      .replace(
-        /[!'()*]/g,
-        c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
-      )
-  );
+  const encodeRFC3986URIComponent = (str, ...values) => {
+    if (Array.isArray(str) && str.every(value => typeof value === 'string')) {
+      /*
+       * タグ付けされたTemplate literalのタグ関数として呼び出された場合
+       */
+      return str
+        .map((string, index) => (
+          0 < index ?
+          encodeRFC3986URIComponent(String(values[index - 1])) + string :
+          string
+        ))
+        .join('');
+    } else {
+      /*
+       * その他の場合
+       */
+      return (
+        encodeURIComponent(str)
+          .replace(
+            /[!'()*]/g,
+            c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
+          )
+      );
+    }
+  };
