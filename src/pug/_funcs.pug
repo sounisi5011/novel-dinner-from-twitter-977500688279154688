@@ -191,3 +191,14 @@
     baseUrl.replace(/\/*$/, '/') +
     path.replace(/^\/+/, '')
   );
+
+  /**
+   * @see https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
+   */
+  const encodeRFC3986URIComponent = str => (
+    encodeURIComponent(str)
+      .replace(
+        /[!'()*]/g,
+        c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
+      )
+  );
