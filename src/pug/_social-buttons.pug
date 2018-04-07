@@ -55,7 +55,7 @@ ul.social-buttons
             return null;
           }
 
-          return encodeRFC3986URIComponent(name) + '=' + encodeRFC3986URIComponent(value);
+          return encodeRFC3986URIComponent`${name}=${value}`;
         })
         .filter(Boolean)
         .join('&');
@@ -127,7 +127,7 @@ ul.social-buttons
   li
     a(
       href=(url => {
-        return 'https://plus.google.com/share?url=' + encodeRFC3986URIComponent(url);
+        return encodeRFC3986URIComponent`https://plus.google.com/share?url=${url}`;
       })(baseUrl)
       class="default-button-style g-plus"
       data-action="share"
@@ -197,7 +197,7 @@ ul.social-buttons
     div(class="line-it-button" data-lang="ja" data-type="share-a" data-url=baseUrl)
       a.default-button-style.line-it-button(
         href=(url => {
-          return 'https://social-plugins.line.me/lineit/share?url=' + encodeRFC3986URIComponent(url);
+          return encodeRFC3986URIComponent`https://social-plugins.line.me/lineit/share?url=${url}`;
         })(baseUrl)
       )
         | LINEで送る
