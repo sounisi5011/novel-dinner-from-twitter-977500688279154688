@@ -87,11 +87,11 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
   if useOgp
     meta(property="og:title" content=ogp.title)
     meta(property="og:type" content=ogp.type)
-    meta(property="og:url" content=ogp.url)
-    meta(property="og:image" content=ogp.imageUrl)
+    meta(property="og:url" content=fullUrl(ogp.url, baseUrl))
+    meta(property="og:image" content=fullUrl(ogp.imageUrl, baseUrl))
 
     if ogp.imageSecureUrl
-      meta(property="og:image:secure_url" content=ogp.imageSecureUrl)
+      meta(property="og:image:secure_url" content=fullUrl(ogp.imageSecureUrl, baseUrl))
 
     if ogp.imageType
       meta(property="og:image:type" content=ogp.imageType)
@@ -196,7 +196,7 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
         meta(name="twitter:description" content=ogp.twitter.description)
 
       if ogp.twitter.imageUrl
-        meta(name="twitter:image" content=ogp.twitter.imageUrl)
+        meta(name="twitter:image" content=fullUrl(ogp.twitter.imageUrl, baseUrl))
 
       if ogp.twitter.imageAlt
         - assertStringLength('ogp.twitter.imageAlt', ogp.twitter.imageAlt, 420)
