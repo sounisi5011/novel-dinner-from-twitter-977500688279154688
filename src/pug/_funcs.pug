@@ -226,3 +226,102 @@
       );
     }
   };
+
+  /*
+   * パス、またはURL文字列を、RFC3986にある程度適合する形式に変換する。
+   *
+   * この関数は、RFC3986準拠の形式にパス文字列やURL文字列をエスケープする。
+   * ただし、パスやURLの構造として適切な記号や、有効なパーセントエンコーディングは変換しない。
+   * このため、多段エスケープを行っても、URLの構造を破壊することは無い。
+   *
+   * Note: 面倒なので、いくつかの形式には対応していない。
+   *       例えば、IPv6のホスト名に対応していない。
+   *       また、URNのような形式も想定していない。
+   *       Web上で使う一般的な形式のURLと、相対パスにのみ対応。
+   */
+  const escapeUrlPath = (() => {
+    const userinfoEscape = userinfoStr => (
+      // Note: 本来ならここで、適切なエスケープ処理を行うべきだが、
+      //       仕様書には明確なルールの記載が無く、また、面倒なので書いていない。
+      userinfoStr
+    );
+    const hostEscape = hostStr => (
+      // Note: 本来ならここで、非ASCII文字が紛れ込んだ場合にPunycodeのドメインへと変換
+      //       する処理が必要になる。が、面倒なので書いていない。
+      hostStr
+    );
+    /*
+     * パーセントエンコーディング以外の文字をエスケープする。
+     * また、パーセントエンコーディングを大文字に統一する。
+     * さらに、非予約文字がパーセントエンコーディングされていた場合は元に戻す。
+     */
+    const segmentEscape = segmentStr => (
+      segmentStr.replace(
+        /[^%]|%([0-9a-f]{2})?/ig,
+        (char, isPctEncoded) => (
+          isPctEncoded ?
+          // パーセントエンコーディングの場合、以下の処理を行う
+          (
+            /^%(?:2[de]|3[0-9]|4[1-9a-f]|5[0-9af]|6[1-9a-f]|7[0-9ae])$/i.test(char) ?
+            // 非予約文字の場合、元に戻す
+            decodeURIComponent(char) :
+            // 非予約文字ではない場合、大文字に変換する
+            char.toUpperCase()
+          ) :
+          // パーセントエンコーディングではない文字の場合、エスケープ処理を行う
+          encodeRFC3986URIComponent(char)
+        )
+      )
+    );
+    const queryDataEscape = dataStr => (
+      dataStr.replace(
+        /^([^=]*)(?:(=)(.*))?$/,
+        (_, key, equalsChar, value) => (
+          segmentEscape(key || '') +
+          (equalsChar || '') +
+          segmentEscape(value || '')
+        )
+      )
+    );
+    const urlRegExp = /^(?:(?:([a-z0-9+.-]+):)?(?:\/\/(?:([^@/?#]*)@)?((?:[^/?#:]|:(?![0-9]*(?:[/?#]|$)))+)(?::([0-9]*))?))?([^?#]*)(?:\?([^#]*))?(?:#(.*))?$/i;
+
+    return pathstr => {
+      pathstr = String(pathstr);
+
+      const match = urlRegExp.exec(pathstr);
+
+      /*
+       * URLのマッチに失敗した場合は、例外を投げる
+       */
+      if (!match) {
+        throw new URIError(
+          'escapeUrlPath(pathstr): Unknown format string: ' +
+          JSON.stringify(pathstr)
+        );
+      }
+
+      const [, scheme, userinfo, host, port, path, query, fragment] = match;
+
+      const authority = (
+        (userinfo ? `${userinfoEscape(userinfo)}@` : '') +
+        (host ? hostEscape(host) : '') +
+        (port ? `:${port}` : '')
+      );
+      const pathStr = path
+        .split(/\/+/)
+        .map(segmentEscape)
+        .join('/');
+      const queryStr = (query || '')
+        .split('&')
+        .map(queryDataEscape)
+        .join('&');
+
+      return (
+        (scheme ? `${scheme.toLowerCase()}:` : '') +
+        (authority ? `//${authority}` : '') +
+        pathStr +
+        (queryStr ? `?${queryStr}` : '') +
+        ((typeof fragment === 'string') ? `#${segmentEscape(fragment)}` : '')
+      );
+    };
+  })();
