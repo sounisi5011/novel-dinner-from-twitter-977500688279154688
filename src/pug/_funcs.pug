@@ -187,16 +187,14 @@
     );
   };
 
-  const fullUrl = (path, baseUrl) => {
-    if (/^(?:[a-z]+:)?\/\//.test(path)) {
-      return path;
-    } else {
-      return (
-        baseUrl.replace(/\/*$/, '/') +
-        path.replace(/^\/+/, '')
-      );
-    }
-  };
+  const fullUrl = (path, baseUrl) => escapeUrlPath(
+    /^(?:[a-z0-9+.-]+:)?\/\//.test(path) ?
+    path :
+    (
+      baseUrl.replace(/\/*$/, '/') +
+      path.replace(/^\/+/, '')
+    )
+  );
 
   /**
    * @see https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
