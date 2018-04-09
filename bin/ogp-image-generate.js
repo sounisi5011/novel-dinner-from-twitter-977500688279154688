@@ -1,3 +1,7 @@
+/*
+ * OGP用の画像を生成する
+ */
+
 const path = require('path');
 const urlFetch = require('../lib/urlFetch');
 
