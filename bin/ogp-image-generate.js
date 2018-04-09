@@ -82,31 +82,13 @@ urlFetch(TARGET_URI, { ext: 'jpg' })
      */
     let bottomPos = 0;
     {
-      const font = font32;
-      const text1 = 'Source: https://twitter.com/wodnuyRnaiR';
-      const text2 = '/status/977500688279154688';
-      const text2Indent = 'Source: https://twitter.com';
-      const textWidth = Math.max(
-        measureText(font, text1),
-        measureText(font, text2Indent + text2)
-      );
-      const indentWidth = measureText(font, text2Indent);
+      const font = font16;
+      const text = 'Source: https://twitter.com/wodnuyRnaiR/status/977500688279154688';
+      const textWidth = measureText(font, text);
+      const textHeight = measureTextHeight(font, text);
       const xPos = Math.floor((currentWidth - textWidth) / 2);
-
-      {
-        const text = text2;
-        // const text = text2Indent+text2;
-        const textHeight = measureTextHeight(font, text);
-        const yPos = currentHeight - (bottomPos += textHeight);
-        image.print(font, xPos + indentWidth, yPos, text);
-        // image.print(font, xPos, yPos, text);
-      }
-      {
-        const text = text1;
-        const textHeight = measureTextHeight(font, text);
-        const yPos = currentHeight - (bottomPos += textHeight);
-        image.print(font, xPos, yPos, text);
-      }
+      const yPos = currentHeight - (bottomPos += textHeight);
+      image.print(font, xPos, yPos, text);
     }
     {
       const font = font32;
