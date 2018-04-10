@@ -28,7 +28,7 @@ const urlToFilename = urlStr => (
  */
 const jimpPngWrite = (image, filepath) => new Promise((resolve, reject) => {
   if (!(image instanceof Jimp)) {
-    reject(throw new TypeError('image parameter must be a Jimp object'));
+    reject(new TypeError('image parameter must be a Jimp object'));
     return;
   }
 
