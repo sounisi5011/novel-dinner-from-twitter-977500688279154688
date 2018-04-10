@@ -26,48 +26,48 @@ urlFetch(TARGET_URI, { ext: 'jpg' })
     Jimp.read(filepath),
     Jimp.read(`${__dirname}/../src/img/ogp-annotation-text/text.png`),
   ]))
-  .then(([image, textImage]) => {
-    const {width: originalWidth, height: originalHeight} = image.bitmap;
-    const cropY = 35;
-    const bgcolor = 0x000000FF;
+  .then(([originalImage, textImage]) => {
+    const {width: originalImageWidth, height: originalImageHeight} = originalImage.bitmap;
 
     /*
      * 必要な箇所をクロップする
      */
-    image.crop(0, cropY, originalWidth, originalWidth);
-    let {width: currentWidth, height: currentHeight} = image.bitmap;
+    const cropPos = [0, 35];
+    const cropSize = [originalImageWidth, originalImageWidth];
+    const squareImage = originalImage.clone().crop(...cropPos, ...cropSize);
+    const {width: squareImageWidth, height: squareImageHeight} = squareImage.bitmap;
 
     /*
      * 著作者情報のテキストを追加する
      */
-    {
-      const {width: textWidth, height: textHeight} = textImage.bitmap;
-      const xDiff = (currentWidth - textWidth) / 2;
-      image.composite(textImage, xDiff, currentHeight - textHeight - xDiff);
-    }
+    const {width: textImageWidth, height: textImageHeight} = textImage.bitmap;
+    const xDiff = (squareImageWidth - textImageWidth) / 2;
+    const twitterCardImage = squareImage.clone().composite(textImage, xDiff, squareImageHeight - textImageHeight - xDiff);
+    const {width: twitterCardImageWidth, height: twitterCardImageHeight} = squareImage.bitmap;
 
     /**
      * 1.91:1サイズの背景画像を生成
      * @see https://github.com/oliver-moran/jimp/issues/167#issuecomment-249063832
      * @see https://github.com/oliver-moran/jimp/tree/f7b5e5b543b012069c513ae8a2368c388e54e6ad#creating-new-images
      */
-    const horizontalMargin = Math.round(((currentHeight * 1.91) - currentHeight) / 2);
+    const bgColor = 0x000000FF;
+    const horizontalMargin = Math.round(((twitterCardImageHeight * 1.91) - twitterCardImageWidth) / 2);
     const verticalMargin = 0;
     const ogpSize = [
-      currentHeight + (horizontalMargin * 2),
-      currentHeight,
+      twitterCardImageWidth + (horizontalMargin * 2),
+      twitterCardImageHeight + (verticalMargin * 2),
     ];
-    const canvasImage = new Jimp(...ogpSize, bgcolor);
+    const backgroundImage = new Jimp(...ogpSize, bgColor);
 
     /*
      * 背景画像に、対象の画像を合成
      */
-    canvasImage.composite(image, horizontalMargin, verticalMargin);
+    const ogpImage = backgroundImage.clone().composite(twitterCardImage, horizontalMargin, verticalMargin);
 
     /*
      * 保存する
      */
-    image.write(`${__dirname}/../cache/ogp-out-test.png`);
-    canvasImage.write(`${__dirname}/../cache/ogp-canvas-test.png`);
+    twitterCardImage.write(`${__dirname}/../cache/twitter-card-image.test.png`);
+    ogpImage.write(`${__dirname}/../cache/ogp-image.test.png`);
   })
   .catch(error => console.error(error));
