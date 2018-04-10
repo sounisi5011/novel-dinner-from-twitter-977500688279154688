@@ -144,64 +144,17 @@ urlFetch(TARGET_URI, { ext: 'jpg' })
     /*
      * 自動でパラメータを調節し、画像を最も小さいファイルサイズで生成する。
      */
-    const imageList = [ogpImage, twitterCardImage];
-    const imageBufferList = [null, null];
-    const waitPromiseList = [];
-
-    imageList.forEach(image => image.rgba(false));
-
-    for (const ftype of 'AUTO,NONE,SUB,UP,AVERAGE,PAETH'.split(',')) {
-      const filter = Jimp[`PNG_FILTER_${ftype}`];
-      imageList.forEach(image => image.filterType(filter));
-
-      for (const ds of [...Array(4).keys()]) {
-        imageList.forEach((image, index) => {
-          image.deflateStrategy(ds);
-
-          waitPromiseList.push(new Promise(resolve => {
-            image.getBuffer(Jimp.MIME_PNG, (err, buffer) => {
-              if (err) {
-                resolve(err);
-              } else {
-                const prevBuf = imageBufferList[index];
-                if (!prevBuf || buffer.length < prevBuf.length) {
-                  imageBufferList[index] = buffer;
-                }
-                resolve();
-              }
-            });
-          }));
-        });
-      }
-    }
-
-    const dirPath = `${__dirname}/../cache`;
-    Promise.all(waitPromiseList)
-      .then(() => Promise.all(
-        ['ogp-image.test', 'twitter-card-image.test']
-          .map((basename, index) => {
-            const buffer = imageBufferList[index];
-            const filename = `${basename}.z-min.png`;
-            return [filename, buffer];
-          })
-          .filter(([, buffer]) => buffer)
-          .map(([filename, buffer]) => new Promise(resolve => {
-            const filepath = path.resolve(`${dirPath}/${filename}`);
-            fs.writeFile(filepath, buffer, err => {
-              resolve([filepath, err]);
-            });
-          }))
-      ))
-      .then(list => {
-        for (const [filepath, err] of list) {
-          const relativeFilepath = path.relative(process.cwd(), filepath);
-          if (err) {
-            console.error(`${relativeFilepath} generate error:`);
-            console.error(err);
-          } else {
-            console.error(`${relativeFilepath} generated!`);
-          }
-        }
+    jimpPngWrite(ogpImage, `${__dirname}/../cache/ogp-image.test.z-min.png`)
+      .then(() => console.error('ogp-image.test.z-min.png generated!'))
+      .catch(error => {
+        console.error('ogp-image.test.z-min.png generate error:');
+        console.error(err);
+      });
+    jimpPngWrite(twitterCardImage, `${__dirname}/../cache/twitter-card-image.test.z-min.png`)
+      .then(() => console.error('twitter-card-image.test.z-min.png generated!'))
+      .catch(error => {
+        console.error('twitter-card-image.test.z-min.png generate error:');
+        console.error(err);
       });
   })
   .catch(error => console.error(error));
