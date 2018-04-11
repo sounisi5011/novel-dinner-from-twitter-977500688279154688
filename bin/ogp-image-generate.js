@@ -19,6 +19,7 @@ if (process.argv.length < 3) {
 
 const rootPath = path.join(__dirname, '..');
 const outputDirPath = path.join(process.cwd(), process.argv[2]);
+const outputDirRelativePath = path.relative(process.cwd(), outputDirPath);
 
 urlFetch(TARGET_URI, { ext: 'jpg' })
   .then(filepath => Promise.all([
@@ -48,10 +49,11 @@ urlFetch(TARGET_URI, { ext: 'jpg' })
       /*
        * 保存する
        */
+      const msgPath = path.join(outputDirRelativePath, config.twitterCardsImagePath);
       writeOptimizedPng(twitterCardImage, path.join(outputDirPath, config.twitterCardsImagePath))
-        .then(() => console.error(`${config.twitterCardsImagePath} generated!`))
+        .then(() => console.error(`${msgPath} generated!`))
         .catch(err => {
-          console.error(`${config.twitterCardsImagePath} generate error:`);
+          console.error(`${msgPath} generate error:`);
           console.error(err);
         });
     }
@@ -79,10 +81,11 @@ urlFetch(TARGET_URI, { ext: 'jpg' })
       /*
        * 保存する
        */
+      const msgPath = path.join(outputDirRelativePath, config.ogpImagePath);
       writeOptimizedPng(ogpImage, path.join(outputDirPath, config.ogpImagePath))
-        .then(() => console.error(`${config.ogpImagePath} generated!`))
+        .then(() => console.error(`${msgPath} generated!`))
         .catch(err => {
-          console.error(`${config.ogpImagePath} generate error:`);
+          console.error(`${msgPath} generate error:`);
           console.error(err);
         });
     }
