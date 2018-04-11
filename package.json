@@ -8,7 +8,7 @@
     "mkdir": "mkdirp dest",
     "build": "npm-run-all clean -p build:*",
     "build:html": "run-s mkdir build:html:generate",
-    "build:html:generate": "pug -O config.json -p src/pug/main.pug < src/pug/main.pug | node bin/oembed-converter.js > dest/index.html",
+    "build:html:generate": "pug -O pug.config.js -p src/pug/main.pug < src/pug/main.pug | node bin/oembed-converter.js > dest/index.html",
     "build:css": "run-s build:css:generate",
     "build:css:generate": "postcss src/css/ --dir dest",
     "build:js": "run-s mkdir build:js:generate",
