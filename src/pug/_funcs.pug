@@ -323,3 +323,50 @@
       path.replace(/^\/+/, '')
     )
   );
+
+  const getImageSize = (path, baseUrl=null) => {
+    const sizeOf = require('image-size');
+
+    if (baseUrl && path.startsWith(baseUrl)) {
+      path = path.substr(baseUrl.length);
+    }
+
+    const dimensions = sizeOf(`dest/${path}`);
+    const type = dimensions.type;
+
+    /**
+     * @see https://developer.mozilla.org/ja/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Complete_list_of_MIME_types
+     * @see https://www.sitepoint.com/mime-types-complete-list/
+     */
+    if (/^(?:bmp|gif|png|tiff|webp)$/.test(type)) {
+      dimensions.mime = `image/${type}`;
+    } else if (type === 'jpg') {
+      dimensions.mime = 'image/jpeg';
+    } else if (type === 'svg') {
+      dimensions.mime = 'image/svg+xml';
+    } else if (type === 'ico') {
+      /**
+       * @see https://stackoverflow.com/q/13827325
+       */
+      dimensions.mime = 'image/x-icon';
+    } else if (type === 'cur') {
+      /**
+       * @see http://filext.com/file-extension/CUR
+       */
+      dimensions.mime = 'image/x-win-bitmap';
+    } else if (type === 'psd') {
+      /**
+       * @see https://wordpress.stackexchange.com/a/46150
+       */
+      dimensions.mime = 'image/vnd.adobe.photoshop';
+    } else if (type === 'dds') {
+      /**
+       * @see https://msdn.microsoft.com/ja-jp/library/windows/desktop/dn424129(v=vs.85).aspx
+       */
+      dimensions.mime = 'image/vnd-ms.dds';
+    } else {
+      dimensions.mime = '';
+    }
+
+    return dimensions;
+  };
