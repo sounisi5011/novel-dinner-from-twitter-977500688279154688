@@ -146,15 +146,15 @@ urlFetch(TARGET_URI, { ext: 'jpg' })
      */
     jimpPngWrite(ogpImage, `${__dirname}/../cache/ogp-image.test.z-min.png`)
       .then(() => console.error('ogp-image.test.z-min.png generated!'))
-      .catch(error => {
+      .catch(err => {
         console.error('ogp-image.test.z-min.png generate error:');
         console.error(err);
       });
     jimpPngWrite(twitterCardImage, `${__dirname}/../cache/twitter-card-image.test.z-min.png`)
       .then(() => console.error('twitter-card-image.test.z-min.png generated!'))
-      .catch(error => {
+      .catch(err => {
         console.error('twitter-card-image.test.z-min.png generate error:');
         console.error(err);
       });
   })
-  .catch(error => console.error(error));
+  .catch(err => console.error(err));
