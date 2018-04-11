@@ -6,6 +6,18 @@ const fs = require('fs');
 const path = require('path');
 const urlFetch = require('../lib/urlFetch');
 
+const urlToFilename = urlStr => (
+  urlStr.replace(
+    /^https?:\/\/|[.\/:]/g,
+    char => (
+      char === '.' ? '{dot}' :
+      char === '/' ? '{slash}' :
+      char === ':' ? '{colon}' :
+      ''
+    )
+  )
+);
+
 const URL_LIST = [
   /*
    * https://developers.google.com/+/web/share/?hl=ja#sharelink-sizes
