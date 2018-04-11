@@ -68,6 +68,10 @@ mixin img
           attributes.src = srcDict.path;
         }
       }
+
+      if (!('sizes' in attributes) && srcDict.data) {
+        attributes.sizes = `${srcDict.data.width}px`;
+      }
     }
 
     if (!srcDict.data) {
@@ -78,15 +82,9 @@ mixin img
       }
     }
 
-    if (srcDict.data) {
-      if (!('sizes' in attributes)) {
-        attributes.sizes = `${srcDict.data.width}px`;
-      }
-
-      if (!('width' in attributes) && !('height' in attributes)) {
-        attributes.width = srcDict.data.width;
-        attributes.height = srcDict.data.height;
-      }
+    if (!('width' in attributes) && !('height' in attributes) && srcDict.data) {
+      attributes.width = srcDict.data.width;
+      attributes.height = srcDict.data.height;
     }
 
   img&attributes(attributes)
