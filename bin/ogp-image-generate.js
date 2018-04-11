@@ -10,18 +10,6 @@ const writeOptimizedPng = require('../lib/Jimp/writeOptimizedPng');
 
 const config = require('../config.json');
 
-const urlToFilename = urlStr => (
-  urlStr.replace(
-    /^https?:\/\/|[.\/:]/g,
-    char => (
-      char === '.' ? '{dot}' :
-      char === '/' ? '{slash}' :
-      char === ':' ? '{colon}' :
-      ''
-    )
-  )
-);
-
 const SOURCE_URI = 'https://twitter.com/wodnuyRnaiR/status/977500688279154688';
 const TARGET_URI = 'https://pbs.twimg.com/media/DZDHrURU0AEnlK8.jpg:orig';
 const OUTPUT_DIR = 'dest';
