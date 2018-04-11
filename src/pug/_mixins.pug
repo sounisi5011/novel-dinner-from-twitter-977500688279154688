@@ -19,3 +19,73 @@ mixin dl
   if blockHtml !== ''
     dl&attributes(attributes)
       - pug_html += blockHtml;
+
+mixin img
+  -
+    const srcDict = {
+      path: attributes.src,
+      data: null,
+    };
+
+    if ('srcset' in attributes) {
+      const srcset = attributes.srcset;
+      const srcList = (
+        (Array.isArray(srcset) ? srcset : [srcset])
+          .map(path => {
+            const retval = {
+              path: path,
+              data: null,
+            };
+
+            try {
+              retval.data = getImageSize(path, baseUrl);
+            } catch(e) {
+              console.error(e);
+            }
+
+            return retval;
+          })
+          .sort(({data: a}, {data: b}) => (
+            (a && b) ? b.width - a.width :
+            a ? 1 :
+            b ? -1 :
+            0
+          ))
+      );
+      attributes.srcset = (
+        (
+          srcList
+            .map(({path, data}) => (data ? `${path} ${data.width}w` : path))
+            .join(',')
+        ) ||
+        false
+      );
+
+      if (srcDict.path === undefined) {
+        const minSrc = srcList[srcList.length - 1];
+        if (minSrc.data) {
+          Object.assign(srcDict, minSrc);
+          attributes.src = srcDict.path;
+        }
+      }
+
+      if (!('sizes' in attributes) && srcDict.data) {
+        attributes.sizes = `${srcDict.data.width}px`;
+      }
+    }
+
+    if (!('width' in attributes) && !('height' in attributes)) {
+      if (srcDict.path && !srcDict.data) {
+        try {
+          srcDict.data = getImageSize(srcDict.path, baseUrl);
+        } catch(e) {
+          console.error(e);
+        }
+      }
+      if (srcDict.data) {
+        attributes.width = srcDict.data.width;
+        attributes.height = srcDict.data.height;
+      }
+    }
+
+  img&attributes(attributes)

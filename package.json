@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "del dest",
     "mkdir": "mkdirp dest",
-    "build": "npm-run-all clean -p build:*",
+    "build": "npm-run-all clean -p build:css build:js build:img -s build:html",
     "build:html": "run-s mkdir build:html:generate",
     "build:html:generate": "pug -O pug.config.js -p src/pug/main.pug < src/pug/main.pug | node bin/oembed-converter.js > dest/index.html",
     "build:css": "run-s build:css:generate",
@@ -26,6 +26,7 @@
     "cpy-cli": "^1.0.1",
     "del-cli": "^1.1.0",
     "glob-exec": "^0.1.1",
+    "image-size": "^0.6.2",
     "jimp": "^0.2.28",
     "jstransformer-markdown-it": "^2.0.0",
     "mkdirp": "^0.5.1",

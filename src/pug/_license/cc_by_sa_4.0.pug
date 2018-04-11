@@ -9,20 +9,12 @@
 
 p.license(prefix="cc: http://creativecommons.org/ns# dct: http://purl.org/dc/terms/")
   a.cc-logo(rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/")
-    img(
+    +img(
       alt="クリエイティブ・コモンズ・ライセンス"
-      style="border-width:0"
-      src="cc-by-sa.88x31.png"
-      srcset=(
-        [
-          [403, 'cc-by-sa.403x141.png'],
-          [88, 'cc-by-sa.88x31.png'],
-        ]
-          .map(([width, url]) => `${url} ${width}w`)
-          .join(',')
-      )
-      sizes="88px"
-      width="88" height="31"
+      srcset=[
+        'cc-by-sa.403x141.png',
+        'cc-by-sa.88x31.png',
+      ]
     )
   br
   if ccLicense
