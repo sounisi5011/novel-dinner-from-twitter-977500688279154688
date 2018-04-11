@@ -93,14 +93,24 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
     if ogp.imageSecureUrl
       meta(property="og:image:secure_url" content=fullUrl(ogp.imageSecureUrl, baseUrl))
 
-    if ogp.imageType
-      meta(property="og:image:type" content=ogp.imageType)
+    -
+      const ogpImageData = (() => {
+        try {
+          return getImageSize(ogp.imageUrl, baseUrl);
+        } catch(e) {
+          console.error(e);
+          return {};
+        }
+      })();
 
-    if ogp.imageWidth
-      meta(property="og:image:width" content=ogp.imageWidth)
+    if ogp.imageType || ogpImageData.mime
+      meta(property="og:image:type" content=(ogp.imageType || ogpImageData.mime))
 
-    if ogp.imageHeight
-      meta(property="og:image:height" content=ogp.imageHeight)
+    if ogp.imageWidth || ogpImageData.width
+      meta(property="og:image:width" content=(ogp.imageWidth || ogpImageData.width))
+
+    if ogp.imageHeight || ogpImageData.height
+      meta(property="og:image:height" content=(ogp.imageHeight || ogpImageData.height))
 
     if ogp.imageAlt
       meta(property="og:image:alt" content=ogp.imageAlt)
