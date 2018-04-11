@@ -8,6 +8,8 @@ const Jimp = require('jimp');
 const urlFetch = require('../lib/urlFetch');
 const writeOptimizedPng = require('../lib/Jimp/writeOptimizedPng');
 
+const config = require('../config.json');
+
 const urlToFilename = urlStr => (
   urlStr.replace(
     /^https?:\/\/|[.\/:]/g,
@@ -22,6 +24,9 @@ const urlToFilename = urlStr => (
 
 const SOURCE_URI = 'https://twitter.com/wodnuyRnaiR/status/977500688279154688';
 const TARGET_URI = 'https://pbs.twimg.com/media/DZDHrURU0AEnlK8.jpg:orig';
+const OUTPUT_DIR = 'dest';
+
+const dirPath = path.join(__dirname, '..', OUTPUT_DIR);
 
 urlFetch(TARGET_URI, { ext: 'jpg' })
   .then(filepath => Promise.all([
@@ -69,22 +74,16 @@ urlFetch(TARGET_URI, { ext: 'jpg' })
     /*
      * 保存する
      */
-    twitterCardImage.write(`${__dirname}/../cache/twitter-card-image.test.png`);
-    ogpImage.write(`${__dirname}/../cache/ogp-image.test.png`);
-
-    /*
-     * 自動でパラメータを調節し、画像を最も小さいファイルサイズで生成する。
-     */
-    writeOptimizedPng(ogpImage, `${__dirname}/../cache/ogp-image.test.z-min.png`)
-      .then(() => console.error('ogp-image.test.z-min.png generated!'))
+    writeOptimizedPng(ogpImage, path.join(dirPath, config.ogpImagePath))
+      .then(() => console.error(`${config.ogpImagePath} generated!`))
       .catch(err => {
-        console.error('ogp-image.test.z-min.png generate error:');
+        console.error(`${config.ogpImagePath} generate error:`);
         console.error(err);
       });
-    writeOptimizedPng(twitterCardImage, `${__dirname}/../cache/twitter-card-image.test.z-min.png`)
-      .then(() => console.error('twitter-card-image.test.z-min.png generated!'))
+    writeOptimizedPng(twitterCardImage, path.join(dirPath, config.twitterCardsImagePath))
+      .then(() => console.error(`${config.twitterCardsImagePath} generated!`))
       .catch(err => {
-        console.error('twitter-card-image.test.z-min.png generate error:');
+        console.error(`${config.twitterCardsImagePath} generate error:`);
         console.error(err);
       });
   })
