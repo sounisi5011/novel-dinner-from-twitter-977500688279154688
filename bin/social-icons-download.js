@@ -19,3 +19,9 @@ const URL_LIST = [
    */
   'https://b.st-hatena.com/images/entry-button/button-only@2x.png',
 ];
+
+URL_LIST.forEach(url => {
+  urlFetch(url)
+    .then(filepath => {})
+    .catch(err => console.error(err));
+});
