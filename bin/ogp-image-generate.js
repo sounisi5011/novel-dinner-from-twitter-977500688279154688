@@ -40,39 +40,47 @@ urlFetch(TARGET_URI, { ext: 'jpg' })
     const twitterCardImage = squareImage.clone().composite(textImage, xDiff, squareImageHeight - textImageHeight - xDiff);
     const {width: twitterCardImageWidth, height: twitterCardImageHeight} = squareImage.bitmap;
 
-    /**
-     * 1.91:1サイズの背景画像を生成
-     * @see https://github.com/oliver-moran/jimp/issues/167#issuecomment-249063832
-     * @see https://github.com/oliver-moran/jimp/tree/f7b5e5b543b012069c513ae8a2368c388e54e6ad#creating-new-images
-     */
-    const bgColor = 0x000000FF;
-    const horizontalMargin = Math.round(((twitterCardImageHeight * 1.91) - twitterCardImageWidth) / 2);
-    const verticalMargin = 0;
-    const ogpSize = [
-      twitterCardImageWidth + (horizontalMargin * 2),
-      twitterCardImageHeight + (verticalMargin * 2),
-    ];
-    const backgroundImage = new Jimp(...ogpSize, bgColor);
+    if (config.twitterCardsImagePath) {
+      /*
+       * 保存する
+       */
+      writeOptimizedPng(twitterCardImage, path.join(dirPath, config.twitterCardsImagePath))
+        .then(() => console.error(`${config.twitterCardsImagePath} generated!`))
+        .catch(err => {
+          console.error(`${config.twitterCardsImagePath} generate error:`);
+          console.error(err);
+        });
+    }
 
-    /*
-     * 背景画像に、対象の画像を合成
-     */
-    const ogpImage = backgroundImage.clone().composite(twitterCardImage, horizontalMargin, verticalMargin);
+    if (config.ogpImagePath) {
+      /**
+       * 1.91:1サイズの背景画像を生成
+       * @see https://github.com/oliver-moran/jimp/issues/167#issuecomment-249063832
+       * @see https://github.com/oliver-moran/jimp/tree/f7b5e5b543b012069c513ae8a2368c388e54e6ad#creating-new-images
+       */
+      const bgColor = 0x000000FF;
+      const horizontalMargin = Math.round(((twitterCardImageHeight * 1.91) - twitterCardImageWidth) / 2);
+      const verticalMargin = 0;
+      const ogpSize = [
+        twitterCardImageWidth + (horizontalMargin * 2),
+        twitterCardImageHeight + (verticalMargin * 2),
+      ];
+      const backgroundImage = new Jimp(...ogpSize, bgColor);
 
-    /*
-     * 保存する
-     */
-    writeOptimizedPng(ogpImage, path.join(dirPath, config.ogpImagePath))
-      .then(() => console.error(`${config.ogpImagePath} generated!`))
-      .catch(err => {
-        console.error(`${config.ogpImagePath} generate error:`);
-        console.error(err);
-      });
-    writeOptimizedPng(twitterCardImage, path.join(dirPath, config.twitterCardsImagePath))
-      .then(() => console.error(`${config.twitterCardsImagePath} generated!`))
-      .catch(err => {
-        console.error(`${config.twitterCardsImagePath} generate error:`);
-        console.error(err);
-      });
+      /*
+       * 背景画像に、対象の画像を合成
+       */
+      const ogpImage = backgroundImage.clone().composite(twitterCardImage, horizontalMargin, verticalMargin);
+
+      /*
+       * 保存する
+       */
+      writeOptimizedPng(ogpImage, path.join(dirPath, config.ogpImagePath))
+        .then(() => console.error(`${config.ogpImagePath} generated!`))
+        .catch(err => {
+          console.error(`${config.ogpImagePath} generate error:`);
+          console.error(err);
+        });
+    }
   })
   .catch(err => console.error(err));
