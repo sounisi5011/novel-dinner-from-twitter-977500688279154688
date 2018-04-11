@@ -14,12 +14,13 @@ const SOURCE_URI = 'https://twitter.com/wodnuyRnaiR/status/977500688279154688';
 const TARGET_URI = 'https://pbs.twimg.com/media/DZDHrURU0AEnlK8.jpg:orig';
 const OUTPUT_DIR = 'dest';
 
-const dirPath = path.join(__dirname, '..', OUTPUT_DIR);
+const rootPath = path.join(__dirname, '..');
+const dirPath = path.join(rootPath, OUTPUT_DIR);
 
 urlFetch(TARGET_URI, { ext: 'jpg' })
   .then(filepath => Promise.all([
     Jimp.read(filepath),
-    Jimp.read(`${__dirname}/../src/img/ogp-annotation-text/text.png`),
+    Jimp.read(`${rootPath}/src/img/ogp-annotation-text/text.png`),
   ]))
   .then(([originalImage, textImage]) => {
     const {width: originalImageWidth, height: originalImageHeight} = originalImage.bitmap;
