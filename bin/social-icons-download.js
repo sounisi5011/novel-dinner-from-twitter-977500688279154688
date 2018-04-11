@@ -20,6 +20,13 @@ const URL_LIST = [
   'https://b.st-hatena.com/images/entry-button/button-only@2x.png',
 ];
 
+if (process.argv.length < 3) {
+  return;
+}
+
+const outputDirPath = path.join(process.cwd(), process.argv[2]);
+const outputDirRelativePath = path.relative(process.cwd(), outputDirPath);
+
 URL_LIST.forEach(url => {
   urlFetch(url)
     .then(filepath => {})
