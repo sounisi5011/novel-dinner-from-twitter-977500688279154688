@@ -22,11 +22,14 @@ const urlToFilename = urlStr => (
 /**
  * Jimpで、最も小さく圧縮されたPNG画像を書き出す関数
  *
- * @param {Jimp} image
- * @param {string} filepath
+ * @param {Jimp} image 画像のJimpオブジェクト
+ * @param {string} filepath 保存するファイルパス
+ * @param {!Object} [options={}]
+ * @param {?boolean} [options.rgba=null] PNGをRGBAで保存する場合はtrue、RGBで保存する場合はfalse。
+ *     nullを指定した場合、自動判定を行う。初期値はnull。
  * @return {Promise}
  */
-const jimpPngWrite = (image, filepath) => new Promise((resolve, reject) => {
+const jimpPngWrite = (image, filepath, {rgba=null} = {}) => new Promise((resolve, reject) => {
   if (!(image instanceof Jimp)) {
     reject(new TypeError('image parameter must be a Jimp object'));
     return;
@@ -39,10 +42,25 @@ const jimpPngWrite = (image, filepath) => new Promise((resolve, reject) => {
   const targetImage = image.clone();
 
   /*
-   * 最低限必要なパラメータを定義
-   * TODO: 透過PNGの場合は、rgbaはtrueにしておくコード、またはオプション。
+   * rgbaオプションがnullの場合、透過色が含まれるかを自動判定する
    */
-  targetImage.rgba(false);
+  if (rgba === null) {
+    rgba = false;
+
+    const targetBitmap = targetImage.bitmap;
+    const targetData = targetBitmap.data;
+    targetImage.scan(0, 0, targetBitmap.width, targetBitmap.height, (x, y, idx) => {
+      const alpha = targetData[idx + 3];
+      if (alpha !== 255) {
+        rgba = true;
+      }
+    });
+  }
+
+  /*
+   * 最低限必要なパラメータを定義
+   */
+  targetImage.rgba(Boolean(rgba));
   targetImage.deflateLevel(9);
 
   /*
