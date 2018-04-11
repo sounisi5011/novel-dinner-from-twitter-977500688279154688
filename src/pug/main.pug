@@ -6,6 +6,11 @@ block vars
 
 block contents
   main#main
+    pre
+      | #{typeof require}
+      |
+      | #{String(require)}
+
     - const prevHtml = pug_html;
     - pug_html = '';
     
