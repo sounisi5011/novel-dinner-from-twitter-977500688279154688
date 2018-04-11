@@ -23,6 +23,7 @@
   "dependencies": {
     "autoprefixer": "^8.2.0",
     "cheerio": "^1.0.0-rc.2",
+    "cp-file": "^5.0.0",
     "cpy-cli": "^1.0.1",
     "del-cli": "^1.1.0",
     "glob-exec": "^0.1.1",
