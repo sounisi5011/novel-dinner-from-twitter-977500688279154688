@@ -2,8 +2,8 @@
  * ソーシャルボタン用の画像ファイルを自動で取得する
  */
 
-const fs = require('fs');
 const path = require('path');
+const cpFile = require('cp-file');
 const urlFetch = require('../lib/urlFetch');
 
 const urlToFilename = urlStr => (
