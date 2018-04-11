@@ -18,7 +18,7 @@ if (process.argv.length < 3) {
 }
 
 const rootPath = path.join(__dirname, '..');
-const outputDirPath = path.join(rootPath, process.argv[2]);
+const outputDirPath = path.join(process.cwd(), process.argv[2]);
 
 urlFetch(TARGET_URI, { ext: 'jpg' })
   .then(filepath => Promise.all([
