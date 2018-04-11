@@ -49,7 +49,7 @@ include _funcs.pug
     title: title,
     type: 'article',
     url: baseUrl,
-    imageUrl: '',
+    imageUrl: ogpImagePath || '',
 
     /*
      * optional.
@@ -75,6 +75,7 @@ include _funcs.pug
       site: '@sounisi5011Vore', // @username
       creator: '@sounisi5011Vore', // @username
       description: '',
+      imageUrl: twitterCardsImagePath || '',
       imageAlt: '',
     },
   };
