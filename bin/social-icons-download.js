@@ -40,10 +40,12 @@ const outputDirPath = path.join(process.cwd(), process.argv[2]);
 const outputDirRelativePath = path.relative(process.cwd(), outputDirPath);
 
 URL_LIST.forEach(url => {
-  console.error(path.join(outputDirPath, urlToFilename(url) + path.extname(url)));
+  const outputFilePath = path.join(outputDirPath, urlToFilename(url) + path.extname(url));
+
+  console.error(outputFilePath);
   return;
 
   urlFetch(url)
-    .then(filepath => {})
+    .then(filepath => cpFile(filepath, outputFilePath))
     .catch(err => console.error(err));
 });
