@@ -74,17 +74,18 @@ mixin img
       }
     }
 
-    if (!srcDict.data) {
-      try {
-        srcDict.data = getImageSize(srcDict.path, baseUrl);
-      } catch(e) {
-        console.error(e);
+    if (!('width' in attributes) && !('height' in attributes)) {
+      if (srcDict.path && !srcDict.data) {
+        try {
+          srcDict.data = getImageSize(srcDict.path, baseUrl);
+        } catch(e) {
+          console.error(e);
+        }
       }
-    }
-
-    if (!('width' in attributes) && !('height' in attributes) && srcDict.data) {
-      attributes.width = srcDict.data.width;
-      attributes.height = srcDict.data.height;
+      if (srcDict.data) {
+        attributes.width = srcDict.data.width;
+        attributes.height = srcDict.data.height;
+      }
     }
 
   img&attributes(attributes)
