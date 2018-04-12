@@ -133,11 +133,14 @@ ul.social-buttons
       data-action="share"
       data-annotation="none"
     )
-      +img(
-        srcset=iconPath.gPlusList
-        alt="Google+"
-      )
-      | #{s}で共有
+      if iconPath && (Array.isArray(iconPath.gPlusList) ? 0 < iconPath.gPlusList.length : iconPath.gPlusList)
+        +img(
+          srcset=iconPath.gPlusList
+          alt="Google+"
+        )
+        | #{s}で共有
+      else
+        | Google+で共有
   - includeResources.push({src: 'https://apis.google.com/js/platform.js', async: true, defer: true});
 
   //- Tumblr
@@ -206,8 +209,11 @@ ul.social-buttons
       data-hatena-bookmark-lang="ja"
       title="このページをはてなブックマークに追加"
     )
-      +img(src=iconPath.hatenaBookmark alt="はてブで" width="20" height="20")
-      | ブックマーク
+      if iconPath && iconPath.hatenaBookmark
+        +img(src=iconPath.hatenaBookmark alt="はてブで" width="20" height="20")
+        | ブックマーク
+      else
+        | はてブでブックマーク
   - includeResources.push({src: 'https://b.st-hatena.com/js/bookmark_button.js', async: true, defer: false});
 
   //- Pocket
