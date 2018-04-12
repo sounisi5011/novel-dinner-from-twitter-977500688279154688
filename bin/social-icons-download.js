@@ -42,9 +42,6 @@ const outputDirRelativePath = path.relative(process.cwd(), outputDirPath);
 URL_LIST.forEach(url => {
   const outputFilePath = path.join(outputDirPath, urlToFilename(url) + path.extname(url));
 
-  console.error(outputFilePath);
-  return;
-
   urlFetch(url)
     .then(filepath => cpFile(filepath, outputFilePath))
     .catch(err => console.error(err));
