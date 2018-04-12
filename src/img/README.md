@@ -25,21 +25,3 @@ Download: [https://github.com/logos](https://github.com/logos)
 ### Original URL
 
 *   [https://github-media-downloads.s3.amazonaws.com/GitHub-Mark.zip](https://github-media-downloads.s3.amazonaws.com/GitHub-Mark.zip) (zip compressed)
-
-## `gplus-*.png`
-
-Download: [https://developers.google.com/+/web/share/?hl=ja#sharelink-sizes](https://developers.google.com/+/web/share/?hl=ja#sharelink-sizes)
-
-### Original URL
-
-*   [https://www.gstatic.com/images/icons/gplus-64.png](https://www.gstatic.com/images/icons/gplus-64.png)
-*   [https://www.gstatic.com/images/icons/gplus-32.png](https://www.gstatic.com/images/icons/gplus-32.png)
-*   [https://www.gstatic.com/images/icons/gplus-16.png](https://www.gstatic.com/images/icons/gplus-16.png)
-
-## `hatena-bookmark.entry-button.button-only@2x.png`
-
-Download (From generated HTML): [http://b.hatena.ne.jp/guide/bbutton](http://b.hatena.ne.jp/guide/bbutton)
-
-### Original URL
-
-*   [https://b.st-hatena.com/images/entry-button/button-only@2x.png](https://b.st-hatena.com/images/entry-button/button-only@2x.png)
