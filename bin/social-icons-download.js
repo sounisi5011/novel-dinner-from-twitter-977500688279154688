@@ -42,22 +42,23 @@ const outputDirRelativePath = path.relative(process.cwd(), outputDirPath);
 URL_LIST.forEach(url => {
   const outputFilename = urlToFilename(url) + path.extname(url);
   const outputFilePath = path.join(outputDirPath, outputFilename);
+  const outputFileRelativePath = path.join(outputDirRelativePath, outputFilename);
 
   console.error(`    Icon image downloading: ${url}`);
 
   urlFetch(url)
     .then(filepath => {
       console.error(`    Download complete: ${url}`);
-      console.error(`    Saving to ${outputFilePath}`);
+      console.error(`    Saving to ${outputFileRelativePath}`);
       return cpFile(filepath, outputFilePath);
     })
     .then(() => {
-      console.error(`    Save complete: ${outputFilePath}`);
+      console.error(`    Save complete: ${outputFileRelativePath}`);
     })
     .catch(err => {
       console.error('    Icon image download error:');
       console.error(`        URL: ${url}`);
-      console.error(`        Save path: ${outputFilePath}`);
+      console.error(`        Save path: ${outputFileRelativePath}`);
       console.error();
       console.error(err);
       console.error();
