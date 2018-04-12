@@ -134,11 +134,7 @@ ul.social-buttons
       data-annotation="none"
     )
       +img(
-        srcset=[
-          'gplus-64.png',
-          'gplus-32.png',
-          'gplus-16.png',
-        ]
+        srcset=iconPath.gPlusList
         alt="Google+"
       )
       | #{s}で共有
@@ -210,7 +206,7 @@ ul.social-buttons
       data-hatena-bookmark-lang="ja"
       title="このページをはてなブックマークに追加"
     )
-      +img(src="hatena-bookmark.entry-button.button-only@2x.png" alt="はてブで" width="20" height="20")
+      +img(src=iconPath.hatenaBookmark alt="はてブで" width="20" height="20")
       | ブックマーク
   - includeResources.push({src: 'https://b.st-hatena.com/js/bookmark_button.js', async: true, defer: false});
 
