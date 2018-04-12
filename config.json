@@ -1,4 +1,12 @@
 {
   "ogpImagePath": "ogp-image.twitter{dot}com{slash}wodnuyRnaiR{slash}status{slash}977500688279154688.media-01.png",
-  "twitterCardsImagePath": "twitter-card-image.twitter{dot}com{slash}wodnuyRnaiR{slash}status{slash}977500688279154688.media-01.png"
+  "twitterCardsImagePath": "twitter-card-image.twitter{dot}com{slash}wodnuyRnaiR{slash}status{slash}977500688279154688.media-01.png",
+  "iconPath": {
+    "gPlusList": [
+      "www{dot}gstatic{dot}com{slash}images{slash}icons{slash}gplus-64{dot}png.png",
+      "www{dot}gstatic{dot}com{slash}images{slash}icons{slash}gplus-32{dot}png.png",
+      "www{dot}gstatic{dot}com{slash}images{slash}icons{slash}gplus-16{dot}png.png"
+    ],
+    "hatenaBookmark": "b{dot}st-hatena{dot}com{slash}images{slash}entry-button{slash}button-only@2x{dot}png.png"
+  }
 }
