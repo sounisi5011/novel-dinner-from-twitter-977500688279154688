@@ -33,21 +33,21 @@ URL_LIST.forEach(url => {
   const outputFilePath = path.join(outputDirPath, outputFilename);
   const outputFileRelativePath = path.join(outputDirRelativePath, outputFilename);
 
-  console.error(`    Icon image downloading: ${url}`);
+  console.error(`Icon image downloading: ${url}`);
 
-  urlFetch(url)
+  urlFetch(url, { showConsoleCallback: msg => `  ${msg}` })
     .then(filepath => {
-      console.error(`    Download complete: ${url}`);
-      console.error(`    Saving to ${outputFileRelativePath}`);
+      console.error(`Download complete: ${url}`);
+      console.error(`Saving to ${outputFileRelativePath}`);
       return cpFile(filepath, outputFilePath);
     })
     .then(() => {
-      console.error(`    Save complete: ${outputFileRelativePath}`);
+      console.error(`Save complete: ${outputFileRelativePath}`);
     })
     .catch(err => {
-      console.error('    Icon image download error:');
-      console.error(`        URL: ${url}`);
-      console.error(`        Save path: ${outputFileRelativePath}`);
+      console.error('Icon image download error:');
+      console.error(`  URL: ${url}`);
+      console.error(`  Save path: ${outputFileRelativePath}`);
       console.error();
       console.error(err);
       console.error();
