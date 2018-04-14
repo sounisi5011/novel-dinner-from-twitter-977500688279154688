@@ -26,7 +26,7 @@ module.exports = ctx => {
   const isBrowserFixStyle = pathStartsWith(ctx.file.dirname, fixStylePath);
 
   return {
-    map: { inline: false },
+    map: false,
     plugins: {
       'postcss-import': {},
       'autoprefixer': isBrowserFixStyle ? false : { remove: false },
