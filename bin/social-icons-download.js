@@ -5,18 +5,7 @@
 const path = require('path');
 const cpFile = require('cp-file');
 const urlFetch = require('../lib/urlFetch');
-
-const urlToFilename = urlStr => (
-  urlStr.replace(
-    /^https?:\/\/|[.\/:]/g,
-    char => (
-      char === '.' ? '{dot}' :
-      char === '/' ? '{slash}' :
-      char === ':' ? '{colon}' :
-      ''
-    )
-  )
-);
+const urlToFilename = require('../lib/urlToFilename');
 
 const URL_LIST = [
   /*
