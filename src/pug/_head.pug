@@ -138,10 +138,10 @@ head(prefix=(useOgp ? prefixValueList.join(' ') : false))
       meta(property="og:description" content=ogp.description)
 
     if ogp.type === 'article'
-      if ogp.publishedTime || creationDate
+      if ogp.publishedTime || creationDate || generateTime
         meta(
           property="article:published_time"
-          content=formatDate(ogp.publishedTime || creationDate, '%Y-%m-%dT%H:%M:%SZ', 0)
+          content=formatDate(ogp.publishedTime || creationDate || generateTime, '%Y-%m-%dT%H:%M:%SZ', 0)
         )
 
       if ogp.modifiedTime || generateTime
