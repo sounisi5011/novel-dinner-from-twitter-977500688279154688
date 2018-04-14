@@ -21,7 +21,7 @@ const rootPath = path.join(__dirname, '..');
 const outputDirPath = path.join(process.cwd(), process.argv[2]);
 const outputDirRelativePath = path.relative(process.cwd(), outputDirPath);
 
-urlFetch(TARGET_URI, { ext: 'jpg' })
+urlFetch(TARGET_URI, { ext: 'jpg', showConsoleCallback: msg => `  ${msg}` })
   .then(filepath => Promise.all([
     Jimp.read(filepath),
     Jimp.read(`${rootPath}/src/img/ogp-annotation-text/text.png`),
