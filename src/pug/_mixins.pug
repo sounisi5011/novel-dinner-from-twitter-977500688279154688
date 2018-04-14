@@ -55,7 +55,7 @@ mixin img
       attributes.srcset = (
         (
           srcList
-            .map(({path, data}) => (data ? `${path} ${data.width}w` : path))
+            .map(({path, data}) => (data ? `${escapeUrlPath(path)} ${data.width}w` : path))
             .join(',')
         ) ||
         false
@@ -73,6 +73,8 @@ mixin img
         attributes.sizes = `${srcDict.data.width}px`;
       }
     }
+
+    attributes.src = escapeUrlPath(attributes.src);
 
     if (!('width' in attributes) && !('height' in attributes)) {
       if (srcDict.path && !srcDict.data) {
