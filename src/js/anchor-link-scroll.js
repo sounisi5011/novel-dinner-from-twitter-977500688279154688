@@ -149,7 +149,7 @@
        */
       event.preventDefault();
       pushHistory();
-      scrollIntoView(targetElem)
+      scrollIntoView(targetElem);
     } else if (targetId === 'top' || targetId === '') {
       /*
        * IDが"top"または空文字列の場合、ページの一番上まで移動する
