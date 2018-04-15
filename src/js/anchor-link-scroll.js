@@ -96,14 +96,28 @@
       return;
     }
 
+    /*
+     * クリックした要素の祖先要素から、最も近いa要素を取得する
+     */
     var anchorElem = lookupNode(event.target, function(node) {
       return String(node.nodeName).toLowerCase() === 'a';
     });
+
+    /*
+     * a要素を取得できなかった場合は、何もしない
+     */
     if (!anchorElem) return;
 
+    /*
+     * 要素の属するDocumentオブジェクトとWindowオブジェクトを取得する
+     */
     var doc = anchorElem.ownerDocument || document;
     var win = doc.defaultView || doc.parentWindow || window;
 
+    /*
+     * 現在のページのURLと、移動先のURLを、
+     * URL本体とハッシュフラグメントに分ける。
+     */
     var pageUrl = splitUrlHash(win.location.href)[0];
     var targetUrlList = splitUrlHash(anchorElem.href);
     var targetUrl = targetUrlList[0];
@@ -113,9 +127,15 @@
      */
     if (pageUrl !== targetUrl) return;
 
+    /*
+     * ハッシュフラグメントから、ID文字列を取得する
+     */
     var targetId = targetUrlList[1].substr(1);
     var decodedTargetId = decodeURIComponent(targetId);
 
+    /*
+     * IDに対応する要素を取得する
+     */
     var targetElem = (
       doc.getElementById(targetId) ||
       doc.getElementById(decodedTargetId) ||
@@ -124,10 +144,16 @@
     );
 
     if (targetElem) {
+      /*
+       * IDに対応する要素を取得できた場合は、その要素の位置までスクロールする
+       */
       event.preventDefault();
       pushHistory();
       scrollIntoView(targetElem)
     } else if (targetId === 'top' || targetId === '') {
+      /*
+       * IDが"top"または空文字列の場合、ページの一番上まで移動する
+       */
       event.preventDefault();
       pushHistory();
       win.scrollTo(0, 0);
