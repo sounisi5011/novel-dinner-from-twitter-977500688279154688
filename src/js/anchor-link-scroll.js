@@ -72,6 +72,16 @@
     }
   }
 
+  /*
+   * 履歴を追加する
+   */
+  function pushHistory() {
+    var history = window.history;
+    if (history && typeof history.pushState === 'function') {
+      history.pushState(history.state, document.title, location.href);
+    }
+  }
+
   function clickListener(event) {
     /**
      * 特殊なクリックは無視する
@@ -115,9 +125,11 @@
 
     if (targetElem) {
       event.preventDefault();
+      pushHistory();
       scrollIntoView(targetElem)
     } else if (targetId === 'top' || targetId === '') {
       event.preventDefault();
+      pushHistory();
       win.scrollTo(0, 0);
     }
   }
