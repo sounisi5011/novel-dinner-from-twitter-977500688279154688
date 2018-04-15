@@ -5,10 +5,20 @@
   var window = global.window;
   var document = global.document;
 
+  /*
+   * addEventListenerメソッドに対応していない場合は、何もしない
+   */
   if (typeof document.addEventListener !== 'function') {
     return;
   }
 
+  /**
+   * 条件に合致する直近の祖先ノードを取得する。
+   *
+   * @param {?Node} targetNode 取得をはじめるDOMノード。このノードと、祖先ノードが判定の対象になる。
+   * @param {function(?Node): boolean} callback ノードを引数にとり、条件に合致するかを返す関数
+   * @return {?Node} 取得したDOMノード。または、取得できなかった場合はnull
+   */
   function lookupNode(targetNode, callback) {
     var node = targetNode;
     while (node) {
@@ -20,8 +30,16 @@
     return null;
   }
 
+  /**
+   * 指定した要素の位置までスクロールする
+   *
+   * @param {Element} targetElem 対象の要素。この要素の位置までスクロールする。
+   */
   function scrollIntoView(targetElem) {
     if (typeof targetElem.scrollIntoView === 'function') {
+      /*
+       * scrollIntoViewメソッドが使える場合は、これを使用する
+       */
       targetElem.scrollIntoView();
 
     } else if (typeof targetElem.getBoundingClientRect === 'function') {
@@ -55,23 +73,41 @@
   /**
    * URLからハッシュフラグメントを取り出す
    * @param {string} url 対象のURLの文字列。文字列ではない値の場合、文字列に変換される。
-   * @return {Array<string>} 文字列を要素に持つ配列。
-   *     0番目にハッシュを除いたURL、1番目に"#"から始まるハッシュフラグメントの値を含む。
-   *     ハッシュフラグメントが存在しない場合、1番目の値は空文字列になる。
+   * @return {{url: string, hash: (string|null)}} ハッシュを除いたURLと、ハッシュフラグメントの値を含むオブジェクト。
+   *     ハッシュフラグメントが存在しない場合、ハッシュフラグメントの値はnullになる。
    */
   function splitUrlHash(url) {
     url = String(url)
     var hashPos = url.indexOf('#');
+    var retval = {
+      url: url,
+      hash: null,
+    };
+
     if (0 <= hashPos) {
-      return [
-        url.substr(0, hashPos),
-        url.substr(hashPos)
-      ];
-    } else {
-      return [url, ''];
+      retval.url = url.substr(0, hashPos);
+      retval.hash = url.substr(hashPos + 1);
+    }
+
+    return retval;
+  }
+
+  /**
+   * 履歴を追加する
+   * @param {Window} [win=window] 対象のウィンドウに対応するWindowオブジェクト
+   */
+  function pushHistory(win) {
+    var history = (win || window).history;
+    if (history && typeof history.pushState === 'function') {
+      history.pushState(history.state, document.title, location.href);
     }
   }
 
+  /**
+   * クリックイベントのイベントリスナ
+   *
+   * @param {Event} event イベントオブジェクト
+   */
   function clickListener(event) {
     /**
      * 特殊なクリックは無視する
@@ -86,26 +122,46 @@
       return;
     }
 
+    /*
+     * クリックした要素の祖先要素から、最も近いa要素を取得する
+     */
     var anchorElem = lookupNode(event.target, function(node) {
       return String(node.nodeName).toLowerCase() === 'a';
     });
+
+    /*
+     * a要素を取得できなかった場合は、何もしない
+     */
     if (!anchorElem) return;
 
+    /*
+     * 要素の属するDocumentオブジェクトとWindowオブジェクトを取得する
+     */
     var doc = anchorElem.ownerDocument || document;
     var win = doc.defaultView || doc.parentWindow || window;
 
-    var pageUrl = splitUrlHash(win.location.href)[0];
-    var targetUrlList = splitUrlHash(anchorElem.href);
-    var targetUrl = targetUrlList[0];
+    /*
+     * 現在のページのURLと、移動先のURLを、
+     * URL本体とハッシュフラグメントに分ける。
+     */
+    var pageUrl = splitUrlHash(win.location.href).url;
+    var targetUrlDict = splitUrlHash(anchorElem.href);
+    var targetUrl = targetUrlDict.url;
 
     /*
      * リンク先のURLと現在のページのURLが異なる場合は、何もしない。
      */
     if (pageUrl !== targetUrl) return;
 
-    var targetId = targetUrlList[1].substr(1);
+    /*
+     * ハッシュフラグメントから、ID文字列を取得する
+     */
+    var targetId = targetUrlDict.hash || '';
     var decodedTargetId = decodeURIComponent(targetId);
 
+    /*
+     * IDに対応する要素を取得する
+     */
     var targetElem = (
       doc.getElementById(targetId) ||
       doc.getElementById(decodedTargetId) ||
@@ -114,10 +170,18 @@
     );
 
     if (targetElem) {
+      /*
+       * IDに対応する要素を取得できた場合は、その要素の位置までスクロールする
+       */
       event.preventDefault();
-      scrollIntoView(targetElem)
+      pushHistory(win);
+      scrollIntoView(targetElem);
     } else if (targetId === 'top' || targetId === '') {
+      /*
+       * IDが"top"または空文字列の場合、ページの一番上まで移動する
+       */
       event.preventDefault();
+      pushHistory(win);
       win.scrollTo(0, 0);
     }
   }
