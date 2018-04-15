@@ -92,11 +92,12 @@
     return retval;
   }
 
-  /*
+  /**
    * 履歴を追加する
+   * @param {Window} [win=window] 対象のウィンドウに対応するWindowオブジェクト
    */
-  function pushHistory() {
-    var history = window.history;
+  function pushHistory(win) {
+    var history = (win || window).history;
     if (history && typeof history.pushState === 'function') {
       history.pushState(history.state, document.title, location.href);
     }
@@ -173,14 +174,14 @@
        * IDに対応する要素を取得できた場合は、その要素の位置までスクロールする
        */
       event.preventDefault();
-      pushHistory();
+      pushHistory(win);
       scrollIntoView(targetElem);
     } else if (targetId === 'top' || targetId === '') {
       /*
        * IDが"top"または空文字列の場合、ページの一番上まで移動する
        */
       event.preventDefault();
-      pushHistory();
+      pushHistory(win);
       win.scrollTo(0, 0);
     }
   }
