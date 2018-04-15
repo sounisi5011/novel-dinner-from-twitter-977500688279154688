@@ -5,10 +5,20 @@
   var window = global.window;
   var document = global.document;
 
+  /*
+   * addEventListenerメソッドに対応していない場合は、何もしない
+   */
   if (typeof document.addEventListener !== 'function') {
     return;
   }
 
+  /**
+   * 条件に合致する直近の祖先ノードを取得する。
+   *
+   * @param {?Node} targetNode 取得をはじめるDOMノード。このノードと、祖先ノードが判定の対象になる。
+   * @param {function(?Node): boolean} callback ノードを引数にとり、条件に合致するかを返す関数
+   * @return {?Node} 取得したDOMノード。または、取得できなかった場合はnull
+   */
   function lookupNode(targetNode, callback) {
     var node = targetNode;
     while (node) {
@@ -20,8 +30,16 @@
     return null;
   }
 
+  /**
+   * 指定した要素の位置までスクロールする
+   *
+   * @param {Element} targetElem 対象の要素。この要素の位置までスクロールする。
+   */
   function scrollIntoView(targetElem) {
     if (typeof targetElem.scrollIntoView === 'function') {
+      /*
+       * scrollIntoViewメソッドが使える場合は、これを使用する
+       */
       targetElem.scrollIntoView();
 
     } else if (typeof targetElem.getBoundingClientRect === 'function') {
@@ -82,6 +100,11 @@
     }
   }
 
+  /**
+   * クリックイベントのイベントリスナ
+   *
+   * @param {Event} event イベントオブジェクト
+   */
   function clickListener(event) {
     /**
      * 特殊なクリックは無視する
