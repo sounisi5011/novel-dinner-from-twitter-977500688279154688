@@ -73,21 +73,23 @@
   /**
    * URLからハッシュフラグメントを取り出す
    * @param {string} url 対象のURLの文字列。文字列ではない値の場合、文字列に変換される。
-   * @return {Array<string>} 文字列を要素に持つ配列。
-   *     0番目にハッシュを除いたURL、1番目に"#"から始まるハッシュフラグメントの値を含む。
-   *     ハッシュフラグメントが存在しない場合、1番目の値は空文字列になる。
+   * @return {{url: string, hash: (string|null)}} ハッシュを除いたURLと、ハッシュフラグメントの値を含むオブジェクト。
+   *     ハッシュフラグメントが存在しない場合、ハッシュフラグメントの値はnullになる。
    */
   function splitUrlHash(url) {
     url = String(url)
     var hashPos = url.indexOf('#');
+    var retval = {
+      url: url,
+      hash: null,
+    };
+
     if (0 <= hashPos) {
-      return [
-        url.substr(0, hashPos),
-        url.substr(hashPos)
-      ];
-    } else {
-      return [url, ''];
+      retval.url = url.substr(0, hashPos);
+      retval.hash = url.substr(hashPos + 1);
     }
+
+    return retval;
   }
 
   /*
@@ -141,9 +143,9 @@
      * 現在のページのURLと、移動先のURLを、
      * URL本体とハッシュフラグメントに分ける。
      */
-    var pageUrl = splitUrlHash(win.location.href)[0];
-    var targetUrlList = splitUrlHash(anchorElem.href);
-    var targetUrl = targetUrlList[0];
+    var pageUrl = splitUrlHash(win.location.href).url;
+    var targetUrlDict = splitUrlHash(anchorElem.href);
+    var targetUrl = targetUrlDict.url;
 
     /*
      * リンク先のURLと現在のページのURLが異なる場合は、何もしない。
@@ -153,7 +155,7 @@
     /*
      * ハッシュフラグメントから、ID文字列を取得する
      */
-    var targetId = targetUrlList[1].substr(1);
+    var targetId = targetUrlDict.hash || '';
     var decodedTargetId = decodeURIComponent(targetId);
 
     /*
