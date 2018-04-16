@@ -231,14 +231,16 @@ Promise.all(requestList).then(values => {
 
   for (const {objectElem, replaceElem, appendScriptList} of values) {
     objectElem.replaceWith(replaceElem);
-    appendScriptList.forEach(appendScript => {
-      const key = (
-        appendScript.src ? `S${appendScript.src}` :
-        appendScript.text ? `T${appendScript.text}` :
-        ''
-      );
-      if (key) appendScriptMap.set(key, appendScript);
-    });
+    if (Array.isArray(appendScriptList)) {
+      appendScriptList.forEach(appendScript => {
+        const key = (
+          appendScript.src ? `S${appendScript.src}` :
+          appendScript.text ? `T${appendScript.text}` :
+          ''
+        );
+        if (key) appendScriptMap.set(key, appendScript);
+      });
+    }
   }
 
   const scriptElems = $('script');
