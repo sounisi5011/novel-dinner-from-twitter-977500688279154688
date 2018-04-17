@@ -31,6 +31,25 @@
   }
 
   /**
+   * URLのフラグメント識別子に対応する要素を取得する
+   * @param {string} fragid フラグメント識別子の値。"#"で始まらない文字列
+   * @param {?Document} [doc=document] 取得したい要素が存在するドキュメントのDocumentオブジェクト
+   * @return {?Element} 取得した要素。または、取得できなかった場合にnull
+   */
+  function lookupFragidElem(fragid, doc) {
+    if (!doc) doc = document;
+
+    var decodedFragid = decodeURIComponent(fragid);
+
+    return (
+      doc.getElementById(fragid) ||
+      doc.getElementById(decodedFragid) ||
+      doc.getElementsByName(fragid)[0] ||
+      doc.getElementsByName(decodedFragid)[0]
+    );
+  }
+
+  /**
    * 指定した要素の位置までスクロールする
    *
    * @param {Element} targetElem 対象の要素。この要素の位置までスクロールする。
@@ -94,12 +113,20 @@
 
   /**
    * 履歴を追加する
+   * @param {string} pageId ページを識別する文字列。この値が重複する場合は、履歴の追加を行わない
    * @param {Window} [win=window] 対象のウィンドウに対応するWindowオブジェクト
    */
-  function pushHistory(win) {
+  function pushHistory(pageId, win) {
     var history = (win || window).history;
     if (history && typeof history.pushState === 'function') {
-      history.pushState(history.state, document.title, location.href);
+      var state = history.state;
+      if (state && state.pageId === pageId) {
+        /*
+         * pageIdが同じ場合は、何もしない
+         */
+        return;
+      }
+      history.pushState({ pageId: pageId }, document.title, location.href);
     }
   }
 
@@ -157,31 +184,25 @@
      * ハッシュフラグメントから、ID文字列を取得する
      */
     var targetId = targetUrlDict.hash || '';
-    var decodedTargetId = decodeURIComponent(targetId);
 
     /*
      * IDに対応する要素を取得する
      */
-    var targetElem = (
-      doc.getElementById(targetId) ||
-      doc.getElementById(decodedTargetId) ||
-      doc.getElementsByName(targetId)[0] ||
-      doc.getElementsByName(decodedTargetId)[0]
-    );
+    var targetElem = lookupFragidElem(targetId, doc);
 
     if (targetElem) {
       /*
        * IDに対応する要素を取得できた場合は、その要素の位置までスクロールする
        */
       event.preventDefault();
-      pushHistory(win);
+      pushHistory(targetId, win);
       scrollIntoView(targetElem);
     } else if (targetId === 'top' || targetId === '') {
       /*
        * IDが"top"または空文字列の場合、ページの一番上まで移動する
        */
       event.preventDefault();
-      pushHistory(win);
+      pushHistory(targetId, win);
       win.scrollTo(0, 0);
     }
   }
