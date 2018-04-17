@@ -236,8 +236,7 @@
       if (event.persisted) {
         initEvent();
       }
-    },
-    false
+    },    false
   );
 
   initEvent();
