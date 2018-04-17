@@ -16,7 +16,8 @@
     "build:img": "npm-run-all mkdir -p build:img:*",
     "build:img:copy": "cpy 'src/img/*.*' '!src/img/*.md' dest",
     "build:img:generate": "node bin/ogp-image-generate.js dest",
-    "build:img:download": "node bin/social-icons-download.js dest"
+    "build:img:download": "node bin/social-icons-download.js dest",
+    "precommit": "lint-staged"
   },
   "engines": {
     "node": ">=8.10.0"
@@ -52,11 +53,6 @@
     "prettier": "^1.12.1"
   },
   "private": true,
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
     "*.js": [
       "eslint --fix",
