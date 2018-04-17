@@ -31,6 +31,25 @@
   }
 
   /**
+   * URLのフラグメント識別子に対応する要素を取得する
+   * @param {string} fragid フラグメント識別子の値。"#"で始まらない文字列
+   * @param {?Document} [doc=document] 取得したい要素が存在するドキュメントのDocumentオブジェクト
+   * @return {?Element} 取得した要素。または、取得できなかった場合にnull
+   */
+  function lookupFragidElem(fragid, doc) {
+    if (!doc) doc = document;
+
+    var decodedFragid = decodeURIComponent(fragid);
+
+    return (
+      doc.getElementById(fragid) ||
+      doc.getElementById(decodedFragid) ||
+      doc.getElementsByName(fragid)[0] ||
+      doc.getElementsByName(decodedFragid)[0]
+    );
+  }
+
+  /**
    * 指定した要素の位置までスクロールする
    *
    * @param {Element} targetElem 対象の要素。この要素の位置までスクロールする。
@@ -165,17 +184,11 @@
      * ハッシュフラグメントから、ID文字列を取得する
      */
     var targetId = targetUrlDict.hash || '';
-    var decodedTargetId = decodeURIComponent(targetId);
 
     /*
      * IDに対応する要素を取得する
      */
-    var targetElem = (
-      doc.getElementById(targetId) ||
-      doc.getElementById(decodedTargetId) ||
-      doc.getElementsByName(targetId)[0] ||
-      doc.getElementsByName(decodedTargetId)[0]
-    );
+    var targetElem = lookupFragidElem(targetId, doc);
 
     if (targetElem) {
       /*
