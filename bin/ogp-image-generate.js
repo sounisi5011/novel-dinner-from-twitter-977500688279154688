@@ -29,10 +29,7 @@ urlFetch(TARGET_URI, { ext: 'jpg', showConsoleCallback: msg => `  ${msg}` })
     ]),
   )
   .then(([originalImage, textImage]) => {
-    const {
-      width: originalImageWidth,
-      height: originalImageHeight, // eslint-disable-line no-unused-vars
-    } = originalImage.bitmap;
+    const { width: originalImageWidth } = originalImage.bitmap;
 
     /*
      * 必要な箇所をクロップする

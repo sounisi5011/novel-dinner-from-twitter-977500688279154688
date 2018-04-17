@@ -94,8 +94,7 @@ const cachedRp = (() => {
               if (!error) {
                 try {
                   const fileData = JSON.stringify(httpCache);
-                  // eslint-disable-next-line no-unused-vars
-                  fs.writeFile(cacheFilepath, fileData, error => {});
+                  fs.writeFile(cacheFilepath, fileData, () => {});
                 } catch (e) {}
               }
             });
@@ -198,14 +197,10 @@ $('object[type="application/x.oembed"]').each((_, objectElemNode) => {
                 /*
                  * The photo type
                  */
-                // eslint-disable-next-line no-unused-vars
-                const { url, width, height } = data;
               } else if (data.type === 'video') {
                 /*
                  * The video type
                  */
-                // eslint-disable-next-line no-unused-vars
-                const { html, width, height } = data;
               } else if (data.type === 'link') {
                 /*
                  * The link type
@@ -214,8 +209,7 @@ $('object[type="application/x.oembed"]').each((_, objectElemNode) => {
                 /*
                  * The rich type
                  */
-                // eslint-disable-next-line no-unused-vars
-                const { html, width, height } = data;
+                const { html } = data;
                 replaceElem = $(html.trim());
               } else {
                 /*
@@ -230,11 +224,13 @@ $('object[type="application/x.oembed"]').each((_, objectElemNode) => {
 
             resolve({ objectElem, replaceElem, appendScriptList });
           })
-          // eslint-disable-next-line no-unused-vars
           .catch(error => {
             /*
              * API call failed
              */
+            console.error('oEmbed API call failed');
+            console.error(error);
+            console.error();
             resolve({ objectElem, replaceElem });
           });
       }),
