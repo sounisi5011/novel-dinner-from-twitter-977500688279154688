@@ -60,7 +60,6 @@
        * scrollIntoViewメソッドが使える場合は、これを使用する
        */
       targetElem.scrollIntoView();
-
     } else if (typeof targetElem.getBoundingClientRect === 'function') {
       var global = Function('return this')();
       var doc = targetElem.ownerDocument || global.document;
@@ -69,21 +68,21 @@
       /*
        * https://dev.opera.com/articles/fixing-the-scrolltop-bug/
        */
-      var scrollingElement = doc.scrollingElement || (
-        win.navigator.userAgent.indexOf('WebKit') !== -1 ?
-        doc.body :
-        doc.documentElement
-      );
+      var scrollingElement =
+        doc.scrollingElement ||
+        (win.navigator.userAgent.indexOf('WebKit') !== -1
+          ? doc.body
+          : doc.documentElement);
 
       var rect = targetElem.getBoundingClientRect();
       var overflowNegativeLeft = rect.left;
       var overflowRight = rect.right - scrollingElement.clientWidth;
       win.scrollBy(
-        (
-          overflowNegativeLeft < 0 ? overflowNegativeLeft :
-          0 < overflowRight ? overflowRight :
-          0
-        ),
+        overflowNegativeLeft < 0
+          ? overflowNegativeLeft
+          : 0 < overflowRight
+            ? overflowRight
+            : 0,
         rect.top
       );
     }
@@ -96,11 +95,11 @@
    *     ハッシュフラグメントが存在しない場合、ハッシュフラグメントの値はnullになる。
    */
   function splitUrlHash(url) {
-    url = String(url)
+    url = String(url);
     var hashPos = url.indexOf('#');
     var retval = {
       url: url,
-      hash: null,
+      hash: null
     };
 
     if (0 <= hashPos) {
@@ -145,7 +144,13 @@
      *       ただし、仕様書にある修飾キーに対応するだけでも、これだけのキーの種類を網羅しなくてはならなくなる：
      *       https://gist.github.com/sounisi5011/6d0be09d2f2a2853974bfe9a20d229bc
      */
-    if (event.button !== 0 || event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) {
+    if (
+      event.button !== 0 ||
+      event.altKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.metaKey
+    ) {
       return;
     }
 
@@ -225,11 +230,15 @@
    * @see https://qiita.com/smitho/items/60b496785216b1aefe49
    * @see https://gist.github.com/kyaido/65d61f887abb8104791f
    */
-  window.addEventListener('pageshow', function(event) {
-    if (event.persisted) {
-      initEvent();
-    }
-  }, false);
+  window.addEventListener(
+    'pageshow',
+    function(event) {
+      if (event.persisted) {
+        initEvent();
+      }
+    },
+    false
+  );
 
   initEvent();
 })(Function('return this')());

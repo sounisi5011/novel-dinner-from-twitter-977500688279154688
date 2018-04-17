@@ -1,0 +1,24 @@
+env:
+  es6: true
+  node: true
+extends:
+  - eslint:recommended
+  - plugin:prettier/recommended
+parserOptions:
+  ecmaVersion: 2018
+rules:
+  prettier/prettier:
+    - error
+    -
+      singleQuote: true
+      trailingComma: all
+  no-console: off
+  eqeqeq: error
+  no-var: error
+  prefer-const: error
+  no-unused-vars: warn
+  no-control-regex: warn
+  no-empty:
+    - warn
+    -
+      allowEmptyCatch: true

@@ -31,7 +31,10 @@ const outputDirRelativePath = path.relative(process.cwd(), outputDirPath);
 URL_LIST.forEach(url => {
   const outputFilename = urlToFilename(url) + path.extname(url);
   const outputFilePath = path.join(outputDirPath, outputFilename);
-  const outputFileRelativePath = path.join(outputDirRelativePath, outputFilename);
+  const outputFileRelativePath = path.join(
+    outputDirRelativePath,
+    outputFilename,
+  );
 
   console.error(`Icon image downloading: ${url}`);
 
