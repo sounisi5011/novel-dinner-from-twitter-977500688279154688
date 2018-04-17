@@ -94,12 +94,20 @@
 
   /**
    * 履歴を追加する
+   * @param {string} pageId ページを識別する文字列。この値が重複する場合は、履歴の追加を行わない
    * @param {Window} [win=window] 対象のウィンドウに対応するWindowオブジェクト
    */
-  function pushHistory(win) {
+  function pushHistory(pageId, win) {
     var history = (win || window).history;
     if (history && typeof history.pushState === 'function') {
-      history.pushState(history.state, document.title, location.href);
+      var state = history.state;
+      if (state && state.pageId === pageId) {
+        /*
+         * pageIdが同じ場合は、何もしない
+         */
+        return;
+      }
+      history.pushState({ pageId: pageId }, document.title, location.href);
     }
   }
 
