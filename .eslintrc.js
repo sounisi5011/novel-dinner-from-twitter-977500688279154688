@@ -1,6 +1,7 @@
 'use strict';
 
 const OFF = 0;
+const WARN = 1;
 const ERROR = 2;
 
 module.exports = {
@@ -24,5 +25,13 @@ module.exports = {
     'eqeqeq': ERROR,
     'no-var': ERROR,
     'prefer-const': ERROR,
+    'no-unused-vars': WARN,
+    'no-control-regex': WARN,
+    'no-empty': [
+      WARN,
+      {
+        allowEmptyCatch: true,
+      },
+    ],
   },
 };
