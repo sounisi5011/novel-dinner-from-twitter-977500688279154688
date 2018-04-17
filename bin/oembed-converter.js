@@ -15,10 +15,23 @@ const cachedRp = (() => {
    * @see https://github.com/nodejs/node/blob/29be1e5f8426b8f58a390847aa94c1f9a6d103f4/lib/_http_incoming.js#L38-L69
    */
   const copyPropSet = new Set([
-    'headers', 'httpVersion', 'method', 'rawHeaders', 'rawTrailers',
-    'statusCode', 'statusMessage', 'trailers', 'url',
-    'METHODS', 'STATUS_CODES', 'request', 'upgrade', 'complete',
-    'httpVersionMajor', 'httpVersionMinor', 'readable',
+    'headers',
+    'httpVersion',
+    'method',
+    'rawHeaders',
+    'rawTrailers',
+    'statusCode',
+    'statusMessage',
+    'trailers',
+    'url',
+    'METHODS',
+    'STATUS_CODES',
+    'request',
+    'upgrade',
+    'complete',
+    'httpVersionMajor',
+    'httpVersionMinor',
+    'readable',
     'body',
   ]);
 
@@ -37,7 +50,7 @@ const cachedRp = (() => {
         }
       }
     }
-  } catch(e) {}
+  } catch (e) {}
 
   return function cachedRp(options) {
     const cacheKey = JSON.stringify(options);
@@ -81,8 +94,9 @@ const cachedRp = (() => {
               if (!error) {
                 try {
                   const fileData = JSON.stringify(httpCache);
+                  // eslint-disable-next-line no-unused-vars
                   fs.writeFile(cacheFilepath, fileData, error => {});
-                } catch(e) {}
+                } catch (e) {}
               }
             });
           })
@@ -112,10 +126,12 @@ $('object[type="application/x.oembed"]').each((_, objectElemNode) => {
    * @see https://oembed.com/
    */
 
-  const queryParameters = {url: embeddedTargetUrl};
+  const queryParameters = { url: embeddedTargetUrl };
   let endpointUrl = '';
   const appendScriptList = [];
-  if (/^https:\/\/twitter\.com\/[^/]*\/status\/[^/]*$/.test(embeddedTargetUrl)) {
+  if (
+    /^https:\/\/twitter\.com\/[^/]*\/status\/[^/]*$/.test(embeddedTargetUrl)
+  ) {
     endpointUrl = 'https://publish.twitter.com/oembed';
     appendScriptList.push({
       src: 'https://platform.twitter.com/widgets.js',
@@ -146,79 +162,83 @@ $('object[type="application/x.oembed"]').each((_, objectElemNode) => {
     replaceElem.attr('href', embeddedTargetUrl);
     replaceElem.text(embeddedTargetUrl);
 
-    requestList.push(new Promise(resolve => {
-      cachedRp({
-        uri: endpointUrl,
-        qs: queryParameters,
-        resolveWithFullResponse: true,
-      })
-        .then(response => {
-          const {statusCode, headers, body} = response;
+    requestList.push(
+      new Promise(resolve => {
+        cachedRp({
+          uri: endpointUrl,
+          qs: queryParameters,
+          resolveWithFullResponse: true,
+        })
+          .then(response => {
+            const { statusCode, headers, body } = response;
 
-          if (200 <= statusCode && statusCode < 300) {
-            const contentType = (
-              Object.entries(headers)
+            if (200 <= statusCode && statusCode < 300) {
+              const contentType = Object.entries(headers)
                 .filter(([key]) => /^content-type$/i.test(key))
                 .map(([, value]) => value)
-                .pop()
-            );
-            let data = {};
+                .pop();
+              let data = {};
 
-            if (/^text\/xml(?:;|$)/.test(contentType)) {
-              /*
-               * XML
-               */
-            } else if (/^application\/json(?:;|$)/.test(contentType)) {
-              /*
-               * JSON
-               */
-              data = JSON.parse(body);
+              if (/^text\/xml(?:;|$)/.test(contentType)) {
+                /*
+                 * XML
+                 */
+              } else if (/^application\/json(?:;|$)/.test(contentType)) {
+                /*
+                 * JSON
+                 */
+                data = JSON.parse(body);
+              } else {
+                /*
+                 * Unknown Content Type
+                 */
+              }
+
+              if (data.type === 'photo') {
+                /*
+                 * The photo type
+                 */
+                // eslint-disable-next-line no-unused-vars
+                const { url, width, height } = data;
+              } else if (data.type === 'video') {
+                /*
+                 * The video type
+                 */
+                // eslint-disable-next-line no-unused-vars
+                const { html, width, height } = data;
+              } else if (data.type === 'link') {
+                /*
+                 * The link type
+                 */
+              } else if (data.type === 'rich') {
+                /*
+                 * The rich type
+                 */
+                // eslint-disable-next-line no-unused-vars
+                const { html, width, height } = data;
+                replaceElem = $(html.trim());
+              } else {
+                /*
+                 * Unknown type
+                 */
+              }
             } else {
               /*
-               * Unknown Content Type
+               * HTTP Status Code Error
                */
             }
 
-            if (data.type === 'photo') {
-              /*
-               * The photo type
-               */
-              const {url, width, height} = data;
-            } else if (data.type === 'video') {
-              /*
-               * The video type
-               */
-              const {html, width, height} = data;
-            } else if (data.type === 'link') {
-              /*
-               * The link type
-               */
-            } else if (data.type === 'rich') {
-              /*
-               * The rich type
-               */
-              const {html, width, height} = data;
-              replaceElem = $(html.trim());
-            } else {
-              /*
-               * Unknown type
-               */
-            }
-          } else {
+            resolve({ objectElem, replaceElem, appendScriptList });
+          })
+          // eslint-disable-next-line no-unused-vars
+          .catch(error => {
             /*
-             * HTTP Status Code Error
+             * API call failed
              */
-          }
-
-          resolve({objectElem, replaceElem, appendScriptList});
-        })
-        .catch(error => {
-          /*
-           * API call failed
-           */
-          resolve({objectElem, replaceElem});
-        });
-    }));
+            resolve({ objectElem, replaceElem });
+          });
+      })
+    );
   } else {
     /*
      * API endpoint is Unknown
@@ -227,17 +247,17 @@ $('object[type="application/x.oembed"]').each((_, objectElemNode) => {
 });
 
 Promise.all(requestList).then(values => {
-  const appendScriptMap = new Map;
+  const appendScriptMap = new Map();
 
-  for (const {objectElem, replaceElem, appendScriptList} of values) {
+  for (const { objectElem, replaceElem, appendScriptList } of values) {
     objectElem.replaceWith(replaceElem);
     if (Array.isArray(appendScriptList)) {
       appendScriptList.forEach(appendScript => {
-        const key = (
-          appendScript.src ? `S${appendScript.src}` :
-          appendScript.text ? `T${appendScript.text}` :
-          ''
-        );
+        const key = appendScript.src
+          ? `S${appendScript.src}`
+          : appendScript.text
+            ? `T${appendScript.text}`
+            : '';
         if (key) appendScriptMap.set(key, appendScript);
       });
     }
@@ -261,12 +281,15 @@ Promise.all(requestList).then(values => {
        * Note: 正規表現を書くのがめんどくさいので、noncharacterのパターンは含めていない
        */
       if (
+        // eslint-disable-next-line no-control-regex
         !/[\u0000-\u001F\u007F-\u009F\u0020"'>/=]/.test(prop) &&
         prop !== 'text'
       ) {
         scriptHtml += ` ${prop.replace(/&/g, '&amp;')}`;
         if (value !== null) {
-          scriptHtml += `="${value.replace(/&/g, '&amp;').replace(/"/g, '&quot;')}"`;
+          scriptHtml += `="${value
+            .replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')}"`;
         }
       }
     }
@@ -284,17 +307,15 @@ Promise.all(requestList).then(values => {
   }
 
   const minifyNumericCharacterReferences = (match, decimal, hex) => {
-    const newEntitie = (
-      hex ? `&#${parseInt(hex, 16)};` :
-      decimal ? `&#x${Number(decimal).toString(16).toUpperCase()};` :
-      ''
-    );
+    const newEntitie = hex
+      ? `&#${parseInt(hex, 16)};`
+      : decimal
+        ? `&#x${Number(decimal)
+            .toString(16)
+            .toUpperCase()};`
+        : '';
 
-    return (
-      newEntitie && newEntitie.length < match.length ?
-      newEntitie :
-      match
-    );
+    return newEntitie && newEntitie.length < match.length ? newEntitie : match;
   };
 
   const outputHTML = $.html()

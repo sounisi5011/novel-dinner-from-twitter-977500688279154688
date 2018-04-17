@@ -54,7 +54,6 @@
          * ページの１番上にスクロールする。
          */
         window.scrollTo(0, 0);
-
       } else if (hashValue !== '#') {
         /*
          * history.replaceStateメソッドに対応していない場合は、
@@ -98,11 +97,15 @@
    * @see https://qiita.com/smitho/items/60b496785216b1aefe49
    * @see https://gist.github.com/kyaido/65d61f887abb8104791f
    */
-  window.addEventListener('pageshow', function(event) {
-    if (event.persisted) {
-      deleteUrlFragment();
-    }
-  }, false);
+  window.addEventListener(
+    'pageshow',
+    function(event) {
+      if (event.persisted) {
+        deleteUrlFragment();
+      }
+    },
+    false
+  );
 
   deleteUrlFragment();
 })(Function('return this')());
