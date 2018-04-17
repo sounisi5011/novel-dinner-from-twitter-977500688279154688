@@ -237,7 +237,7 @@ $('object[type="application/x.oembed"]').each((_, objectElemNode) => {
              */
             resolve({ objectElem, replaceElem });
           });
-      })
+      }),
     );
   } else {
     /*
@@ -326,7 +326,7 @@ Promise.all(requestList).then(values => {
      */
     .replace(
       /&#(?:([0-9]+)|[xX]([0-9a-fA-F]+));/g,
-      minifyNumericCharacterReferences
+      minifyNumericCharacterReferences,
     );
 
   process.stdout.write(outputHTML);

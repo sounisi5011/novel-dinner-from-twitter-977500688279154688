@@ -33,7 +33,7 @@ URL_LIST.forEach(url => {
   const outputFilePath = path.join(outputDirPath, outputFilename);
   const outputFileRelativePath = path.join(
     outputDirRelativePath,
-    outputFilename
+    outputFilename,
   );
 
   console.error(`Icon image downloading: ${url}`);

@@ -26,7 +26,7 @@ urlFetch(TARGET_URI, { ext: 'jpg', showConsoleCallback: msg => `  ${msg}` })
     Promise.all([
       Jimp.read(filepath),
       Jimp.read(`${rootPath}/src/img/ogp-annotation-text/text.png`),
-    ])
+    ]),
   )
   .then(([originalImage, textImage]) => {
     const {
@@ -64,11 +64,11 @@ urlFetch(TARGET_URI, { ext: 'jpg', showConsoleCallback: msg => `  ${msg}` })
        */
       const msgPath = path.join(
         outputDirRelativePath,
-        config.twitterCardsImagePath
+        config.twitterCardsImagePath,
       );
       writeOptimizedPng(
         twitterCardImage,
-        path.join(outputDirPath, config.twitterCardsImagePath)
+        path.join(outputDirPath, config.twitterCardsImagePath),
       )
         .then(() => console.error(`${msgPath} generated!`))
         .catch(err => {
@@ -85,7 +85,7 @@ urlFetch(TARGET_URI, { ext: 'jpg', showConsoleCallback: msg => `  ${msg}` })
        */
       const bgColor = 0x000000ff;
       const horizontalMargin = Math.round(
-        (twitterCardImageHeight * 1.91 - twitterCardImageWidth) / 2
+        (twitterCardImageHeight * 1.91 - twitterCardImageWidth) / 2,
       );
       const verticalMargin = 0;
       const ogpSize = [

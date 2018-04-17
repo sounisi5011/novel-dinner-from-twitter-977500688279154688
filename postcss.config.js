@@ -9,7 +9,7 @@ const pathStartsWith = (path, searchPath) => {
     return pathSepRegExp.test(c) ? pathSepRegExp.source : `\\${c}`;
   });
   const searchPathRegExp = new RegExp(
-    `^${escapedSearchPath}(?:${pathSepRegExp.source}|$)`
+    `^${escapedSearchPath}(?:${pathSepRegExp.source}|$)`,
   );
 
   return searchPathRegExp.test(path);
