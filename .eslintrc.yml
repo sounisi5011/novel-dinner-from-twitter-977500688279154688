@@ -4,12 +4,14 @@ env:
 extends:
   - eslint:recommended
   - plugin:prettier/recommended
+parserOptions:
+  ecmaVersion: 2017
 rules:
   prettier/prettier:
     - error
     -
       singleQuote: true
-      trailingComma: 'es5'
+      trailingComma: all
   no-console: off
   eqeqeq: error
   no-var: error
