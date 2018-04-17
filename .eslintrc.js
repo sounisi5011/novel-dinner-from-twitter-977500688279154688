@@ -20,5 +20,9 @@ module.exports = {
         trailingComma: 'es5',
       },
     ],
+    'no-console': OFF,
+    'eqeqeq': ERROR,
+    'no-var': ERROR,
+    'prefer-const': ERROR,
   },
 };
