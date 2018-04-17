@@ -43,5 +43,8 @@
     "sanitize.css": "^5.0.0",
     "uglify-js": "^3.3.16"
   },
+  "devDependencies": {
+    "prettier": "^1.12.1"
+  },
   "private": true
 }
