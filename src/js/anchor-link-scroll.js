@@ -182,14 +182,14 @@
        * IDに対応する要素を取得できた場合は、その要素の位置までスクロールする
        */
       event.preventDefault();
-      pushHistory(win);
+      pushHistory(targetId, win);
       scrollIntoView(targetElem);
     } else if (targetId === 'top' || targetId === '') {
       /*
        * IDが"top"または空文字列の場合、ページの一番上まで移動する
        */
       event.preventDefault();
-      pushHistory(win);
+      pushHistory(targetId, win);
       win.scrollTo(0, 0);
     }
   }
